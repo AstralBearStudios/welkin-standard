@@ -12,6 +12,7 @@
     "chapters/5-complexity"
     "book"
     "bk10"
-    "titling"))
+    "titling"
+    "csquotes"))
  :latex)
 

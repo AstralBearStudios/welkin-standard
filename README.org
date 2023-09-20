@@ -1,13 +1,13 @@
+# SPDX-FileCopyRightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
+# SPDX-License-Identifier: CC-By-4.0
 #+title: Welkin Book
-#+author: Oscar Bender-Stone
-#+date: <2023-09-17 Sun>
 #+startup: nofold
 
 ️*⚠ Warning: This repository is a WIP. This book is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.*
 
 This repository stores /Welkin: An Information Language/, also known as the Welkin Book. It provides a philosophical basis for the language, as well as a formal specification for several key components.
 
-Welkin itself is based on a fundamental theory of metaphysics and epistemology: Continuum Foci Logic and Theory (CFLT). In addition to the overall perceptions of Western and Eastern thinkers, this theory is heavily based on the philosophies of Charles Peirce and Gilles Deleuze. One major of CFLT is that it provides /the basis for every other metaphysical and mathematical theory./ We argue that CFLT itself is so expressive, it can encompass any possible human thought.
+Welkin itself is based on a fundamental theory of metaphysics and epistemology: Continuum Foci Logic and Theory (CFLT). In addition to the overall perceptions of Western and Eastern thinkers, this theory is heavily based on the philosophies of Charles Peirce and Gilles Deleuze. One major consequence of CFLT is that it provides /the basis for every other metaphysical and mathematical theory./ We argue that CFLT itself is so expressive, it can encompass any possible human thought.
 
 Following these foundations, the book describes Welkin, a customizable way to store information from any subject matter. As a corollary to the maximality of CFLT, we conclucde that Welkin can encode /any/ possible human thought. In particular, /evaluating Welkin files is Turing-complete/. We stress that parsing them is not; we strive to make parsing efficient and relatively expressive.
 
@@ -26,9 +26,9 @@ Guide across different systems: TBD
 
 * Copyright and License
 
-"Welkin: An Information Language" (c) 2023 by Oscar Bender-Stone
- 
-"Welkin: An Information Language" is licensed under a [[http://creativecommons.org/licenses/by/4.0/][Creative Commons Attribution 4.0 International License]].
+/Welkin: An Information Language/ (c) 2023 by Oscar Bender-Stone
+
+/Welkin: An Information Language/ is licensed under a [[http://creativecommons.org/licenses/by/4.0/][Creative Commons Attribution 4.0 International License]].
 
 [[http://creativecommons.org/licenses/by/3.0/deed][file:http://i.creativecommons.org/l/by/3.0/80x15.png]]
 

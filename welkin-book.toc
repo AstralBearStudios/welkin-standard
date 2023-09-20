@@ -1,0 +1,7 @@
+\contentsline {chapter}{\nonumberline Abstract}{ii}{}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{}%
+\contentsline {chapter}{\numberline {2}Background}{2}{}%
+\contentsline {chapter}{\numberline {3}Continuum Foci Logic and Theory}{3}{}%
+\contentsline {chapter}{\numberline {4}Specification}{4}{}%
+\contentsline {chapter}{\numberline {5}Expanding Complexity}{5}{}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

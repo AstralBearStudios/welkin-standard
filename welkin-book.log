@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.7)  19 SEP 2023 21:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.7)  26 SEP 2023 18:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -33,35 +33,66 @@ Package: titling 2009/09/04 v2.1d maketitle typesetting
 \thanksmargin=\skip51
 \droptitle=\skip52
 )
+(/usr/local/texlive/2023/texmf-dist/tex/latex/csquotes/csquotes.sty
+Package: csquotes 2022-09-14 v5.2n context-sensitive quotations (JAW)
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count194
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+\csq@reset=\count195
+\csq@gtype=\count196
+\csq@glevel=\count197
+\csq@qlevel=\count198
+\csq@maxlvl=\count199
+\csq@tshold=\count266
+\csq@ltx@everypar=\toks17
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/csquotes/csquotes.def
+File: csquotes.def 2022-09-14 v5.2n csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/csquotes/csquotes.cfg
+File: csquotes.cfg 
+))
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... none found.
+
 (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count194
+\l__color_backend_stack_int=\count267
 \l__pdf_internal_box=\box51
 )
 (./welkin-book.aux (./chapters/1-intro.aux) (./chapters/2-background.aux)
 (./chapters/3-cflt.aux) (./chapters/4-spec.aux) (./chapters/5-complexity.aux))
 \openout1 = `welkin-book.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <12> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
+(Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
+(Font)              <6> on input line 14.
 
 [1
 
@@ -71,77 +102,47 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ] [3] [4
 
-]
-\openout2 = `chapters/1-intro.aux'.
-
- (./chapters/1-intro.tex
+] (./chapters/1-intro.tex
 Chapter 1.
-) [1
+) (./chapters/2-background.tex [1
 
-
-]
-\openout2 = `chapters/2-background.aux'.
-
- (./chapters/2-background.tex [2
-
-
-
+{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+ [2
 
 ]
 Chapter 2.
-) [3]
-\openout2 = `chapters/3-cflt.aux'.
-
- (./chapters/3-cflt.tex [4
-
-
-
+) (./chapters/3-cflt.tex [3] [4
 
 ]
 Chapter 3.
-) [5]
-\openout2 = `chapters/4-spec.aux'.
-
- (./chapters/4-spec.tex [6
-
-
-
+) (./chapters/4-spec.tex [5] [6
 
 ]
 Chapter 4.
-) [7]
-\openout2 = `chapters/5-complexity.aux'.
-
- (./chapters/5-complexity.tex [8
-
-
-
+) (./chapters/5-complexity.tex [7] [8
 
 ]
 Chapter 5.
-) [9] (./welkin-book.aux (./chapters/1-intro.aux) (./chapters/2-background.aux)
-(./chapters/3-cflt.aux) (./chapters/4-spec.aux) (./chapters/5-complexity.aux))
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+) [9] (./welkin-book.aux) ) 
 Here is how much of TeX's memory you used:
- 708 strings out of 476025
- 15345 string characters out of 5790018
- 1850388 words of memory out of 5000000
- 21189 multiletter control sequences out of 15000+600000
- 517492 words of font info for 49 fonts, out of 8000000 for 9000
+ 1595 strings out of 476025
+ 26880 string characters out of 5790018
+ 1853388 words of memory out of 5000000
+ 22068 multiletter control sequences out of 15000+600000
+ 517827 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,6n,50p,187b,206s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
-/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></u
-sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr
-/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb>
-Output written on welkin-book.pdf (13 pages, 71880 bytes).
+ 42i,6n,50p,542b,208s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsl10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-su
+per/sfrm1000.pfb>
+Output written on welkin-book.pdf (13 pages, 86171 bytes).
 PDF statistics:
- 72 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -13,6 +13,8 @@
     "book"
     "bk10"
     "titling"
-    "csquotes"))
+    "outlines"
+    "csquotes"
+    "hyperref"))
  :latex)
 

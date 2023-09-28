@@ -10,6 +10,17 @@
   \item Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser)
   \begin{itemize}
     \item Key goal: make Welkin's syntax fully decidable and efficient to parse. An important component of CFLT called the Semantics Lifting Lemma (TBD) essentially says we can embed a complex syntax into a semantics. (This proof will hopefully be constructive and work for any random syntax, no matter how crazy it might be). In other words, using an efficient parser does NOT limit how expressive Welkin is.
+    \item Presuming the result above, there will be two variants: the finite (regex) and full versions.
+          \begin{itemize}
+            \item The finite, or regex, version is purely for regex-definable files.
+            \item The full version will be LALR parsed, as it is generally a standard for programming languages. Not only is it efficient (both in speed and memory), but any grammar written in LALR is unambiguous (reference needed!).
+\item Now that the idea of these two versions is solidifed, we need some common terms. Most of these should come from graphviz, but also in other note taking formats.
+          \end{itemize}
+    \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (A better thought would be to put rendering information in a standard \textit{library}, which could then be minimized when browsing through a Welkin file/project.)
+          \begin{itemize}
+            \item For efficiency, the standard should use a minimal character set, such as ASCII. However, it would always be possible to \textit{translate} Welkin files by creating foci over them (generally, in the form of new Welkin files). The standard will have a corresponding file for \textit{every} human language possible. (And emojis can be handeled in a similar way; that will be supported but is still TBD). With that said, the standard may use a more efficient encoding overtime, so it may be imposed on \textit{standard implementations}; that is yet to be decided.
+            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $&&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
+          \end{itemize}
   \end{itemize}
   \item Following CFLT, explain a suitable semantics for Welkin.
         \begin{itemize}

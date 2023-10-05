@@ -2,6 +2,7 @@
 % SPDX-License-Identifier: CC-BY-4.0
 % 4-spec.tex - Specifices the Welkin language and provides a theoretical framework
 % for general implementations
+
 \chapter{The Welkin Standard}
 
 \section{The Welkin Language}
@@ -19,7 +20,8 @@
     \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (A better thought would be to put rendering information in a standard \textit{library}, which could then be minimized when browsing through a Welkin file/project.)
           \begin{itemize}
             \item For efficiency, the standard should use a minimal character set, such as ASCII. However, it would always be possible to \textit{translate} Welkin files by creating foci over them (generally, in the form of new Welkin files). The standard will have a corresponding file for \textit{every} human language possible. (And emojis can be handeled in a similar way; that will be supported but is still TBD). With that said, the standard may use a more efficient encoding overtime, so it may be imposed on \textit{standard implementations}; that is yet to be decided.
-            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $&&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
+            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
+            \item Key goal: make this FULLY compatible with dot. (In fact, for a prototype, we can work with dot directly, but we should make it helpful for our needs).
           \end{itemize}
   \end{itemize}
   \item Following CFLT, explain a suitable semantics for Welkin.
@@ -28,6 +30,25 @@
           \item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
         \end{itemize}
 \end{itemize}
+
+Draft of EBNF:
+
+%\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+%\setlength{\grammarindent}{12em} % increase separation between LHS/RHS
+% Note: look up grammar docummentation in LaTeX.
+% Use \alt for |
+\begin{grammar}
+
+<term> ::= <ident> `=' <expr>
+\alt `for' <ident> `=' <expr> `to' <expr> `do' <statement>
+\alt `{' <stat-list> `}'
+\alt <empty>
+
+<stat-list> ::= <statement> `;' <stat-list> | <statement>
+
+\end{grammar}
+
+
 
 \section{Core Algorithms}
 

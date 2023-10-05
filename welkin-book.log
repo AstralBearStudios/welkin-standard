@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-=======
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.7)  26 SEP 2023 20:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.7)  4 OCT 2023 20:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -29,6 +27,131 @@ File: bk10.clo 2022/07/02 v1.4n Standard LaTeX file (size option)
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
 )
+(/usr/local/texlive/2023/texmf-dist/tex/latex/standalone/standalone.sty
+Package: standalone 2022/10/10 v1.3b Package to include TeX sub-files with prea
+mbles
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Restricted shell escape enabled on input line 77.
+)
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+
+(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks16
+\XKV@tempa@toks=\toks17
+
+(/usr/local/texlive/2023/texmf-dist/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count194
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/currfile/currfile.sty
+Package: currfile 2022/10/10 v0.8 Provides the file path elements of the curren
+t input file
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(/usr/local/texlive/2023/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(/usr/local/texlive/2023/texmf-dist/tex/latex/filehook/filehook.sty
+Package: filehook 2022/10/25 v0.8b Hooks for input files
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/filehook/filehook-2020.sty
+Package: filehook-2020 2022/10/25 v0.8b Hooks for input files
+))
+\c@currfiledepth=\count195
+)
+\sa@out=\write3
+
+(./welkin-book.sta)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/gincltex/gincltex.sty
+(/usr/local/texlive/2023/texmf-dist/tex/latex/svn-prov/svn-prov.sty
+Package: svn-prov 2010/04/24 v3.1862 Package Date/Version from SVN Keywords
+)
+Package: gincltex 2011/09/04 v0.3 Include external LaTeX files like graphics
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen141
+\Gin@req@width=\dimen142
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
+\collectedbox=\box51
+)
+\tc@llx=\dimen143
+\tc@lly=\dimen144
+\tc@urx=\dimen145
+\tc@ury=\dimen146
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen147
+\adjbox@Height=\dimen148
+\adjbox@Depth=\dimen149
+\adjbox@Totalheight=\dimen150
+\adjbox@pwidth=\dimen151
+\adjbox@pheight=\dimen152
+\adjbox@pdepth=\dimen153
+\adjbox@ptotalheight=\dimen154
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
+\c@checkoddpage=\count196
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box52
+\sift@deathcycles=\count197
+\@vwid@loff=\dimen155
+\@vwid@roff=\dimen156
+))
+\gincltex@box=\box53
+)
+(/usr/local/texlive/2023/texmf-dist/tex/latex/filemod/filemod-expmin.sty
+Package: filemod-expmin 2011/09/19 v1.2 Get and compare file modification times
+ (expandable; minimal)
+))
 (/usr/local/texlive/2023/texmf-dist/tex/latex/titling/titling.sty
 Package: titling 2009/09/04 v2.1d maketitle typesetting
 \thanksmarkwidth=\skip50
@@ -46,19 +169,15 @@ Package: csquotes 2022-09-14 v5.2n context-sensitive quotations (JAW)
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count194
+\etb@tempcnta=\count198
 )
-(/usr/local/texlive/2023/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
-\KV@toks@=\toks16
-)
-\csq@reset=\count195
-\csq@gtype=\count196
-\csq@glevel=\count197
-\csq@qlevel=\count198
-\csq@maxlvl=\count199
-\csq@tshold=\count266
-\csq@ltx@everypar=\toks17
+\csq@reset=\count199
+\csq@gtype=\count266
+\csq@glevel=\count267
+\csq@qlevel=\count268
+\csq@maxlvl=\count269
+\csq@tshold=\count270
+\csq@ltx@everypar=\toks18
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2022-09-14 v5.2n csquotes generic definitions (JAW)
@@ -72,12 +191,6 @@ File: csquotes.cfg
 (/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
 
-(/usr/local/texlive/2023/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(/usr/local/texlive/2023/texmf-dist/tex/generic/iftex/iftex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
-)
 (/usr/local/texlive/2023/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -88,9 +201,6 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)
-(/usr/local/texlive/2023/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
-Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )
 (/usr/local/texlive/2023/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
@@ -116,16 +226,13 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 (/usr/local/texlive/2023/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
 ty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (/usr/local/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-))
-\c@section@level=\count267
 )
-\@linkdim=\dimen141
-\Hy@linkcounter=\count268
-\Hy@pagecounter=\count269
-
-(/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/pd1enc.def
+\c@section@level=\count271
+)
+\@linkdim=\dimen157
+\Hy@linkcounter=\count272
+\Hy@pagecounter=\count273
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2023-02-07 v7.00v Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
@@ -136,7 +243,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 (/usr/local/texlive/2023/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count270
+\Hy@SavedSpaceFactor=\count274
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2023-02-07 v7.00v Hyperref: PDF Unicode definition (HO)
@@ -150,14 +257,14 @@ Package hyperref Info: Plain pages OFF on input line 4192.
 Package hyperref Info: Backreferencing OFF on input line 4197.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4425.
-\c@Hy@tempcnt=\count271
+\c@Hy@tempcnt=\count275
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen142
+\XeTeXLinkMargin=\dimen158
 
 (/usr/local/texlive/2023/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -166,9 +273,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count272
-\Field@Width=\dimen143
-\Fld@charsize=\dimen144
+\Fld@menulength=\count276
+\Field@Width=\dimen159
+\Fld@charsize=\dimen160
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -181,9 +288,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count273
-\c@Item=\count274
-\c@Hfootnote=\count275
+\Hy@abspage=\count277
+\c@Item=\count278
+\c@Hfootnote=\count279
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -195,8 +302,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count276
-\c@bookmark@seq@number=\count277
+\Fld@listcount=\count280
+\c@bookmark@seq@number=\count281
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
@@ -208,46 +315,86 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 85.
 )
 \Hy@SectionHShift=\skip53
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/mdwtools/syntax.sty
+Package: syntax 1996/05/17 1.07 Syntax typesetting (MDW)
+\grammarparsep=\skip54
+\grammarindent=\dimen161
+\sdstartspace=\skip55
+\sdendspace=\skip56
+\sdmidskip=\skip57
+\sdtokskip=\skip58
+\sdfinalskip=\skip59
+\sdrulewidth=\dimen162
+\sdcirclediam=\dimen163
+\sdindent=\dimen164
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
 
 (/usr/local/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count278
-\l__pdf_internal_box=\box51
+\l__color_backend_stack_int=\count282
+\l__pdf_internal_box=\box54
 )
 (./welkin-book.aux)
 \openout1 = `welkin-book.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-Package hyperref Info: Link coloring OFF on input line 15.
-\@outlinefile=\write3
-\openout3 = `welkin-book.out'.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+ (./welkin-book.sta)
+\openout3 = `welkin-book.sta'.
+
+
+(/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count283
+\scratchdimen=\dimen165
+\scratchbox=\box55
+\nofMPsegments=\count284
+\nofMParguments=\count285
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count286
+\MPscratchDim=\dimen166
+\MPnumerator=\count287
+\makeMPintoPDFobject=\count288
+\everyMPtoPDFconversion=\toks20
+) (/usr/local/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/local/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 18.
+
+(./welkin-book.out) (./welkin-book.out)
+\@outlinefile=\write4
+\openout4 = `welkin-book.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 17.
+(Font)              <12> on input line 20.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 17.
+(Font)              <8> on input line 20.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 17.
+(Font)              <6> on input line 20.
  [1
 
 
@@ -257,46 +404,40 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ] (./chapters/1-intro.tex
 Chapter 1.
-) (./chapters/2-background.tex
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5 \chapter
-            {Background} [1
+l.33                 \end{itemize}
+                                   [1
 
 {/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-
+) (./chapters/2-background.tex
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Background} [2
-
-]
+            {Background} [2]
 Chapter 2.
-
-Overfull \hbox (13.38959pt too wide) in paragraph at lines 27--28
-[]\OT1/cmr/m/n/10 Touch upon other thinkers that built upon Can-tor, in-clud-in
-g Frege, Dedekind,
- []
-
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.3}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.29   \item E
-              xplain the overreaching implications of set theory, as well as...
-[3]
-Overfull \hbox (0.75063pt too wide) in paragraph at lines 38--39
+l.32           \item C
+                      over the core issues behind Cantor's original definiti...
+[3
+
+]
+Overfull \hbox (0.75063pt too wide) in paragraph at lines 50--51
 []\OT1/cmr/m/n/10 Justify the ex-is-tence of dif-fer-ent para-doxes the ap-pli-
 ca-bil-ity of non-classical
  []
 
 
-Overfull \hbox (26.74115pt too wide) in paragraph at lines 42--42
+Overfull \hbox (26.74115pt too wide) in paragraph at lines 54--54
 []\OT1/cmr/bx/n/14.4 Early At-tempts at Con-tinua: Can-tor, Dedekind,
  []
 
@@ -305,8 +446,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.57     \item M
-                ention some of his misconceptions, e.g., his presumption tha...
+l.64   \item B
+              riefly mention Pragmatism and Peirce's search for its proof.
 [4]) (./chapters/3-cflt.tex [5] [6
 
 ]
@@ -324,52 +465,53 @@ ductive-[]constructions$[]\OT1/cmr/m/n/10 )
 [7]) (./chapters/4-spec.tex [8]
 Chapter 4.
 
-Overfull \hbox (5.4162pt too wide) in paragraph at lines 12--13
+Overfull \hbox (5.4162pt too wide) in paragraph at lines 13--14
 \OT1/cmr/m/n/10 An im-por-tant com-po-nent of CFLT called the Se-man-tics Lift-
 ing Lemma
  []
 
-) (./chapters/5-complexity.tex [9
-
-] [10
+[9
 
 ]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 4
+3.
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 43.
+)
+(./chapters/5-complexity.tex [10]
 Chapter 5.
-) [11] (./welkin-book.aux)
+) [11
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `welkin-book.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `welkin-book.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  40829D89DF1643CF8188A393A5EF4DD8;2793.
+] (./welkin-book.aux)
+Package rerunfilecheck Info: File `welkin-book.out' has not changed.
+(rerunfilecheck)             Checksum: 40829D89DF1643CF8188A393A5EF4DD8;2793.
  ) 
 Here is how much of TeX's memory you used:
- 8496 strings out of 476025
- 135764 string characters out of 5790018
- 1857388 words of memory out of 5000000
- 28836 multiletter control sequences out of 15000+600000
+ 11238 strings out of 476025
+ 184802 string characters out of 5790018
+ 1858388 words of memory out of 5000000
+ 31466 multiletter control sequences out of 15000+600000
  518649 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,76p,748b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,6n,120p,748b,685s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
-local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/l
-ocal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/lo
-cal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loc
-al/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on welkin-book.pdf (15 pages, 132017 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
+sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/l
+ocal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/lo
+cal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/loca
+l/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local
+/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on welkin-book.pdf (15 pages, 158904 bytes).
 PDF statistics:
- 142 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
+ 204 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
  30 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 137 words of extra memory for PDF output out of 10000 (max. 10000000)
 
->>>>>>> origin/main

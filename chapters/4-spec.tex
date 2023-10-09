@@ -5,53 +5,114 @@
 
 \chapter{The Welkin Standard}
 
+\section{Preliminaries}
+
+\subsection{Character Encodings}
+
+\subsection{EBNF Variant}
+\begin{itemize}
+	\item While there is an ISO standard for EBNF, several authors have noted it has issues. References: \url{https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html}, \url{https://www.grammarware.net/text/2012/bnf-was-here.pdf}. As recommended by David Wheeler in the first reference, we use the BNF Notation defined in the W3 standard (at \url{https://www.w3.org/Notation.html}).
+\end{itemize}
 \section{The Welkin Language}
 
 \begin{itemize}
-  \item Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser)
-  \begin{itemize}
-    \item Key goal: make Welkin's syntax fully decidable and efficient to parse. An important component of CFLT called the Semantics Lifting Lemma (TBD) essentially says we can embed a complex syntax into a semantics. (This proof will hopefully be constructive and work for any random syntax, no matter how crazy it might be). In other words, using an efficient parser does NOT limit how expressive Welkin is.
-    \item Presuming the result above, there will be two variants: the finite (regex) and full versions.
-          \begin{itemize}
-            \item The finite, or regex, version is purely for regex-definable files.
-            \item The full version will be LALR parsed, as it is generally a standard for programming languages. Not only is it efficient (both in speed and memory), but any grammar written in LALR is unambiguous (reference needed!).
-\item Now that the idea of these two versions is solidifed, we need some common terms. Most of these should come from graphviz, but also in other note taking formats.
-          \end{itemize}
-    \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (A better thought would be to put rendering information in a standard \textit{library}, which could then be minimized when browsing through a Welkin file/project.)
-          \begin{itemize}
-            \item For efficiency, the standard should use a minimal character set, such as ASCII. However, it would always be possible to \textit{translate} Welkin files by creating foci over them (generally, in the form of new Welkin files). The standard will have a corresponding file for \textit{every} human language possible. (And emojis can be handeled in a similar way; that will be supported but is still TBD). With that said, the standard may use a more efficient encoding overtime, so it may be imposed on \textit{standard implementations}; that is yet to be decided.
-            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
-            \item Key goal: make this FULLY compatible with dot. (In fact, for a prototype, we can work with dot directly, but we should make it helpful for our needs).
-          \end{itemize}
-  \end{itemize}
-  \item Following CFLT, explain a suitable semantics for Welkin.
-        \begin{itemize}
-          \item We need to determine how to implement all of the axioms.
-          \item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
-        \end{itemize}
+	\item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
+	      \begin{itemize}
+		      \item For wide spread use, there should be different character encodings used for \textit{direct comparison} with Welkin files. Ultimately, every Welkin file will be converted into a standard binary (or possibly text) file to store the object
+	      \end{itemize}
+	\item Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser)
+	      \begin{itemize}
+		      \item Key goal: make Welkin's syntax fully decidable and efficient to parse. An important component of CFLT called the Semantics Lifting Lemma (TBD) essentially says we can embed a complex syntax into a semantics. (This proof will hopefully be constructive and work for any random syntax, no matter how crazy it might be). In other words, using an efficient parser does NOT limit how expressive Welkin is.
+		      \item Presuming the result above, there will be two variants: the finite (regex) and full versions.
+		            \begin{itemize}
+			            \item The finite, or regex, version is purely for regex-definable files.
+			            \item The full version will be LALR parsed, as it is generally a standard for programming languages. Not only is it efficient (both in speed and memory), but any grammar written in LALR is unambiguous (reference needed!).
+			            \item Now that the idea of these two versions is solidifed, we need some common terms. Most of these should come from graphviz, but also in other note taking formats.
+		            \end{itemize}
+		      \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (A better thought would be to put rendering information in a standard \textit{library}, which could then be minimized when browsing through a Welkin file/project.)
+		            \begin{itemize}
+
+			            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
+			            \item Key goal: make this FULLY compatible with dot. (In fact, for a prototype, we can work with dot directly, but we should make it helpful for our needs).
+									\item Another important point: we want to say that graph ALWAYS refers to a metagraph (to avoid redundancy)		            \end{itemize}
+	      \end{itemize}
+	\item Following CFLT, explain a suitable semantics for Welkin.
+	      \begin{itemize}
+		      \item We need to determine how to implement all of the axioms.
+		      \item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
+	      \end{itemize}
 \end{itemize}
 
-Draft of EBNF:
+Draft of full-power BNF (with recursion and references to self):
+% TODO: figure out how to handle references to self. Is a separate keyword 'self' needed?
+%\renewcommand{\syntleft}{\normalfont\bfseries}
+%\renewcommand{\syntright}{}
 
-%\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
-%\setlength{\grammarindent}{12em} % increase separation between LHS/RHS
-% Note: look up grammar docummentation in LaTeX.
-% Use \alt for |
-\begin{grammar}
+% TODO: directly convert this into other grammars, such as lark.
+% There should be some consistent procedure to ensure that the BNF here
+% is the same as those found in any implementation
+% Interesting idea: when there is a node A that should connect to other nodes B_1, B_2, ..., B_n,
+% we require that the latter nodes be wrapped in their own graph. That way, we can stay consistent with
+% GraphViz notation (for possible compatiblity reasons), but at the same time, we can keep track of the out-neighbors (out going
+\renewcommand{\bnfexpr}{\textbf}
+\begin{bnfgrammar}
+	term ::= graph || connection || ident || string;;
+	graph ::= ident? `\{' term `\}';;
+	connection ::= term connector;;
+	connector ::= edge || arrow;;
+	edge ::= `\texttt{--}';;
+	arrow ::= `\texttt{->}';;
+	ident ::= CHAR*;;
+	string ::= \`` CHAR* \'' || \` CHAR* \'
+\end{bnfgrammar}
+% TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
+Here, the slahes next to quotes means they are included within the grammar itself, CHAR means a character in a given encoding. The official grammar file can be found in welkin-book/chapters, where every nonquoted instance of the symbol = means ::=. In Welkin, we informally write the BNF above as follows:
+% TODO: explain unit notation (as it maybe clearer than the recursion below). In other words, mark arbitrary variables with the keyword unit
+\begin{quote}{\ttfamily \raggedright \noindent
+	term -> \{ graph connection ident string\}\\
+	graph -> \{\{ident \{\}\}->`\{'--term--`\}'\}\\
+	connection -> \{term--connector--term\}\\
+	connector -> \{edge arrow\}\\
+	edge -> `--'\\
+	arrow -> `->'\\
+	ident -> CHAR*\\
+}\end{quote}
+% TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
+Every .welkin file has a corresponding configuration. It may either be put as a comment or (preferred) written in a separate file, which, by default, is called config.welkin. It has the following format:
+% TODO: replace itemzie with listing
+% TODO: decide how to work with a folder (or folders) of config files
+\begin{itemize}
+	\item Encoding
+				\begin{itemize}
+					% TODO: list major ascii versions/varieties. Need an official reference for this!
+					\item Options: ascii, utf-8, utf-16, other
+					\item In the case of other: we need to specify how to define an encoding. (We need a light-weight API for implementations)
+				\end{itemize}
+	\item Grammar
+				\begin{itemize}
+					\item Strength: bounded (only finitely nested graphs with a given nesting limit, no recursion), no-self (arbitrary nesting limit, but no recursion), full (recursion allowed)
+					\item Customized: use a builtin template or custom welkin file. These can be used to change any part of the grammar, including adding keywords, the symbols used, adding new symbols, etc. Essentially, this will be a way to built new grammars from the original specification; we will need a separate parser for this (i.e., a parser of BNF/Welkin accepted notation).
+				\end{itemize}
 
-<term> ::= <ident> `=' <expr>
-\alt `for' <ident> `=' <expr> `to' <expr> `do' <statement>
-\alt `{' <stat-list> `}'
-\alt <empty>
+	\item (Optional) Language
+				\begin{itemize}
+					\item Defaults to English. Can be written in the writer's desired language (as long as it has been configured in Encoding above)
+				\end{itemize}
+\end{itemize}
 
-<stat-list> ::= <statement> `;' <stat-list> | <statement>
+Alternatively, a file with a different name may be used; see the section ``Graph Application Behavior'' for more details. For subsequent chapter, we refer to the file above as the \textbf{welkin-config.}
 
-\end{grammar}
-
+\subsection{Customization}
+All Welkin files are infinitely customizable via the welkin config file.
 
 
 \section{Core Algorithms}
 
+\subsection{Graph Encoding}
+
 \section{General Application Behavior}
+
+
+
 
 \label{ch:spec}

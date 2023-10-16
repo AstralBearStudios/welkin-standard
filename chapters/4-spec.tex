@@ -8,42 +8,49 @@
 \section{Preliminaries}
 
 \subsection{Character Encodings}
+\begin{itemize}
+  \item Because character encodings are beyond the scope of EBNF, we need a separate document to define them.
+  \item We are definitely including ascii and unicode, but what about other character encodings? We probably want to find a reference for this.
+	\item As a general note for this entire standard, we are fairly loose in \textit{what} we guarantee to be true. More precisely, we have a specification at a high level, and we do not want to get stuck in technical details (particularly on specific architectures). Hopefully there is a suitable reference that is suitable enough for \textit{any} character enoding (or otherwise, we will formally consider it in Chapter 3)
+	\item For the time being, it suffices to describe character encodings as follows: a \textit{character encoding} is a function $f: P \subseteq \mathbb{N} \rightarrow \textrm{Char}$ to a set of characters. (And, most likely, we will need \textit{an extended function} in case certian characters are rendered \textit{depending on the characters around them.}) From here on out, we denote by $\textrm{Char}*$ as any possible string in the character encoding above. (Once again, we will need to define exactly what a ``character'' is before moving onward.)
+\end{itemize}
 
 \subsection{EBNF Variant}
+We use a simple variant of EBNF from the W3 standard.\footnote{While there is an ISO standard for EBNF, several authors have noted it has issues(see References: \url{https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html}, \url{https://www.grammarware.net/text/2012/bnf-was-here.pdf}). As recommended by David Wheeler in the first reference, we use the BNF Notation defined in the W3 standard (at \url{https://www.w3.org/Notation.html})}. In detail, we define our EBNF as follows:
 \begin{itemize}
-	\item While there is an ISO standard for EBNF, several authors have noted it has issues. References: \url{https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html}, \url{https://www.grammarware.net/text/2012/bnf-was-here.pdf}. As recommended by David Wheeler in the first reference, we use the BNF Notation defined in the W3 standard (at \url{https://www.w3.org/Notation.html}).
+	\item Rule assignment uses the symbol =, not ::=.
+  \item Choice is denoted by \\|. Multiple choices are \footnote{As always, $\cdots$ is formally defined in Chapter 3.}
+  \item Zero or one instances of the term is denoted by term*.
+  \item One or more instances of the term are denoted by term+.
+  \item Zero or one instances of a term is denoted by term?.
 \end{itemize}
 \section{The Welkin Language}
 
+
+\subsection{Minimal Grammar}
 \begin{itemize}
 	\item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 	      \begin{itemize}
-		      \item For wide spread use, there should be different character encodings used for \textit{direct comparison} with Welkin files. Ultimately, every Welkin file will be converted into a standard binary (or possibly text) file to store the object
+		      \item For wide spread use, there should be \textit{access to} different character encodings used for \textit{direct comparison} with Welkin files. Ultimately, every Welkin file will be converted into a standard binary (or possibly text) file to store the contents of a welkin file
 	      \end{itemize}
-	\item Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser)
+	\item Nearly Complete: Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser). This has been chosen to use a minimal grammar that can represent graphs and connections. (Technically, as we will note, only graphs are needed, OR connections; by Foci-Continuum duality, they can be derived from one another. To make this duality more explicit in the enoding, however, the minimal grammar will stick to using both)
 	      \begin{itemize}
-		      \item Key goal: make Welkin's syntax fully decidable and efficient to parse. An important component of CFLT called the Semantics Lifting Lemma (TBD) essentially says we can embed a complex syntax into a semantics. (This proof will hopefully be constructive and work for any random syntax, no matter how crazy it might be). In other words, using an efficient parser does NOT limit how expressive Welkin is.
-		      \item Presuming the result above, there will be two variants: the finite (regex) and full versions.
-		            \begin{itemize}
-			            \item The finite, or regex, version is purely for regex-definable files.
-			            \item The full version will be LALR parsed, as it is generally a standard for programming languages. Not only is it efficient (both in speed and memory), but any grammar written in LALR is unambiguous (reference needed!).
-			            \item Now that the idea of these two versions is solidifed, we need some common terms. Most of these should come from graphviz, but also in other note taking formats.
+		      \item For most cases, the full (lalr) parsing option will be used and will be the default. As an experimental component, regexes \textit{can} be calculated, in case there is a known level of nesting that will be used in a Welkin file. (This is siginificantly more complicated with the prescece of custom grammars, but that is discusses later). There will be two variants for parsing: the finite (regex) and full versions.
 		            \end{itemize}
-		      \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (A better thought would be to put rendering information in a standard \textit{library}, which could then be minimized when browsing through a Welkin file/project.)
+		      \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (I have been thinking about how we make a direct interafce for rendering these edges, and for creating custom grammars. For that, see the subsection on Interfaces)
 		            \begin{itemize}
 
-			            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
+			            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can actually express the first two using graphs alone (and conjunctions are an easier way to write graphs consisting of three items, and conversely, graphs are an easier way to exhibit relatively loose connections. Work still needs to be done on negation, however). We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
 			            \item Key goal: make this FULLY compatible with dot. (In fact, for a prototype, we can work with dot directly, but we should make it helpful for our needs).
 									\item Another important point: we want to say that graph ALWAYS refers to a metagraph (to avoid redundancy)		            \end{itemize}
-	      \end{itemize}
 	\item Following CFLT, explain a suitable semantics for Welkin.
 	      \begin{itemize}
-		      \item We need to determine how to implement all of the axioms.
+		      \item We need to determine how to \textit{define} all of the axioms. (In order to actually run these axioms, we need a Turing complete programming language. But for that, we need a suitable interface protocol. Programming languages can be extremely messy and difficult to work with, so how can we make a general and long-term interface?)
 		      \item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
 	      \end{itemize}
 \end{itemize}
 
-Draft of full-power BNF (with recursion and references to self):
+We first define an intermediatry base for standard Welkin called minimal Welkin (see Figure ?). Following the formulation of CFLT in Chapter 3, we only require a way to express connections. From there, it is straighforward (if not tedious) to derive all other theories. We heavily base the following grammar on GraphViz, excluding rendering options. (See subsection Interface for more details).
 % TODO: figure out how to handle references to self. Is a separate keyword 'self' needed?
 %\renewcommand{\syntleft}{\normalfont\bfseries}
 %\renewcommand{\syntright}{}
@@ -51,34 +58,67 @@ Draft of full-power BNF (with recursion and references to self):
 % TODO: directly convert this into other grammars, such as lark.
 % There should be some consistent procedure to ensure that the BNF here
 % is the same as those found in any implementation
-% Interesting idea: when there is a node A that should connect to other nodes B_1, B_2, ..., B_n,
-% we require that the latter nodes be wrapped in their own graph. That way, we can stay consistent with
-% GraphViz notation (for possible compatiblity reasons), but at the same time, we can keep track of the out-neighbors (out going
+% In fact, maybe we can directly import htis text file into LaTeX? That might be helpful (and we could use
+% a sinpler BNF, with = instead of ::=. I believe that would work)
+%\renewcommand{\bnfexpr}{\textbf}
+\begin{bnfgrammar}
+	term ::= graph || connection || ident || string;;
+	graph ::= ident? `\{' term `\}';;
+	connection ::= term connector term;;
+	connector ::= edge || arrow;;
+	edge ::= `-' term `-';;
+	arrow ::= `-' term `\texttt{>}' || `\texttt{<}' term `-';;
+	ident ::= CHAR*;;
+	string ::= [``] CHAR* [''] || [`] CHAR* [']
+\end{bnfgrammar}
+% TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
+%The official grammar file for implementations can be found in welkin-book/chapters, where every nonquoted instance of the symbol = means ::=.
+
+\subsection{Interfaces}
+Include this in the API instead?
+
+\begin{itemize}
+	\item Current problem: we need a way to recognzie which Welkin modules (graphs) define grammars. (Then we can figure out how one can customize \textit{any} aspect of Welkin). Here are some possible solutions (and evaluations thereof):
+				\begin{itemize}
+					\item Introduce a new meta-arrow \texttt{=>} designed specifically to be detected by Welkin (the left hand side denotes any terms in the user file; the right hand side must be terms that are defined by the Welkin interface). Using this symbol may initially work, but what if a user would like to use this meta-arrow in their grammar? How do we control how much the meta-arrow is used? I feel as though this could be dangerous, if not managed. Moreover, logistically, \textit{how} do we inform users of the terms they may bind to? For example, in the long-term, how do we make it clear that there is a ident for, say, num (standing in for general int/float)?
+					\item Create a different welkin file, such as welkin.config, that only uses minimal syntax (or a slightly extended version). This would ensure that there is a distinction between the information in welkin files and the grammars that they utilize. However, we want to makek Welkin infinitely customizable, so I aim not to use this solution, if at all possible.
+					\item Preferred, but still in the works: bootstrap interfaces. We would probably want to add this subsection later on, but definitely mention it while customizing grammars. \textit{Actually, customizing grammars is NOT a part of the standard, but rather, it is a part of the API. We will include EBNF and the custom grammar for standard Welkin}
+				  \item I am aiming to use the last solution, but what should the standard Welkin language be? Should it be aimed for programmers? Should it be aimed for general information preservation?
+				\end{itemize}
+\end{itemize}
+
+In Welkin, we informally write the BNF above as follows:
+% TODO: explain unit notation (as it maybe clearer than the recursion below). In other words, mark arbitrary variables with the keyword unit
+% TODO: decide whether to introduce another arrow symbol for custom grammars.
+% While we have imposed few to no restrictions on custom grammars (besides being LALR), it may be the case
+% that multiple people want to use => for their own purpose. Is there a convenient way we can do this?
+\begin{quote}{\ttfamily \raggedright \noindent
+	term => \{ graph connection ident string\}\\
+	graph => {ident} -- \{ -- term -- \}\\
+	connection => \{term -> connector -> term\}\\
+	connector => \{edge arrow\}\\
+	edge => `-' -> term -> `-' \\
+	arrow =>  `-' -> term -> `>' | `<' <- term <- `-' \\
+	ident => CHAR*\\
+    string => CHAR*\\
+}\end{quote}
+% TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
+
+\subsection{Standard Grammar}
+The standard Grammar is provided as follows. (TODO: decide whether this should be in EBNF, Welkin, or both)
 \renewcommand{\bnfexpr}{\textbf}
 \begin{bnfgrammar}
 	term ::= graph || connection || ident || string;;
 	graph ::= ident? `\{' term `\}';;
-	connection ::= term connector;;
+	connection ::= term connector term;;
 	connector ::= edge || arrow;;
-	edge ::= `\texttt{--}';;
-	arrow ::= `\texttt{->}';;
+	edge ::= `-' term `-';;
+	arrow ::= `-' term `>' || `<' term `-';;
 	ident ::= CHAR*;;
-	string ::= \`` CHAR* \'' || \` CHAR* \'
+	string ::= [``] CHAR* [''] || [`] CHAR* [']
 \end{bnfgrammar}
-% TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
-Here, the slahes next to quotes means they are included within the grammar itself, CHAR means a character in a given encoding. The official grammar file can be found in welkin-book/chapters, where every nonquoted instance of the symbol = means ::=. In Welkin, we informally write the BNF above as follows:
-% TODO: explain unit notation (as it maybe clearer than the recursion below). In other words, mark arbitrary variables with the keyword unit
-\begin{quote}{\ttfamily \raggedright \noindent
-	term -> \{ graph connection ident string\}\\
-	graph -> \{\{ident \{\}\}->`\{'--term--`\}'\}\\
-	connection -> \{term--connector--term\}\\
-	connector -> \{edge arrow\}\\
-	edge -> `--'\\
-	arrow -> `->'\\
-	ident -> CHAR*\\
-}\end{quote}
-% TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
-Every .welkin file has a corresponding configuration. It may either be put as a comment or (preferred) written in a separate file, which, by default, is called config.welkin. It has the following format:
+
+By default, every welkin file uses the standard grammar. To customize this behavior for a given file, a configuration may either be put as a comment or (preferred) written in a separate file, which, by default, is called name.config.welkin(TBD: name for this default file. config.welkin is rather long). It has the following format:
 % TODO: replace itemzie with listing
 % TODO: decide how to work with a folder (or folders) of config files
 \begin{itemize}

@@ -6,13 +6,20 @@
 \chapter{Continuum Foci Logic and Theory}
 \label{ch:cflt}
 
+\subsection{Preliminaries}
+\begin{itemize}
+  \item We probably want to go over essential references to FOL, ZFC, and Harvey Friedman's theory here: \url{https://bpb-us-w2.wpmucdn.com/u.osu.edu/dist/1/1952/files/2014/01/0EntireBook061311-wh0yjy.pdf}.
+  As a separate logic, \textit{the main claims} we use in Friedman's paper need to be verified in a separate repository (with justification for Friedman's definitions).
+\end{itemize}
+
+
 \section{Axioms}
 \begin{itemize}
   \item Figure out how to write all of the axioms in Lean.
     \begin{itemize}
       \item Lean is based on the Calculus of Inductive Constructions (see ths link for a relative strength of this theory: \url{https://mathoverflow.net/questions/69229/proof-strength-of-calculus-of-inductive-constructions})
       \item However, we want to generalize this to ANY theory... how could this be done?
-      \item I am still pondering on a solution. Here is what I am thinking so far: I think we need to recognize how the continuum is secretely hidden in any theory. It is similar to the incompleteness theorems: maybe we can generate a corresponding theorem or property of continua, but we cannot prove it.
+      \item I am still pondering on a solution. Here is what I am thinking so far: I think we need to recognize how the continuum is secretely hidden in any theory. It is similar to the incompleteness theorems: maybe we can generate a corresponding theorem or property of continua, but we cannot prove it \textit{in discrete theories}.
       \item Then, for a proof of the principle, we go back to CFLT. My hope is that, because CFLT is the complete opposite of purely finitistic systems (combinatorial logic or DFAs), we can prove, once and for all, properties about CFLT, under possible metaphysical assumptions. (Much more background needs to be written before I can discuss this in depth, but for now, I believe I must assume that a continuum exists. That may be the ONLY unproven assumption out of everything else, but beyond that, the axioms are purely structural (and may be unneeded).)
 
   \end{itemize}
@@ -22,9 +29,14 @@
 \begin{itemize}
   \item Define and prove properties of (generalized) theories
   \begin{itemize}
-    \item Semantic Lifting Lemma
+    \item Semantic Lifting Lemma: provides a construction on how to lift a syntax into a given semantics. Key implication: by provding Welkin a strong enough semantics (so that it can interpret ZFC, and, eventually, anything) Welkin is NOT limited by its decidable syntax; it can always reference undecidable syntaxes. In othe words, sticking with a LALR parser does NOT limit how expressive Welkin is.
     \item Justify how every possible theory (in the MOST general since) is definable in CFLT
     \item Prove the consistency, completeness, and uncomputability of CFLT. In particular, show that CFLT can solve \textit{any} possible generalization to the Halting Problem. Heavily connect to Harvey Friedman's unpublished manuscript on Boolean relation theory and incompleteness: \url{https://bpb-us-w2.wpmucdn.com/u.osu.edu/dist/1/1952/files/2014/01/0EntireBook061311-wh0yjy.pdf} \end{itemize}
 \end{itemize}
+
+Working list of Theorems, which is still a WIP.
+\begin{theorem}
+
+\end{theorem}
 
 \section{Key Implications}

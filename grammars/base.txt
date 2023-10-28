@@ -1,0 +1,8 @@
+term ::= graph | connection | ident | string
+graph ::= (ident | string)? '{' term '}'
+connection ::= term connector term
+connector ::= edge | arrow
+edge ::= '-' term '-'
+arrow ::= '-' term '>' |  '<' term '-'
+string ::= '"' CHAR* '"' | ['] CHAR* ['']
+ident ::= CHAR*

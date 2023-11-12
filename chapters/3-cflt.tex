@@ -6,25 +6,41 @@
 \chapter{Continuum Foci Logic and Theory}
 \label{ch:cflt}
 
+\newcommand*{\foldth}{\mathbf{Fold}}
+\newcommand*{\foldthd}{\mathbf{Fold_0}}
+
 \section{Axioms}
 \begin{itemize}
-  \item Figure out how to write all of the axioms in Lean.
+  \item Figure out how to write all of the axioms in Lean. (We will want to transition these to Dedkuti, but we want to leverage lean's large math library, for the time being).
     \begin{itemize}
       \item Lean is based on the Calculus of Inductive Constructions (see ths link for a relative strength of this theory: \url{https://mathoverflow.net/questions/69229/proof-strength-of-calculus-of-inductive-constructions})
-      \item However, we want to generalize this to ANY theory... how could this be done?
+    \end{itemize}
+       \item However, we want to generalize this to ANY theory... this first requires defining what \text{every}
       \item I am still pondering on a solution. Here is what I am thinking so far: I think we need to recognize how the continuum is secretely hidden in any theory. It is similar to the incompleteness theorems: maybe we can generate a corresponding theorem or property of continua, but we cannot prove it.
       \item Then, for a proof of the principle, we go back to CFLT. My hope is that, because CFLT is the complete opposite of purely finitistic systems (combinatorial logic or DFAs), we can prove, once and for all, properties about CFLT, under possible metaphysical assumptions. (Much more background needs to be written before I can discuss this in depth, but for now, I believe I must assume that a continuum exists. That may be the ONLY unproven assumption out of everything else, but beyond that, the axioms are purely structural (and may be unneeded).)
-
-  \end{itemize}
 \end{itemize}
+
+\begin{definition}
+The language of $\foldthd$ is .
+\end{definition}
+
 
 \section{Fundamental Properties}
 \begin{itemize}
   \item Define and prove properties of (generalized) theories
   \begin{itemize}
     \item Semantic Lifting Lemma
-    \item Justify how every possible theory (in the MOST general since) is definable in CFLT
+    \item Justify how every possible theory is definable in CFLT
+          % \begin{itemize}
+          %         \end{itemize}
     \item Prove the consistency, completeness, and uncomputability of CFLT. In particular, show that CFLT can solve \textit{any} possible generalization to the Halting Problem. Heavily connect to Harvey Friedman's unpublished manuscript on Boolean relation theory and incompleteness: \url{https://bpb-us-w2.wpmucdn.com/u.osu.edu/dist/1/1952/files/2014/01/0EntireBook061311-wh0yjy.pdf} \end{itemize}
 \end{itemize}
+
+s
+
+
+\begin{theorem}
+Each system of classical logic in $\foldth$ is consistent.
+\end{theorem}
 
 \section{Key Implications}

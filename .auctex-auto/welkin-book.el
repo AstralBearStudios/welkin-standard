@@ -2,9 +2,9 @@
  "welkin-book"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("book" "leqno")))
+                     '(("book" "leqno" "oneside")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("standalone" "subpreambles=true")))
+                     '(("hyperref" "plainpages=false" "pdfpagelabels=true")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
@@ -21,11 +21,16 @@
     "chapters/5-complexity"
     "book"
     "bk10"
-    "standalone"
+    "hyperref"
     "titling"
     "outlines"
     "csquotes"
-    "hyperref"
-    "simplebnf"))
+    "simplebnf"
+    "amsfonts"
+    "amsthm")
+   (LaTeX-add-environments
+    "definition"
+    "theorem"
+    "lemma"))
  :latex)
 

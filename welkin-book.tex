@@ -1,14 +1,23 @@
 % SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
 % SPDX-License-Identifier: CC-BY-4.0
 % welkin-book.tex - LaTeX File that stores the contents of the Welkin Book
-\documentclass[leqno]{book}
-\usepackage[subpreambles=true]{standalone}
+\documentclass[leqno, oneside]{book}
+\usepackage[plainpages=false,pdfpagelabels=true]{hyperref}
+%\usepackage[subpreambles=true]{standalone}
 
 \usepackage{titling}
 \usepackage{outlines}
 \usepackage{csquotes}
 \usepackage{hyperref}
 \usepackage{simplebnf}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
 
 \title{Welkin \\
   An Information Language}
@@ -25,6 +34,10 @@
 \chapter*{Preface}
 
 To be written...
+
+
+Chapters 1 and 2 provide the philosophical basis for Welkin. Chapter 3 contains the Welkin Standard, a formal specification describing high level, algorithmic properties in compliant Welkin interpreters. Chapter 5 explores applying . Chapter 6 draws several conclusions, pointing to the possible future of mathematical document, programming, and the overall organization of ideas.
+
 
 \mainmatter
 

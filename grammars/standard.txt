@@ -1,0 +1,11 @@
+term ::= (import | graph | connection | list | tuple | operator | atom)*;;
+import ::= '@import' ident
+graph ::= (ident | string)? '{' term '}'
+connection ::= term connector term
+connector ::= edge | arrow
+edge ::= '-' term '-'
+arrow ::= '-' term '>' | '<' term '-'
+atom ::= self | ident | string
+self ::= ''@self''
+string ::= [''] CHAR* [''] | ['] CHAR* [']
+ident ::= CHAR*

@@ -3,6 +3,7 @@
  (lambda ()
    (TeX-add-symbols
     "chars"
+    "bytes"
     "numbers"
     "term")
    (LaTeX-add-labels

@@ -10,6 +10,7 @@
 
 % Helpful macros for terms for character encoding in math mode
 \newcommand*{\chars}{\mathrm{CHAR}}
+\newcommand*{\bytes}{\mathrm{BYTES}}
 \newcommand*{\numbers}{\mathrm{NUMBER}}
 \newcommand*{\term}{\mathrm{term}}
 
@@ -103,30 +104,44 @@ Both can be parsed with LALR parsers and fundamentally have the same semantics.
 
 
 % TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
-Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details).
+Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols $\{, \}, --, ->, \text{or} <-.$ We enforce this by matching these symbols first.
 % TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
 
 \subsubsection*{Semantics}
-We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Encoded Welkin Information Graph.}
+A \textbf{scope} is recursively defined and intutively is a level of terms. A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons. In particular, every graph must \textbf{only be defined once.}
+\\ We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Encoded Welkin Information Graph.}
+\begin{definition}
+  Base Welkin is parsed into the following AST $\mathcal{A}.$
+  \begin{itemize}
+	\item Every term is a new subtree with its contents as children.
+    \item Every graph is an ordered pair of its alias and list of children
+    \item Every connection
+		  \begin{itemize}
+			\item Left arrows
+			\item Right arrows
+			\item Edges define both a left and right arrow
+		  \end{itemize}
+	\item Every atom is converted into its corresponding encoding via the function $\mathcal{B} : \chars \to \bytes$
+\end{itemize}
+ \end{definition}
 % TODO: talk about encoding of numbers. This probably a separate encoding from the one used to write the welkin file
 \begin{definition}
 	A \textbf{Welkin Information Graph (WIG)} is a tuple $G = (V, E, A),$ where
 	\begin{itemize}
 		\item $V$ is a set of \textbf{vertices} or \textbf{units,}
-		\item $E \subseteq V^{2} $ is a set of \textbf{directed edges,}
+		\item $E \subseteq V^{2} $ is a set of \textbf{(directed) edges,}
 		\item $A: \chars* \to V \cup E$ is an \textbf{alias function.}
 	\end{itemize}
   \end{definition}
-  Notice that not every vertex or edge in a WIG have an alias.
-
+  Notice that not every vertex or edge in a WIG have an alias, as opposed to a colored graph. There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
 \begin{lemma}
 The conversion from ASTs to Welkin Information Graphs is valid.
 \end{lemma}
+The final output of parsing is a normalized WIG. We define Welkin Normal Form in the following fashion.
 
 
-The
-
-e section ``Graph Application Behavior'' for more details. For subsequent chapter, we refer to the file above as \textbf{-config.}
+Based on this form, we have chosen a unique way to represent Welkin . In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into its corresponding representation via WNF.
+\\ See section ``Graph Application Behavior'' for more details. For subsequent chapter, we refer to the file above as \textbf{-config.}
 
 
 \section{General Application Behavior}

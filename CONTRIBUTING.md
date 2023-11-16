@@ -1,3 +1,6 @@
+//SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
+//SPDX-License-Identifier: CC-BY-4.0
+
 % TODO Determine Full Contributing Guidelines
 
 Thank you for contributing to the Welkin Book! Here are a list of guidelines to help you with your contribution.

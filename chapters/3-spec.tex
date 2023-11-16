@@ -47,7 +47,8 @@ We use a simple variant of EBNF from the W3 standard.\footnote{While there is an
 	\item Following CFLT, explain a suitable semantics for Welkin.
 	      \begin{itemize}
 		      \item We need to determine how to \textit{define} all of the axioms. (In order to actually run these axioms, we need a Turing complete programming language. But for that, we need a suitable interface protocol. Programming languages can be extremely messy and difficult to work with, so how can we make a general and long-term interface?)
-		      \item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
+			\item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
+			\item It may significantly be easier to allow overloading terms. At the end of the day, as long as a Welkin Information Graph is produced, the process to \textit{get there} is in the hands of the user. They can use Welkin, or they can do the work themselves.
 	      \end{itemize}
 \end{itemize}
 
@@ -80,7 +81,7 @@ The standard grammar is provided in Figure ?.?.
 \begin{bnfgrammar}
 	term ::= (import || graph || connection || list || tuple || operator|| atom)*;;
 	import ::= ``import'' ident
-	graph ::= ident? `\{' term `\}';;
+	graph ::= (ident | string)? `\{' term `\}';;
 	connection ::= term connector term;;
 	connector ::= edge || arrow;;
 	edge ::= `-' term `-';;
@@ -137,6 +138,37 @@ All Welkin files are infinitely customizable via the welkin config file. In orde
 								care is not taken. For example, the rule (test1 -> test2 -> graph) is ambiguous because of the ordering of the parantheses; it is unclear what is ultimately turned into a rule.
 					\item However, if the lefthand side only uses terms in the minimal grammar, this would not be ambigiuous. That could certainly work. Regardless, \textit{we need to make it clear HOW Welkin, the program, is involved. Using the meta arrow is probably the least intrustive way to go about this, and can easily be customized by the user.}
 				\end{itemize}
+
+  \item Rephrasing above problem: how do we make it clear when we are defining a new semantics?
+		\begin{itemize}
+		  \item A key realization: Welkin \textit{is a semantics language.} You can define anything in it! It suffices to show that we can embed Welkin into discrete foci (or, more directly, can define any Chomsky grammars. This part is pretty clear from the semantics given to base welkin (or for graphs, and for connections, not for a reference to self + ?))
+		  \item We could try making code blocks that specifically contain bindings. This would be a fancier alternative to restricting names (or coming up with a system, such as names prefixed with $_{}$). My hesitance to go with this solution is flexibility; should we force the users to do this?
+		  \item Here is a possible question we can ask: how do we distinguish between regular and \textit{interfaced} Welkin?
+		  \item The goal is to have the \textit{guest} tackle how to interpret Welkin... but we still want to put the guest in Welkin!
+				\begin{itemize}
+				  \item How do we gain ``awareness'' about Welkin's interfaces?
+				  \item We need a place to talk about \textit{interpretations.} We know Welkin can talk about it, but how do we \textbf{reference external things? (Files, programs, even a simple microcontroller?)}
+						\begin{itemize}
+						  \item Do we directly include a pointer to the file? Is that strictly necessary8? It could definitely break on different machines. We would have to keep some config data in mind.
+						  \item We know that any possible import symbols, as per compiler theory (and general humanb comprehension) need to be applied directlyat the \textit{top} of a page. But how do we define the import statement itself?
+						  \item Can we bootstrap an interface mechanism?
+						\end{itemize}
+				\end{itemize}
+		\end{itemize}
+
+  \item Current (recommended) solution: we define standard Welkin to have direct access to the interpreter, similar to prolog. \textit{Later on, we will make it clear that standard Welkin can be queries, but can do more.} Ultimately, \textit{it is up to the individual to decide whether they include programming elements into their own welkin files. This is the key thing! } All the user needs to do is define their EBNF in standard Welkin
+		\begin{itemize}
+		  \item Here's a big idea: we can go back and \textit{refine} the base interface through standard Welkin! That's the powerful of Welkin, after all!
+		  \item More precisely, we need to implement Vero, the Welkin interface for stating and verifying formal properties. \textit{We only want to make this through the APIs specified by Welkin. The implementation should NEVER matter for verification.}
+		  \item There should be a separate document outling the thought process behind Vero, but for the most part, Vero should be defined \textit{with Welkin alone.} It will be the big first test for Welkin to make sure Welkin's claim for any layer of abstraction works well.
+		\item Vero comes with its own grammar which is fully customizable (some mathematicians/logicians/etc may want to change it, for their personal preference). We also have certain semantics that impose checks on graphs. This is the key thing here: \textit{we want to make checks/formal properties explicit.}
+		  \item Main takeaway: \textit{the interface can always be defined first. It need not be perfect. We can start with any interface and clarify it with Welkin. We can delete things, but we NEVER have to. We can add onto it instead}
+		  \item Moreover, using standard Welkin for \textit{all implementations} is a good sanity check; how can we check different configs with completely different grammars! At some point, \textit{ we need to use the same language to customize things!} Starting with this idea, it is straight forward to make custom interpreter settings \textit{in your own language.} You just have to invoke it in standard welkin at some point.
+				\begin{itemize}
+				  \item In fact, some core plugins will use this idea as well! One of the big things to have is a suitable \textit{build system.} That will be included and have a straightforward interface.
+				  \item Other key starter grammars include: bullets (for bullet point type notes) and literate (for a starting point with code blocks). (As an implementation detail, these should be \textit{optional} packages the user can be install; they should be more straightforward to get setup)
+				\end{itemize}
+		\end{itemize}
 
 
 \end{itemize}

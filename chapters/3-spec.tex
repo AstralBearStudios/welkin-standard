@@ -12,28 +12,49 @@
 \newcommand*{\chars}{\mathrm{CHAR}}
 \newcommand*{\bytes}{\mathrm{BYTES}}
 \newcommand*{\numbers}{\mathrm{NUMBER}}
+\newcommand*{\strings}{\mathrm{STRING}}
 \newcommand*{\term}{\mathrm{term}}
+\newcommand*{\terms}{\mathrm{terms}}
+\newcommand*{\delimiters}{\mathrm{DELIMITERS}}
+\newcommand*{\encoding}{\mathcal{E}}
 
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
 In a formalist fashion, our BNF variant leaves encodings as an generalized notion. Let Char be an arbitrary, finite set.
-An \textbf{encoding} is a mapping $E : \mathbb{N} \to \chars.$
-We denote $\chars = E(\chars)$ and CHAR* as the Kleene-closure of CHAR. Moreover there is a distinguished subimage $\numbers \subset chars.$ Character encodings may be given as finite tables. Several major encodings are formally defined in the following sources.
+An \textbf{encoding} is a mapping $\encoding : \mathbb{N} \to \chars.$
+We denote $\chars = \encoding(\chars)$ and CHAR* as the Kleene-closure of CHAR. We also recognize a distinguished (possibly empty) subimage $\numbers \subset \chars.$ %TODO: describe this in more detail
+\\ Character encodings may be given as finite tables. Several major encodings are formally defined in the following sources.
 \begin{itemize}
 	\item ASCII []
 	\item UTF-8 []
-	\item UTF-16
+	\item UTF-16 []
 \end{itemize}
+As an auxiliary set, define
+\begin{align*}
+	\strings(\delimiters) = \{s \in \chars^{*}\;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}\},\end{align*}
+where $\delimiters \subset \chars^{2}.$
+Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix to distinguish them from string boundaries. Any Welkin implementations may choose how to escape their strings by explicitly setting the (default) DELIMITERS. For the rest of this document, we will denote $\strings ::= \strings(\delimiters)$
 
 \subsection{EBNF Variant}
 Our variant of EBNF uses the following notation:
 \begin{itemize}
-	\item Rules are optionally surroudned in angular brackets $<term>;$
-	\item $::=$ denotes rule assignment. Any rule ending in $CHAR*$ or $NUMBER*$ means the rule is a member of $CHAR*,$ $NUMBER*,$;
+	\item $=$ denotes rule assignment. Any rule ending in $\chars^{*}$ or $\numbers^{*}$ means the rule is a member of $\chars^{*},$ $\numbers^{*};$
+	\item Rules are optionally surrounded in angular brackets $<\term>;$
 	\item $|$ denotes alternation;
-	\item $\term*$ means 0 or more instances and is a shorthand for the rule $terms ::= term terms | term | \varepsilon;$
-	\item $\term?$ means at most one instance and is a shorthand for the rule $terms ::= term | \varepsilon;$
-	\item Single quotes denote a string in CHAR*. In thesse strings are double or single quotes in CHAR*, the notation [\``] or ['] is used, resectively, to avoid confusion.
+	\item In a given choice, an arrow \texttt{->} denotes a new rule name. For example, the rule
+				\begin{align*}
+					\term &= "A" \to A \\
+								&| "B" \to  B
+				\end{align*}
+				is equivalent to
+				\begin{align*}
+					\term &= A | B \\
+					\textrm{A} &= "A"\\
+					\textrm{B} &= "B";
+				\end{align*}
+	\item $\term*$ means 0 or more instances and is a shorthand for the rule $\terms ::= \term \terms | \term | \varepsilon;$
+	\item $\term?$ means at most one instance and is a shorthand for the rule $\terms ::= \term | \varepsilon;$
+	\item Specific sequences in $CHAR*$ are included in quotes. To avoid confusion, literal quotes are denoted with [']. % TODO: change above examples to use single quotes in math mode OR go back to using bnfgrammer
 \end{itemize}
 
 % \begin{itemize}
@@ -41,36 +62,13 @@ Our variant of EBNF uses the following notation:
 % \end{itemize}
 \section{The Welkin Language}
 
-There are two fundamental variants of Welkin:
+There are three fundamental variants of Welkin:
 \begin{itemize}
-<<<<<<< HEAD:chapters/3-spec.tex
-	\item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
-	      \begin{itemize}
-		      \item For wide spread use, there should be \textit{access to} different character encodings used for \textit{direct comparison} with Welkin files. Ultimately, every Welkin file will be converted into a standard binary (or possibly text) file to store the contents of a welkin file
-	      \end{itemize}
-	\item Nearly Complete: Determine a suitable BNF for Welkin, which can be parsed with LALR (or otherwise a more efficient parser). This has been chosen to use a minimal grammar that can represent graphs and connections. (Technically, as we will note, only graphs are needed, OR connections; by Foci-Continuum duality, they can be derived from one another. To make this duality more explicit in the enoding, however, the minimal grammar will stick to using both).
-	      \begin{itemize}
-		      \item For most cases, the full (lalr) parsing option will be used and will be the default. As an experimental component, regexes \textit{can} be calculated, in case there is a known level of nesting that will be used in a Welkin file. (This is siginificantly more complicated with the prescece of custom grammars, but that is discusses later). There will be two variants for parsing: the finite (regex) and full versions.
-		            \end{itemize}
-		      \item The standard format should read just like an ordinary programming language. It may be akin to graphviz, but it should prioritze on the contents of each node and edge, not necessarially how they are rendered. (I have been thinking about how we make a direct interafce for rendering these edges, and for creating custom grammars. For that, see the subsection on Interfaces)
-		            \begin{itemize}
-
-			            \item Welkin essentially needs the key elements from set theory: conjunction, disjunction, negation, implication, etc. We can actually express the first two using graphs alone (and conjunctions are an easier way to write graphs consisting of three items, and conversely, graphs are an easier way to exhibit relatively loose connections. Work still needs to be done on negation, however). We can use corresponding symbols for these: $\&\&, ||, \neg, \rightarrow$. In \textit{customizable files}, these symbols can be overloaded and added upon.
-			            \item Key goal: make this FULLY compatible with dot. (In fact, for a prototype, we can work with dot directly, but we should make it helpful for our needs).
-									\item Another important point: we want to say that graph ALWAYS refers to a metagraph (to avoid redundancy)		            \end{itemize}
-	\item Following CFLT, explain a suitable semantics for Welkin.
-	      \begin{itemize}
-		      \item We need to determine how to \textit{define} all of the axioms. (In order to actually run these axioms, we need a Turing complete programming language. But for that, we need a suitable interface protocol. Programming languages can be extremely messy and difficult to work with, so how can we make a general and long-term interface?)
-			\item We also need to use a suitable proof system (e.g., Hilbert, Gentzen, etc.). Maybe that could be decided in CFLT?
-			\item It may significantly be easier to allow overloading terms. At the end of the day, as long as a Welkin Information Graph is produced, the process to \textit{get there} is in the hands of the user. They can use Welkin, or they can do the work themselves.
-	      \end{itemize}
-=======
 	\item Base Welkin, a language mirroring the core data structures;
-	\item Standard Welkin, which extends Base Welkin with attributes. These attibutes can alter or customize the interpreter's behavior.
->>>>>>> origin/main:chapters/4-spec.tex
+	\item Standard Welkin, which extends Base Welkin with attributes. These attibutes can alter or customize how the interpreter presents data;
+	\item Builder Welkin, which enables arbitrary evaluation of Welkin files and access to OS resources. This is equivalent to Standard Welkin with two new attributes: $@eval$ and $@exec.$ See Section ?.? for more details.
 \end{itemize}
-Both can be parsed with LALR parsers and fundamentally have the same semantics.
-
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes the interperter Turing complete. It is highly recommended to include the Builder Weklin as a separate, optional component.
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -110,10 +108,9 @@ Both can be parsed with LALR parsers and fundamentally have the same semantics.
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
 \begin{bnfgrammar}
-	terms ::= term*
-	;;
+	terms ::= term* ;;
 	term ::= graph || connection || ident || string || num ;;
-	graph ::= <graph ident>? `\{' terms `\}';;
+	graph ::= <graph ident>? `\{' terms `\}' ;;
 	<graph ident> ::= ident || string ;;
 	connection ::= term connector term ;;
 	connector ::= edge | <left arrow> | <right arrow> ;;
@@ -121,8 +118,8 @@ Both can be parsed with LALR parsers and fundamentally have the same semantics.
 	<left arrow> ::= `-' term `->' ;;
 	<right arrow> ::= `<-' term `-' ;;
 	ident ::= CHAR* ;;
-	num ::= NUMBER* ;;
-	string ::= [``] CHAR\* [''] || [`] CHAR\* [']
+	string ::= STRING ;;
+	num ::= NUMBER*
 \end{bnfgrammar}
 
 
@@ -130,36 +127,19 @@ Both can be parsed with LALR parsers and fundamentally have the same semantics.
 Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols $\{, \}, --, ->, \text{or} <-.$ We enforce this by matching these symbols first.
 % TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
 
-<<<<<<< HEAD:chapters/3-spec.tex
-\subsection{Standard Grammar}
-The standard grammar is provided in Figure ?.?.
-\begin{bnfgrammar}
-	term ::= (import || graph || connection || list || tuple || operator|| atom)*;;
-	import ::= ``import'' ident
-	graph ::= (ident | string)? `\{' term `\}';;
-	connection ::= term connector term;;
-	connector ::= edge || arrow;;
-	edge ::= `-' term `-';;
-	arrow ::= `-' term `>' || `<' term `-';;
-	atom ::= self || ident || string;;
-	self ::= ``~self''
-	ident ::= CHAR*;;
-	string ::= [``] CHAR* [''] || [`] CHAR* [']
-\end{bnfgrammar}
-=======
 \subsubsection*{Semantics}
 A \textbf{scope} is recursively defined and intutively is a level of terms. A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons. In particular, every graph must \textbf{only be defined once.}
-\\ We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Encoded Welkin Information Graph.}
+\\ We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Welkin Information Graph.}
 \begin{definition}
   Base Welkin is parsed into the following AST $\mathcal{A}.$
   \begin{itemize}
 	\item Every term is a new subtree with its contents as children.
-    \item Every graph is an ordered pair of its alias and list of children
-    \item Every connection
+    \item Every graph is an ordered pair of its aliases and list of children.
+    \item Every connection is an ordered pair:
 		  \begin{itemize}
-			\item Left arrows
-			\item Right arrows
-			\item Edges define both a left and right arrow
+			\item Left arrows $u \to v$ correspond to a pair $(u,v);$
+			\item Right arrows $u \leftarrow v$ correspond to the pair $(v, u);$
+			\item Edges correspond to both a left and right arrow.
 		  \end{itemize}
 	\item Every atom is converted into its corresponding encoding via the function $\mathcal{B} : \chars \to \bytes$
 \end{itemize}
@@ -178,12 +158,10 @@ A \textbf{scope} is recursively defined and intutively is a level of terms. A \t
 The conversion from ASTs to Welkin Information Graphs is valid.
 \end{lemma}
 The final output of parsing is a normalized WIG. We define Welkin Normal Form in the following fashion.
->>>>>>> origin/main:chapters/4-spec.tex
-
-
-Based on this form, we have chosen a unique way to represent Welkin . In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into its corresponding representation via WNF.
-\\ See section ``Graph Application Behavior'' for more details. For subsequent chapter, we refer to the file above as \textbf{-config.}
-
+\begin{definition}
+A WIG is in \textbf{Welkin Normal Form (WNF)} if ...
+\end{definition}
+Based on this form, we have chosen a unique way to represent Welkin files. In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into WNF.
 
 \section{General Application Behavior}
 
@@ -216,7 +194,6 @@ Every .welkin file has a corresponding configuration. It may either be put as a 
 Alternatively, a file with a different name may be used; see th
 
 
-<<<<<<< HEAD:chapters/3-spec.tex
 \begin{itemize}
 	\item Current problem: we need a way to recognzie which Welkin modules (graphs) define grammars. (Then we can figure out how one can customize \textit{any} aspect of Welkin). Here are some possible solutions (and evaluations thereof):
 				\begin{itemize}
@@ -272,8 +249,6 @@ In Welkin, we informally write the BNF above as follows:
 % TODO: decide whether to introduce another arrow symbol for custom grammars.
 % While we have imposed few to no restrictions on custom grammars (besides being LALR), it may be the case
 % that multiple people want to use => for their own purpose. Is there a convenient way we can do this?
-=======
->>>>>>> origin/main:chapters/4-spec.tex
 \begin{quote}{\ttfamily \raggedright \noindent
 	term -> \{ graph connection ident string\}\\
 	graph -> \{\{ident \{\}\}->`\{'--term--`\}'\}\\

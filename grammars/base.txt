@@ -1,8 +1,13 @@
-term ::= graph | connection | ident | string
-graph ::= (ident | string)? '{' term '}'
+//
+//
+term ::= graph | connection | ident | string | num
+graph ::= graph_ident? '{' term '}'
+graph_ident ::= ident | string
 connection ::= term connector term
 connector ::= edge | arrow
 edge ::= '-' term '-'
-arrow ::= '-' term '>' |  '<' term '-'
-string ::= '"' CHAR* '"' | ['] CHAR* ['']
+left_arrow ::= '-' term '>'
+right_arrow ::= '<' term '-'
+string ::= '"' CHAR* '"' | ['] CHAR* [']
 ident ::= CHAR*
+num ::= NUMBER

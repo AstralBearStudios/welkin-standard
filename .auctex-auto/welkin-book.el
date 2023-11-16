@@ -2,15 +2,15 @@
  "welkin-book"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("book" "leqno")))
+                     '(("book" "leqno" "oneside")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("standalone" "subpreambles=true")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+                     '(("hyperref" "plainpages=false" "pdfpagelabels=true")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -20,14 +20,16 @@
     "chapters/4-conclusion"
     "book"
     "bk10"
-    "standalone"
+    "hyperref"
+    "titling"
     "outlines"
     "csquotes"
-    "hyperref"
     "simplebnf"
-    "amsmath"
-    "amsfonts")
+    "amsfonts"
+    "amsthm")
    (LaTeX-add-environments
-    "theorem"))
+    "definition"
+    "theorem"
+    "lemma"))
  :latex)
 

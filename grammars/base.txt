@@ -3,15 +3,13 @@
 
 terms       = term*
 term        = graph | connections | member | unit
-graph       = (ident | string)? '{' term '}'
+graph       = unit? '{' term '}'
 connections = term (connector term)+
-connector   = edge | left_arrow | right_arrow
-edge        = '-' term '-'
-left_arrow  = '-' term '>'
-right_arrow = '<' term '-'
-member      = namespace+ unit
-namespace   = (ident | string)? '.' | num '::'
-unit        = ident | num | string
+connector   = '-' term '-' -> edge
+            | '-' term '>' -> left_arrow
+            | '<' term '-' -> right_arrow
+member      = unit? ('.'(ident | string) | "#"num)+
+unit        = ident | string | num
 ident       = CHAR*
-num         = NUMBER
 string      = STRING
+num         = NUMBER

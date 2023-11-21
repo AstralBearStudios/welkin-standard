@@ -38,10 +38,11 @@ Strings may include their delimiters by escaping them, i.e., using a sufficient 
 
 \subsection{EBNF Variant}
 Our variant of EBNF uses the following notation:
+% TODO: convert this into a table for easy access
 \begin{itemize}
-	\item $=$ denotes rule assignment. Any rule ending in $\chars^{*}$ or $\numbers^{*}$ means the rule is a member of $\chars^{*},$ $\numbers^{*};$
-	\item Rules are optionally surrounded in angular brackets \texttt{<term>,}
-	\item $|$ denotes alternation,
+  \item $::=$ denotes rule assignment,
+  \item \texttt{term ::= $S \subseteq \chars^{*}$} means \texttt{term $\in S$},
+  \item $|$ denotes alternation,
 	\item In a given choice, an arrow $\to$ denotes a new rule name. For example, the rule
 		\begin{bnfgrammar}
 			term ::= `A' $\to$ A | `B' $\to$ B
@@ -54,13 +55,14 @@ Our variant of EBNF uses the following notation:
 		\end{bnfgrammar}
 	\item \texttt{term*} means 0 or more instances and is shorthand for
 	\begin{center}
-		\texttt{terms ::= term terms | term | $\varepsilon$.}
+		\texttt{terms ::= term terms | term | $\varepsilon$},
 	\end{center}
 	\item \texttt{term+} means 1 or most one instances and is shorthand for
 	\begin{center}
-		\texttt{terms ::= term terms | term.}
+		\texttt{terms ::= term terms | term},
 	\end{center}
-	\item Elements of CHAR* are included in quotes. To avoid confusion, literal quotes are denoted with ['].
+  \item Elements of CHAR* are included in quotes. To avoid confusion, literal quotes are denoted with ['].
+	\item A production between a terminal and non-terminal, such as $term"A"$, means there is no whitespace character that appears between them. All other productions, in the form \texttt{term1 term2} any number of whitespaces may be included.
 \end{itemize}
 
 % \begin{itemize}
@@ -115,22 +117,21 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 \subsubsection*{Syntax}
 \begin{bnfgrammar}
 	terms ::= term* ;;
-	term ::= graph || connection || member || unit ;;
-	graph ::= (ident | string)?`\{' terms `\}' ;;
+	term ::= graph || connections || member || unit ;;
+	graph ::= unit? `\{' terms `\}' ;;
 	connections ::= term (connector term)+ ;;
-	connector ::= edge | <left arrow> | <right arrow> ;;
-	edge ::= `-' term `-' ;;
-	<left arrow> ::= `-' term `->' ;;
-	<right arrow> ::= `<-' term `-' ;;
-	member ::= unit `.' (unit `')* unit ;;
-	unit ::= ident || num || string ;;
+	connector ::= `-' term `-' $\to$ edge
+	| `-' term `->' $\to$ left\_arrow
+	| `<-' term `-' $\to$ right\_arrow ;;
+	member ::= unit? (`.'(ident || string)? || `\#'num)+ ;;
+	unit ::= ident || string || num ;;
 	ident ::= CHAR* ;;
-	num ::= NUMBER ;;
-	string ::= STRING
+	string ::= STRING ;;
+	num ::= NUMBER
 \end{bnfgrammar}
 % TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
-Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols \texttt{{}, ., -, ->.} We enforce this by matching these symbols first.
-\\ Throughout this document, Welkin documents are formatted with the following convention: the ASCII sequence \texttt{->} is rendered as $\to$ (A graphical user interface may support this rendering via glyphs).
+Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule \texttt{num} must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols \texttt{{}, ., -, ->.} We enforce this by matching these symbols first.
+\\ Throughout this document, Welkin documents are formatted with the following convention: the ASCII sequence \texttt{->} is rendered as $\to$ (A graphical user interface may support this rendering via glyphs). % TODO: put special renderings in a table
 
 % TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
 

@@ -33,28 +33,34 @@ As an auxiliary set, define
 \begin{align*}
 	\strings(\delimiters) = \{s \in \chars^{*}\;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}\},\end{align*}
 where $\delimiters \subset \chars^{2}.$
-Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix to distinguish them from string boundaries. Any Welkin implementations may choose how to escape their strings by explicitly setting the (default) DELIMITERS. For the rest of this document, we will denote $\strings ::= \strings(\delimiters)$
+Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix to distinguish them from string boundaries. Any Welkin implementations may choose how to escape their strings by explicitly setting the (default) DELIMITERS. For the rest of this document, we will denote $\strings ::= \strings(\delimiters)$.
+\\ We implicitly assume that $CHAR*$ does not conflict with literals defined in a given grammar, and that these literals can be escaped with a character $ESCAPE.$. Setting $ESCAPE = \varepsilon,$ means there is no way to include predefined literals in CHAR.
 
 \subsection{EBNF Variant}
 Our variant of EBNF uses the following notation:
 \begin{itemize}
 	\item $=$ denotes rule assignment. Any rule ending in $\chars^{*}$ or $\numbers^{*}$ means the rule is a member of $\chars^{*},$ $\numbers^{*};$
-	\item Rules are optionally surrounded in angular brackets $<\term>;$
-	\item $|$ denotes alternation;
-	\item In a given choice, an arrow \texttt{->} denotes a new rule name. For example, the rule
-				\begin{align*}
-					\term &= "A" \to A \\
-								&| "B" \to  B
-				\end{align*}
-				is equivalent to
-				\begin{align*}
-					\term &= A | B \\
-					\textrm{A} &= "A"\\
-					\textrm{B} &= "B";
-				\end{align*}
-	\item $\term*$ means 0 or more instances and is a shorthand for the rule $\terms ::= \term \terms | \term | \varepsilon;$
-	\item $\term?$ means at most one instance and is a shorthand for the rule $\terms ::= \term | \varepsilon;$
-	\item Specific sequences in $CHAR*$ are included in quotes. To avoid confusion, literal quotes are denoted with [']. % TODO: change above examples to use single quotes in math mode OR go back to using bnfgrammer
+	\item Rules are optionally surrounded in angular brackets \texttt{<term>,}
+	\item $|$ denotes alternation,
+	\item In a given choice, an arrow $\to$ denotes a new rule name. For example, the rule
+		\begin{bnfgrammar}
+			term ::= `A' $\to$ A | `B' $\to$ B
+		\end{bnfgrammar}
+		is equivalent to
+		\begin{bnfgrammar}
+			term ::= A || B ;;
+			A ::= `A' ;;
+			B ::= `B'
+		\end{bnfgrammar}
+	\item \texttt{term*} means 0 or more instances and is shorthand for
+	\begin{center}
+		\texttt{terms ::= term terms | term | $\varepsilon$.}
+	\end{center}
+	\item \texttt{term+} means 1 or most one instances and is shorthand for
+	\begin{center}
+		\texttt{terms ::= term terms | term.}
+	\end{center}
+	\item Elements of CHAR* are included in quotes. To avoid confusion, literal quotes are denoted with ['].
 \end{itemize}
 
 % \begin{itemize}
@@ -62,13 +68,13 @@ Our variant of EBNF uses the following notation:
 % \end{itemize}
 \section{The Welkin Language}
 
-There are three fundamental variants of Welkin:
+There are three fundamental variants of Welkin that define the foundation for the language:
 \begin{itemize}
-	\item Base Welkin, a language mirroring the core data structures;
-	\item Standard Welkin, which extends Base Welkin with attributes. These attibutes can alter or customize how the interpreter presents data;
-	\item Builder Welkin, which enables arbitrary evaluation of Welkin files and access to OS resources. This is equivalent to Standard Welkin with two new attributes: $@eval$ and $@exec.$ See Section ?.? for more details.
+	\item Base Welkin, a language mirroring the key properties of the core data structure;
+	\item Standard Welkin, which extends Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data;
+	\item Binder Welkin, which enables arbitrary evaluation of Welkin files and access to Operating System resources. This is equivalent to Attribute Welkin with two new directives: $@eval$ and $@exec.$ See Section ?.? for more details.
 \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes the interperter Turing complete. It is highly recommended to include the Builder Weklin as a separate, optional component.
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes the interperter Turing complete. All official implementations will include Binder Welkin as a separate, optional component.
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -109,22 +115,23 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 \subsubsection*{Syntax}
 \begin{bnfgrammar}
 	terms ::= term* ;;
-	term ::= graph || connection || ident || string || num ;;
-	graph ::= <graph ident>? `\{' terms `\}' ;;
-	<graph ident> ::= ident || string ;;
-	connection ::= term connector term ;;
+	term ::= graph || connection || member || unit ;;
+	graph ::= (ident | string)?`\{' terms `\}' ;;
+	connections ::= term (connector term)+ ;;
 	connector ::= edge | <left arrow> | <right arrow> ;;
 	edge ::= `-' term `-' ;;
 	<left arrow> ::= `-' term `->' ;;
 	<right arrow> ::= `<-' term `-' ;;
+	member ::= unit `.' (unit `')* unit ;;
+	unit ::= ident || num || string ;;
 	ident ::= CHAR* ;;
-	string ::= STRING ;;
-	num ::= NUMBER*
+	num ::= NUMBER ;;
+	string ::= STRING
 \end{bnfgrammar}
-
-
 % TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
-Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols $\{, \}, --, ->, \text{or} <-.$ We enforce this by matching these symbols first.
+Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule num must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols \texttt{{}, ., -, ->.} We enforce this by matching these symbols first.
+\\ Throughout this document, Welkin documents are formatted with the following convention: the ASCII sequence \texttt{->} is rendered as $\to$ (A graphical user interface may support this rendering via glyphs).
+
 % TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
 
 \subsubsection*{Semantics}

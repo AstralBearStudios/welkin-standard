@@ -1,13 +1,16 @@
-//
-//
-term ::= graph | connection | ident | string | num
-graph ::= graph_ident? '{' term '}'
-graph_ident ::= ident | string
-connection ::= term connector term
-connector ::= edge | arrow
-edge ::= '-' term '-'
-left_arrow ::= '-' term '>'
-right_arrow ::= '<' term '-'
-string ::= '"' CHAR* '"' | ['] CHAR* [']
-ident ::= CHAR*
-num ::= NUMBER
+//SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
+//SPDX-License-Identifier: CC-BY-4.0
+
+terms       = term*
+term        = graph | connections | member | unit
+graph       = (ident | string)? '{' term '}'
+connections = term (connector term)+
+connector   = edge | left_arrow | right_arrow
+edge        = '-' term '-'
+left_arrow  = '-' term '>'
+right_arrow = '<' term '-'
+member      = unit '.' (unit '.')* unit
+unit        = ident | num | string
+ident       = CHAR*
+num         = NUMBER
+string      = STRING

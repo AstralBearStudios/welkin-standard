@@ -6,77 +6,100 @@
 
 \chapter{The Welkin Standard}
 
+% Henceforth, compliant Welkin implementations will be collectively referred to as ``Welkin.'' A formal definition of
+
 \section{Preliminaries}
 
 % Helpful macros for terms for character encoding in math mode
 \newcommand*{\chars}{\mathrm{CHAR}}
-\newcommand*{\bytes}{\mathrm{BYTES}}
 \newcommand*{\numbers}{\mathrm{NUMBER}}
+\newcommand*{\whitespaces}{\mathrm{WHITE\_SPACES}}
+\newcommand*{\reserved}{\mathrm{RESERVED}}
 \newcommand*{\strings}{\mathrm{STRING}}
 \newcommand*{\term}{\mathrm{term}}
 \newcommand*{\terms}{\mathrm{terms}}
 \newcommand*{\delimiters}{\mathrm{DELIMITERS}}
 \newcommand*{\encoding}{\mathcal{E}}
+\newcommand*{\decoding}{\mathcal{D}}
+
+\newcommand*{\scope}{\textrm{scope}}
 
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
-In a formalist fashion, our BNF variant leaves encodings as an generalized notion. Let Char be an arbitrary, finite set.
-An \textbf{encoding} is a mapping $\encoding : \mathbb{N} \to \chars.$
-We denote $\chars = \encoding(\chars)$ and CHAR* as the Kleene-closure of CHAR. We also recognize a distinguished (possibly empty) subimage $\numbers \subset \chars.$ %TODO: describe this in more detail
-\\ Character encodings may be given as finite tables. Several major encodings are formally defined in the following sources.
+In a formalist fashion, we define text, character encodings, and character decodings as generalized notions. The discussion here may be carried out with bytes and specific data formats, but these concepts are beyond the scope of this standard.
+\\ Let Char be an arbitrary, finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathbb{N} \to \textrm{Char}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \mathrm{Char} \to \mathbb{N},$ meaning $\encoding(n) = c$ entails $\decoding(c) = n$ for $n \in \mathbb{N}, c \in \textrm{Char}.$ There is a natural extension $\decoding^{*}: \textrm{Char}^{*} \to \mathbb{N}^{*}$
+that maps sequences in Char pointwise to sequences in $\mathbb{N}^{*}.$
+%i.e., $\decoding^{*}(n_{1}, \cdots, n_{k}) = (\decoding(n_{1}), \cdots, \decoding(n_{k})).$
+\\ We denote $\chars = \decoding(\chars)$ and CHAR* as the Kleene-closure of CHAR.
+\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
+can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
+We recognize distinguished (possibly empty) subimages $\numbers, \whitespaces \subset \chars.$ %TODO: describe this in more detail
+\\ Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are formally defined in the following sources.
 \begin{itemize}
 	\item ASCII []
 	\item UTF-8 []
 	\item UTF-16 []
 \end{itemize}
+// Every standard Welkin grammar is written in ASCII, but the interpreter may support any additional character encoding. (See Section ?.?).
 As an auxiliary set, define
 \begin{align*}
-	\strings(\delimiters) = \{s \in \chars^{*}\;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}\},\end{align*}
+	\strings &:= \strings(\delimiters) \\ &= \{s \in \chars* \;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}, d_{1}, d_{2} \in \delimiters\},\end{align*}
 where $\delimiters \subset \chars^{2}.$
-Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix to distinguish them from string boundaries. Any Welkin implementations may choose how to escape their strings by explicitly setting the (default) DELIMITERS. For the rest of this document, we will denote $\strings ::= \strings(\delimiters)$.
-\\ We implicitly assume that $CHAR*$ does not conflict with literals defined in a given grammar, and that these literals can be escaped with a character $ESCAPE.$. Setting $ESCAPE = \varepsilon,$ means there is no way to include predefined literals in CHAR.
+Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix DELIMITER\_ESCAPE to distinguish them from string boundaries.
+\\ We implicitly assume that $CHAR*$ does not conflict with literals defined in a given grammar, and that these literals can be escaped with a character $ESCAPE.$. Setting $ESCAPE = \varepsilon$ means there is no way to include predefined literals in CHAR.
 
 \subsection{EBNF Variant}
-Our variant of EBNF uses the following notation:
+Our variant of EBNF uses the notation in Table ?.?.
+\begin{center}
+\begin{tabular}{ | m{3cm} | m{5cm} | m{5cm} | }
+	\hline
+  Concept & Notation & Example \\
+  \hline
+	Rule Assignment & $=$ & \\
+	Concatenation & ``.'' between terminals with no whitespace between them; empty space otherwise & Example \\
+	Alternation & $|$ & Example \\
+	Zero or more instance & $*$ & Example \\
+	One of more instance & $+$ & Example \\
+  Literal characters & ``chars'', with $chars \in \chars*$ & Example \\
+  \hline
+\end{tabular}
+\end{center}
+Each BNF has an associated subset $\reserved \subseteq \chars*$ As will be shown in each grammar, we prohibit the following characters in a term: .
 % TODO: convert this into a table for easy access
-\begin{itemize}
-  \item $::=$ denotes rule assignment,
-  \item \texttt{term ::= $S \subseteq \chars^{*}$} means \texttt{term $\in S$},
-  \item $|$ denotes alternation,
-	\item In a given choice, an arrow $\to$ denotes a new rule name. For example, the rule
-		\begin{bnfgrammar}
-			term ::= `A' $\to$ A | `B' $\to$ B
-		\end{bnfgrammar}
-		is equivalent to
-		\begin{bnfgrammar}
-			term ::= A || B ;;
-			A ::= `A' ;;
-			B ::= `B'
-		\end{bnfgrammar}
-	\item \texttt{term*} means 0 or more instances and is shorthand for
-	\begin{center}
-		\texttt{terms ::= term terms | term | $\varepsilon$},
-	\end{center}
-	\item \texttt{term+} means 1 or most one instances and is shorthand for
-	\begin{center}
-		\texttt{terms ::= term terms | term},
-	\end{center}
-  \item Elements of CHAR* are included in quotes. To avoid confusion, literal quotes are denoted with ['].
-	\item A production between a terminal and non-terminal, such as $term"A"$, means there is no whitespace character that appears between them. All other productions, in the form \texttt{term1 term2} any number of whitespaces may be included.
-\end{itemize}
-
 % \begin{itemize}
-% 	\item While there is an ISO standard for EBNF, several authors have noted it has issues. References: \url{https://dwheeler.com/essays/dont-use-iso-14977-ebnf.html}, \url{https://www.grammarware.net/text/2012/bnf-was-here.pdf}. As recommended by David Wheeler in the first reference, we use the BNF Notation defined in the W3 standard (at \url{https://www.w3.org/Notation.html}).
+%   \item $::=$ denotes rule assignment,
+%   \item \texttt{term ::= $S \subseteq \chars^{*}$} means \texttt{term $\in S$},
+%   \item $|$ denotes alternation,
+% 	\item In a given choice, an arrow $\to$ denotes a new rule name. For example, the rule
+% 		\begin{bnfgrammar}
+% 			term ::= `A' $\to$ A | `B' $\to$ B
+% 		\end{bnfgrammar}
+% 		is equivalent to
+% 		\begin{bnfgrammar}
+% 			term ::= A || B ;;
+% 			A ::= `A' ;;
+% 			B ::= `B'
+% 		\end{bnfgrammar}
+% 	\item \texttt{term*} means 0 or more instances and is shorthand for
+% 	\begin{center}
+% 		\texttt{terms ::= term terms | term | $\varepsilon$},
+% 	\end{center}
+% 	\item \texttt{term+} means 1 or most one instances and is shorthand for
+% 	\begin{center}
+% 		\texttt{terms ::= term terms | term},
+% 	\end{center}
+%   \item Elements of CHAR* are included in quotes. To avoid confusion, literal quotes are denoted with ['].
+% 	\item A production between a terminal and non-terminal, such as $term"A"$, means there is no whitespace character that appears between them. All other productions, in the form \texttt{term1 term2} any number of whitespaces may be included.
 % \end{itemize}
 \section{The Welkin Language}
 
 There are three fundamental variants of Welkin that define the foundation for the language:
 \begin{itemize}
-	\item Base Welkin, a language mirroring the key properties of the core data structure;
-	\item Standard Welkin, which extends Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data;
-	\item Binder Welkin, which enables arbitrary evaluation of Welkin files and access to Operating System resources. This is equivalent to Attribute Welkin with two new directives: $@eval$ and $@exec.$ See Section ?.? for more details.
+	\item Base Welkin, mirroring the key properties of the core data structure,
+	\item Attribute.Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data,
+	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the Operating System. This is equivalent to Attribute Welkin with two new directives: $@eval$ and $@exec.$ See Section ?.? for more details.
 \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes the interperter Turing complete. All official implementations will include Binder Welkin as a separate, optional component.
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes arbitrary calls to the interpreter alone Turing complete. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -115,7 +138,18 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 % GraphViz notation (for possible compatiblity reasons), but at the same time, we can keep track of the out-neighbors (out going
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
-\begin{bnfgrammar}
+Set $\reserved = \{\texttt{\{, \}, ., -, ->, <-}\}.$
+\begin{center}
+  \begin{tabular}{ | c | c | c |}
+	Variant & Grammar & Notes \\
+	Base Welkin & TBD & If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
+
+\end{tabular}
+\end{center}
+\begin{center}\begin{bnfgrammar}
+ % 	 relation-sym-map = {
+ %       {::=} = {\ensuremath{=}}
+ % }
 	terms ::= term* ;;
 	term ::= graph || connections || member || unit ;;
 	graph ::= unit? `\{' terms `\}' ;;
@@ -123,20 +157,75 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 	connector ::= `-' term `-' $\to$ edge
 	| `-' term `->' $\to$ left\_arrow
 	| `<-' term `-' $\to$ right\_arrow ;;
-	member ::= unit? (`.'(ident || string)? || `\#'num)+ ;;
+	member ::= unit? (`.'(ident || string)? || `\#'num )+ ;;
 	unit ::= ident || string || num ;;
 	ident ::= CHAR* ;;
 	string ::= STRING ;;
 	num ::= NUMBER
-\end{bnfgrammar}
+  \end{bnfgrammar}
+\end{center}
+
 % TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
-Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule \texttt{num} must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Implicitly while parsing, we enforce the fact that all identifiers may not solely contain the symbols \texttt{{}, ., -, ->.} We enforce this by matching these symbols first.
+Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule \texttt{num} must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Recall Rule ?.? that specifices which characters are forbidden in identifiers.
 \\ Throughout this document, Welkin documents are formatted with the following convention: the ASCII sequence \texttt{->} is rendered as $\to$ (A graphical user interface may support this rendering via glyphs). % TODO: put special renderings in a table
+Attribute Welkin is given in Figure ?.?
+% \begin{bnfgrammar}
+%   statement ::= (directive || construct || term)* ;;
+%   directive ::= `@'.attribute ;;
+%   attribute ::= `import' tuple $\to$ import
+%   | test ;;
+%   construct ::= operator || tuple || list ;;
+%   operator ::= ;;
+%   tuple ::= ;;
+%   list ::=
+%  \end{bnfgrammar}
+  % TODO: figure out suitable grammar composition notation
+Finally, Binder Welkin is given by the BNF in Attribute Welkin composed by two new directives. In BNF, these are appended to the directives rule:
+\begin{itemize}
+	\item \texttt{eval ::= `eval'.`(' unit `)'},
+	\item \texttt{exec ::= `exec'.`(' string `)'}.
+\end{itemize}
+We explain the semantics for these directives in Section ?.?
 
 % TODO: recognize, in cflt, that the above welkin file is in fact a context free grammar! The more important part, which we need to still define, is the semantics, which will have its full strength with the full grammar. (Maybe we should change that option to be semantics instead?)
 
 \subsubsection*{Semantics}
-A \textbf{scope} is recursively defined and intutively is a level of terms. A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons. In particular, every graph must \textbf{only be defined once.}
+We break down our semantics first by terms. Directives are handled separately in the next section.
+\begin{definition}
+Equality of terms.
+\begin{itemize}
+  \item \textbf{Basis.}
+	\begin{itemize}
+	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
+      \item \texttt{string} terms are equal if their corresponding internal strings are equal. Thus, \texttt{``A''} coincides with \texttt{'A'},
+	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10*$E^{-1}$}.
+	\end{itemize}
+  \item \textbf{Recursion.}
+		\begin{itemize}
+		  \item Equality of connectors
+				\begin{itemize}
+				  \item
+				  \item
+				  \item \texttt{edge} terms are equal if they correspond as both left and right arrows.
+				\end{itemize}
+
+		  \item Two connections are equal if they connect the same terms and have equal connectors.
+		  \item Two graphs are equal if they contain the same terms.
+	\end{itemize}
+
+\item
+\end{itemize}
+\end{definition}
+A \textbf{scope} is recursively defined and intutively is a level of terms.
+\begin{definition} (Scope)
+ Let $t$ be a term.
+  \begin{itemize}
+	\item If $t$ is not contained in a graph, then $\scope(\texttt{term}) = 0,$
+	\item If $G' \in G$ are both graphs and $\scope(G') = n,$ then for all $t \in G',$ $\scope(t) = \scope(G) + 1.$
+\end{itemize}
+\end{definition}
+A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons. In particular, every graph must \textbf{only be defined once.} Note that, by the way equality was defined between two numbers,
+  there can only be one representation of a given number in a scope. For example, using $1$ and $10*E^{-1}$ in the same scope would produce a name collison.
 \\ We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Welkin Information Graph.}
 \begin{definition}
   Base Welkin is parsed into the following AST $\mathcal{A}.$
@@ -145,37 +234,61 @@ A \textbf{scope} is recursively defined and intutively is a level of terms. A \t
     \item Every graph is an ordered pair of its aliases and list of children.
     \item Every connection is an ordered pair:
 		  \begin{itemize}
-			\item Left arrows $u \to v$ correspond to a pair $(u,v);$
-			\item Right arrows $u \leftarrow v$ correspond to the pair $(v, u);$
+			\item Left arrows $u - a \to v$ correspond to a triple $(u, a, v);$
+			\item Right arrows $u \leftarrow a - v$ correspond to the triple $(v, a, u);$
 			\item Edges correspond to both a left and right arrow.
 		  \end{itemize}
-	\item Every atom is converted into its corresponding encoding via the function $\mathcal{B} : \chars \to \bytes$
-\end{itemize}
+	\item Every unit is converted into its corresponding encoding via $\encoding^{*}.$
+  \end{itemize}
  \end{definition}
 % TODO: talk about encoding of numbers. This probably a separate encoding from the one used to write the welkin file
 \begin{definition}
-	A \textbf{Welkin Information Graph (WIG)} is a tuple $G = (V, E, A),$ where
+	A \textbf{Welkin Information Graph (WIG)} with $n$ \textbf{layers} is given by $G = \bigcup^{n}_{i=0}G_{i},$ where for each $0 \leq i \leq n,$ each \textbf{layer} $G_{i} = (V_{i}, E_{i}, A_{i})$ consists of
 	\begin{itemize}
-		\item $V$ is a set of \textbf{vertices} or \textbf{units,}
-		\item $E \subseteq V^{2} $ is a set of \textbf{(directed) edges,}
-		\item $A: \chars* \to V \cup E$ is an \textbf{alias function.}
+		\item $V_{i},$ a set of \textbf{vertices} or \textbf{nodes,}
+		\item $E_{i} \subseteq V^{2},$ a set of \textbf{(directed) edges,}
+		\item $A_{i}: \chars* \to V_{i} \cup E_{i},$ an \textbf{alias function.}
 	\end{itemize}
   \end{definition}
   Notice that not every vertex or edge in a WIG have an alias, as opposed to a colored graph. There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
 \begin{lemma}
 The conversion from ASTs to Welkin Information Graphs is valid.
 \end{lemma}
-The final output of parsing is a normalized WIG. We define Welkin Normal Form in the following fashion.
+The final output of parsing is a normalized WIG. We define Welkin Canonical Form in the following fashion.
 \begin{definition}
-A WIG is in \textbf{Welkin Normal Form (WNF)} if ...
+A WIG is in \textbf{Welkin Canonical Form (WCF)} if ...
 \end{definition}
 Based on this form, we have chosen a unique way to represent Welkin files. In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into WNF.
 
 \section{General Application Behavior}
 
+Note that all apparent structures may be adjusted under cryptomorphism.
+\subsubsection*{Directives}
+Each directive relies on the following components.
+\begin{itemize}
+  \item Parser: takes in a Welkin file and generates an AST,
+  \item Validator: ensures that the AST is valid, raising an error that directly points to a violation,
+  \item From here, an AST may be processed by three different means:
+		\begin{itemize}
+		  \item Recorder: takes the AST, converts it into a WIG in WCF, serializes the data,
+		  \item Attributor: %TODO: change name!
+		  \item Binder:
+		\end{itemize}
+\end{itemize}
+\begin{center}
+  \begin{tabular}{| c | c | c |}
+	Directive & Definition & Example \\
+	\hline
+	\texttt{import} & Concatenates the file & Example
+
+  \end{tabular}
+\end{center}
+
+
+
 
 \subsection{Customization}
-All Welkin files are infinitely customizable via the welkin config file, which is written in standard welkin.
+All Welkin files are infinitely customizable via the welkin config file, which is written in attribute welkin.
 
 Every .welkin file has a corresponding configuration. It may either be put as a comment or (preferred) written in a separate file, which, by default, is called config.welkin. It has the following format:
 % TODO: replace itemzie with listing
@@ -202,55 +315,57 @@ Every .welkin file has a corresponding configuration. It may either be put as a 
 Alternatively, a file with a different name may be used; see th
 
 
-\begin{itemize}
-	\item Current problem: we need a way to recognzie which Welkin modules (graphs) define grammars. (Then we can figure out how one can customize \textit{any} aspect of Welkin). Here are some possible solutions (and evaluations thereof):
-				\begin{itemize}
-					\item Introduce a new meta-arrow \texttt{=>} designed specifically to be detected by Welkin (the left hand side denotes any terms in the user file; the right hand side must be terms that are defined by the Welkin interface). Using this symbol may initially work, but what if a user would like to use this meta-arrow in their grammar? How do we control how much the meta-arrow is used? I feel as though this could be dangerous, if not managed. Moreover, logistically, \textit{how} do we inform users of the terms they may bind to? For example, in the long-term, how do we make it clear that there is a ident for, say, num (standing in for general int/float)?
-					\item Create a different welkin file, such as welkin.config, that only uses minimal syntax (or a slightly extended version). This would ensure that there is a distinction between the information in welkin files and the grammars that they utilize. However, we want to makek Welkin infinitely customizable, so I aim not to use this solution, if at all possible.
-					\item Preferred, but still in the works: bootstrap interfaces. We would probably want to add this subsection later on, but definitely mention it while customizing grammars. \textit{Actually, customizing grammars is NOT a part of the standard, but rather, it is a part of the API. We will include EBNF and the custom grammar for standard Welkin}
-				  \item I am aiming to use the last solution, but what should the standard Welkin language be? Should it be aimed for programmers? Should it be aimed for general information preservation?
-				\end{itemize}
-	\item At this point, I believe I am aiming to use the first solution; it would be benefitcial for Welkin itself to intrepret what Welkin files do, not \textit{directly} the other way around. At its core, Welkin files store information; it is up to an external program (such as Welkin) to figure out \textit{how} those files may be interpreted.
-				\begin{itemize}
-					\item Moreover, doing the other way around directly would prove formally difficult. For correctness, we would have to worry about having a correct model for C, the operating system, etc.. But, part of this project is building the infrastructure for \textit{getting and organizing} that specification! For initial implementations, Welkin need not \textit{have} a low-level specification, so neither should this standard. That should be taken care of in a formally verified programming language (or formally verified binaries).
-					\item I hope that using the meta arrow could be optional in time; there could easily be ambigiuity if
-								care is not taken. For example, the rule (test1 -> test2 -> graph) is ambiguous because of the ordering of the parantheses; it is unclear what is ultimately turned into a rule.
-					\item However, if the lefthand side only uses terms in the minimal grammar, this would not be ambigiuous. That could certainly work. Regardless, \textit{we need to make it clear HOW Welkin, the program, is involved. Using the meta arrow is probably the least intrustive way to go about this, and can easily be customized by the user.}
-				\end{itemize}
+% \begin{itemize}
+% 	\item Current problem: we need a way to recognzie which Welkin modules (graphs) define grammars. (Then we can figure out how one can customize \textit{any} aspect of Welkin). Here are some possible solutions (and evaluations thereof):
+% 				\begin{itemize}
+% 					\item Introduce a new meta-arrow \texttt{=>} designed specifically to be detected by Welkin (the left hand side denotes any terms in the user file; the right hand side must be terms that are defined by the Welkin interface). Using this symbol may initially work, but what if a user would like to use this meta-arrow in their grammar? How do we control how much the meta-arrow is used? I feel as though this could be dangerous, if not managed. Moreover, logistically, \textit{how} do we inform users of the terms they may bind to? For example, in the long-term, how do we make it clear that there is a ident for, say, num (standing in for general int/float)?
+% 					\item Create a different welkin file, such as welkin.config, that only uses minimal syntax (or a slightly extended version). This would ensure that there is a distinction between the information in welkin files and the grammars that they utilize. However, we want to makek Welkin infinitely customizable, so I aim not to use this solution, if at all possible.
+% 					\item Preferred, but still in the works: bootstrap interfaces. We would probably want to add this subsection later on, but definitely mention it while customizing grammars. \textit{Actually, customizing grammars is NOT a part of the standard, but rather, it is a part of the API. We will include EBNF and the custom grammar for standard Welkin}
+% 				  \item I am aiming to use the last solution, but what should the standard Welkin language be? Should it be aimed for programmers? Should it be aimed for general information preservation?
+% 				\end{itemize}
+% 	\item At this point, I believe I am aiming to use the first solution; it would be benefitcial for Welkin itself to intrepret what Welkin files do, not \textit{directly} the other way around. At its core, Welkin files store information; it is up to an external program (such as Welkin) to figure out \textit{how} those files may be interpreted.
+% 				\begin{itemize}
+% 					\item Moreover, doing the other way around directly would prove formally difficult. For correctness, we would have to worry about having a correct model for C, the operating system, etc.. But, part of this project is building the infrastructure for \textit{getting and organizing} that specification! For initial implementations, Welkin need not \textit{have} a low-level specification, so neither should this standard. That should be taken care of in a formally verified programming language (or formally verified binaries).
+% 					\item I hope that using the meta arrow could be optional in time; there could easily be ambigiuity if
+% 								care is not taken. For example, the rule (test1 -> test2 -> graph) is ambiguous because of the ordering of the parantheses; it is unclear what is ultimately turned into a rule.
+% 					\item However, if the lefthand side only uses terms in the minimal grammar, this would not be ambigiuous. That could certainly work. Regardless, \textit{we need to make it clear HOW Welkin, the program, is involved. Using the meta arrow is probably the least intrustive way to go about this, and can easily be customized by the user.}
+% 				\end{itemize}
 
-  \item Rephrasing above problem: how do we make it clear when we are defining a new semantics?
-		\begin{itemize}
-		  \item A key realization: Welkin \textit{is a semantics language.} You can define anything in it! It suffices to show that we can embed Welkin into discrete foci (or, more directly, can define any Chomsky grammars. This part is pretty clear from the semantics given to base welkin (or for graphs, and for connections, not for a reference to self + ?))
-		  \item We could try making code blocks that specifically contain bindings. This would be a fancier alternative to restricting names (or coming up with a system, such as names prefixed with $_{}$). My hesitance to go with this solution is flexibility; should we force the users to do this?
-		  \item Here is a possible question we can ask: how do we distinguish between regular and \textit{interfaced} Welkin?
-		  \item The goal is to have the \textit{guest} tackle how to interpret Welkin... but we still want to put the guest in Welkin!
-				\begin{itemize}
-				  \item How do we gain ``awareness'' about Welkin's interfaces?
-				  \item We need a place to talk about \textit{interpretations.} We know Welkin can talk about it, but how do we \textbf{reference external things? (Files, programs, even a simple microcontroller?)}
-						\begin{itemize}
-						  \item Do we directly include a pointer to the file? Is that strictly necessary8? It could definitely break on different machines. We would have to keep some config data in mind.
-						  \item We know that any possible import symbols, as per compiler theory (and general humanb comprehension) need to be applied directlyat the \textit{top} of a page. But how do we define the import statement itself?
-						  \item Can we bootstrap an interface mechanism?
-						\end{itemize}
-				\end{itemize}
-		\end{itemize}
+%   \item Rephrasing above problem: how do we make it clear when we are defining a new semantics?
+% 		\begin{itemize}
+% 		  \item A key realization: Welkin \textit{is a semantics language.} You can define anything in it! It suffices to show that we can embed Welkin into discrete foci (or, more directly, can define any Chomsky grammars. This part is pretty clear from the semantics given to base welkin (or for graphs, and for connections, not for a reference to self + ?))
+% 		  \item We could try making code blocks that specifically contain bindings. This would be a fancier alternative to restricting names (or coming up with a system, such as names prefixed with $_{}$). My hesitance to go with this solution is flexibility; should we force the users to do this?
+% 		  \item Here is a possible question we can ask: how do we distinguish between regular and \textit{interfaced} Welkin?
+% 		  \item The goal is to have the \textit{guest} tackle how to interpret Welkin... but we still want to put the guest in Welkin!
+% 				\begin{itemize}
+% 				  \item How do we gain ``awareness'' about Welkin's interfaces?
+% 				  \item We need a place to talk about \textit{interpretations.} We know Welkin can talk about it, but how do we \textbf{reference external things? (Files, programs, even a simple microcontroller?)}
+% 						\begin{itemize}
+% 						  \item Do we directly include a pointer to the file? Is that strictly necessary8? It could definitely break on different machines. We would have to keep some config data in mind.
+% 						  \item We know that any possible import symbols, as per compiler theory (and general humanb comprehension) need to be applied directlyat the \textit{top} of a page. But how do we define the import statement itself?
+% 						  \item Can we bootstrap an interface mechanism?
+% 						\end{itemize}
+% 				\end{itemize}
+% 		\end{itemize}
 
-  \item Current (recommended) solution: we define standard Welkin to have direct access to the interpreter, similar to prolog. \textit{Later on, we will make it clear that standard Welkin can be queries, but can do more.} Ultimately, \textit{it is up to the individual to decide whether they include programming elements into their own welkin files. This is the key thing! } All the user needs to do is define their EBNF in standard Welkin
-		\begin{itemize}
-		  \item Here's a big idea: we can go back and \textit{refine} the base interface through standard Welkin! That's the powerful of Welkin, after all!
-		  \item More precisely, we need to implement Vero, the Welkin interface for stating and verifying formal properties. \textit{We only want to make this through the APIs specified by Welkin. The implementation should NEVER matter for verification.}
-		  \item There should be a separate document outling the thought process behind Vero, but for the most part, Vero should be defined \textit{with Welkin alone.} It will be the big first test for Welkin to make sure Welkin's claim for any layer of abstraction works well.
-		\item Vero comes with its own grammar which is fully customizable (some mathematicians/logicians/etc may want to change it, for their personal preference). We also have certain semantics that impose checks on graphs. This is the key thing here: \textit{we want to make checks/formal properties explicit.}
-		  \item Main takeaway: \textit{the interface can always be defined first. It need not be perfect. We can start with any interface and clarify it with Welkin. We can delete things, but we NEVER have to. We can add onto it instead}
-		  \item Moreover, using standard Welkin for \textit{all implementations} is a good sanity check; how can we check different configs with completely different grammars! At some point, \textit{ we need to use the same language to customize things!} Starting with this idea, it is straight forward to make custom interpreter settings \textit{in your own language.} You just have to invoke it in standard welkin at some point.
-				\begin{itemize}
-				  \item In fact, some core plugins will use this idea as well! One of the big things to have is a suitable \textit{build system.} That will be included and have a straightforward interface.
-				  \item Other key starter grammars include: bullets (for bullet point type notes) and literate (for a starting point with code blocks). (As an implementation detail, these should be \textit{optional} packages the user can be install; they should be more straightforward to get setup)
-				\end{itemize}
-		\end{itemize}
+%   \item Current (recommended) solution: we define standard Welkin to have direct access to the interpreter, similar to prolog. \textit{Later on, we will make it clear that standard Welkin can be queries, but can do more.} Ultimately, \textit{it is up to the individual to decide whether they include programming elements into their own welkin files. This is the key thing! } All the user needs to do is define their EBNF in standard Welkin
+% 		\begin{itemize}
+% 		  \item Here's a big idea: we can go back and \textit{refine} the base interface through standard Welkin! That's the powerful of Welkin, after all!
+% 		  \item More precisely, we need to implement Vero, the Welkin interface for stating and verifying formal properties. \textit{We only want to make this through the APIs specified by Welkin. The implementation should NEVER matter for verification.}
+% 		  \item There should be a separate document outling the thought process behind Vero, but for the most part, Vero should be defined \textit{with Welkin alone.} It will be the big first test for Welkin to make sure Welkin's claim for any layer of abstraction works well.
+% 		\item Vero comes with its own grammar which is fully customizable (some mathematicians/logicians/etc may want to change it, for their personal preference). We also have certain semantics that impose checks on graphs. This is the key thing here: \textit{we want to make checks/formal properties explicit.}
+% 		  \item Main takeaway: \textit{the interface can always be defined first. It need not be perfect. We can start with any interface and clarify it with Welkin. We can delete things, but we NEVER have to. We can add onto it instead}
+% 		  \item Moreover, using standard Welkin for \textit{all implementations} is a good sanity check; how can we check different configs with completely different grammars! At some point, \textit{ we need to use the same language to customize things!} Starting with this idea, it is straight forward to make custom interpreter settings \textit{in your own language.} You just have to invoke it in standard welkin at some point.
+% 				\begin{itemize}
+% 				  \item In fact, some core plugins will use this idea as well! One of the big things to have is a suitable \textit{build system.} That will be included and have a straightforward interface.
+% 				  \item Other key starter grammars include: bullets (for bullet point type notes) and literate (for a starting point with code blocks). (As an implementation detail, these should be \textit{optional} packages the user can be install; they should be more straightforward to get setup)
+% 				\end{itemize}
+% 		\end{itemize}
 
 
-\end{itemize}
+% \end{itemize}
+
+\subsubsection*{Attribute Welkin}
 
 In Welkin, we informally write the BNF above as follows:
 % TODO: explain unit notation (as it maybe clearer than the recursion below). In other words, mark arbitrary variables with the keyword unit

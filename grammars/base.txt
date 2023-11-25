@@ -5,10 +5,10 @@ terms       = term*
 term        = graph | connections | member | unit
 graph       = unit? '{' term '}'
 connections = term (connector term)+
-connector   = '-' term '-' -> edge
-            | '-' term '>' -> left_arrow
-            | '<' term '-' -> right_arrow
-member      = unit? ('.'(ident | string) | "#"num)+
+connector   = '-' term? '-' -> edge
+            | '-' term? '>' -> left_arrow
+            | '<' term? '-' -> right_arrow
+member      = unit? ('.'.(ident | string) | "#".num)+
 unit        = ident | string | num
 ident       = CHAR*
 string      = STRING

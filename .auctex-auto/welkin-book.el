@@ -2,15 +2,15 @@
  "welkin-book"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("book" "leqno")))
+                     '(("book" "oneside" "leqno")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("standalone" "subpreambles=true") ("fontenc" "T1")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+                     '(("fontenc" "T1")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -28,6 +28,7 @@
     "simplebnf"
     "amsfonts"
     "amsthm"
+    "array"
     "fontenc")
    (LaTeX-add-amsthm-newtheorems
     "definition"

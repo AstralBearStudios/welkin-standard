@@ -1,6 +1,3 @@
-//SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
-//SPDX-License-Identifier: CC-BY-4.0
-
 ⚠ **Warning: This repository is a WIP. This book is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
 
 This repository stores *Welkin: An Information Language*, also known as the Welkin Book. It provides a philosophical basis for the language, as well as a formal specification for several key components.
@@ -12,9 +9,12 @@ Welkin is a customizable language to store information from any subject matter.
 It is possible to manually parse and evaluate the resulting .welkin files, but for ease, long-term use, and large scale projects, there is a program can manage them. The current implementation of this program is [PyWelkin (WIP)](https://github/astral-bear/pywelkin).
 
 
-# Installation
+# Contents 
 
-You can read single files in this repository and find what you need. Alternatively, you can view welkin-book.pdf for one file.
+- welkin-book.pdf contains the complete guide on Welkin, including some major results. It is the best place to start to get an overall understanding of Welkin and different ways to use it. Note, however, that this is not a complete characterization of Welkin's abilities.
+- welkin-standard.pdf contains Chapter 3 on the Welkin Standard. This is a must for an official implementations.
+- grammars contains text based versions of Welkin grammars. These should be used for official implementations.
+- .auctex-auto can be ignored or deleted, unless you are an emacs user (in which case, keep it!)
 
 
 # Generating a PDF

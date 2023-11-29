@@ -3,10 +3,11 @@
 % 4-spec.tex - Specifices the Welkin language and provides a theoretical framework
 % for general implementations
 
-
 \chapter{The Welkin Standard}
 
+% TODO: create a version for welkin-standard.tex that directly includes the copyright notice
 % Henceforth, compliant Welkin implementations will be collectively referred to as ``Welkin.'' A formal definition of
+This standard requires a cursory background in discrete mathematics and Context Free Grammars. A reading of [] and [] suffices to understand this document.
 
 \section{Preliminaries}
 
@@ -27,26 +28,37 @@
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
 In a formalist fashion, we define text, character encodings, and character decodings as generalized notions. The discussion here may be carried out with bytes and specific data formats, but these concepts are beyond the scope of this standard.
-\\ Let Char be an arbitrary, finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathbb{N} \to \textrm{Char}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \mathrm{Char} \to \mathbb{N},$ meaning $\encoding(n) = c$ entails $\decoding(c) = n$ for $n \in \mathbb{N}, c \in \textrm{Char}.$ There is a natural extension $\decoding^{*}: \textrm{Char}^{*} \to \mathbb{N}^{*}$
+
+Let Char be an arbitrary, finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathbb{N} \to \textrm{Char}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \mathrm{Char} \to \mathbb{N}$ of $\encoding.$ There is a natural extension $\decoding^{*}: \textrm{Char}^{*} \to \mathbb{N}^{*}$
 that maps sequences in Char pointwise to sequences in $\mathbb{N}^{*}.$
-%i.e., $\decoding^{*}(n_{1}, \cdots, n_{k}) = (\decoding(n_{1}), \cdots, \decoding(n_{k})).$
-\\ We denote $\chars = \decoding(\chars)$ and CHAR* as the Kleene-closure of CHAR.
-\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
-can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
-We recognize distinguished (possibly empty) subimages $\numbers, \whitespaces \subset \chars.$ %TODO: describe this in more detail
-\\ Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are formally defined in the following sources.
+
+Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are formally defined in the following sources.
 \begin{itemize}
 	\item ASCII []
 	\item UTF-8 []
 	\item UTF-16 []
 \end{itemize}
-// Every standard Welkin grammar is written in ASCII, but the interpreter may support any additional character encoding. (See Section ?.?).
+
+We denote $\chars = \decoding(\chars)$ and CHAR* as the
+Kleene-closure of CHAR, whose elements are called \textbf{words.}
+\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
+can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
+We recognize distinguished (possibly empty) subimages $\numbers, \whitespaces \subset \chars,$ as well as a set $\delimiters \subset \chars^{2}.$ A $\textbf{string}$ $s$ is a word such of the form
+\begin{align*}
+s = d_{1}ud_{2}, u \in \chars \setminus \delimiters, (d_{1}, d_{2}) \in \chars^{2}.
+\end{align*}
+We call $u$ the \textbf{contents} of $s. $We define $\strings := \strings(\delimiters)$ as the set of strings over $\delimiters.$
+
+Every standard Welkin grammar is written in ASCII, but the interpreter may support any additional character encoding. (See Section ?.?).
+
 As an auxiliary set, define
 \begin{align*}
 	\strings &:= \strings(\delimiters) \\ &= \{s \in \chars* \;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}, d_{1}, d_{2} \in \delimiters\},\end{align*}
 where $\delimiters \subset \chars^{2}.$
-Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix DELIMITER\_ESCAPE to distinguish them from string boundaries.
-\\ We implicitly assume that $CHAR*$ does not conflict with literals defined in a given grammar, and that these literals can be escaped with a character $ESCAPE.$. Setting $ESCAPE = \varepsilon$ means there is no way to include predefined literals in CHAR.
+Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix DELIMITER\_ESCAPE to distinguish them from delimtiers.
+
+We implicitly assume that $CHAR*$ does not conflict with literals defined in a given standard grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers containing those characters. However, this can be changed by creating a custom grammar (see Section ?).
+
 
 \subsection{EBNF Variant}
 Our variant of EBNF uses the notation in Table ?.?.
@@ -55,16 +67,18 @@ Our variant of EBNF uses the notation in Table ?.?.
 	\hline
   Concept & Notation & Example \\
   \hline
-	Rule Assignment & $=$ & \\
-	Concatenation & ``.'' between terminals with no whitespace between them; empty space otherwise & Example \\
-	Alternation & $|$ & Example \\
-	Zero or more instance & $*$ & Example \\
-	One of more instance & $+$ & Example \\
-  Literal characters & ``chars'', with $chars \in \chars*$ & Example \\
+	Rule Assignment & $=$ & $term = atom$\\
+  Empty String & $\varepsilon := \emptyset \in \chars*$ & $term = \varepsilon$ \\
+  Concatenation (No white space) & ``.'' & \\
+	Concatenation (white space) & Separated by whitespace & $term = A B$ \\
+	Alternation & $|$ & $term = A | B$\\
+	Zero or more instance & $*$ & $terms = term*,$ equivalent to $terms = term terms | term | \varepsilon$ \\
+	One of more instance & $+$ & $terms = term*,$ equivalent to $terms = term terms$ \\
+  Literal characters & ``chars'', with $chars \in \chars*$ & $list = "[" terms "]"$ \\
   \hline
 \end{tabular}
 \end{center}
-Each BNF has an associated subset $\reserved \subseteq \chars*$ As will be shown in each grammar, we prohibit the following characters in a term: .
+Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. We will explicty state these for standard Welkin grammars in the next section.
 % TODO: convert this into a table for easy access
 % \begin{itemize}
 %   \item $::=$ denotes rule assignment,
@@ -96,10 +110,10 @@ Each BNF has an associated subset $\reserved \subseteq \chars*$ As will be shown
 There are three fundamental variants of Welkin that define the foundation for the language:
 \begin{itemize}
 	\item Base Welkin, mirroring the key properties of the core data structure,
-	\item Attribute.Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data,
+	\item Attribute Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data,
 	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the Operating System. This is equivalent to Attribute Welkin with two new directives: $@eval$ and $@exec.$ See Section ?.? for more details.
 \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, the third requires the highest level of privileges and, as proven in Section ?.?, makes arbitrary calls to the interpreter alone Turing complete. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, $@eval$ makes the interpreter Turing complete (see Section ?.?), and using $@exec$ can significantly impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -139,31 +153,53 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
 Set $\reserved = \{\texttt{\{, \}, ., -, ->, <-}\}.$
+% \SetBNFConfig{
+
+%   relation-sym-map = {
+%     {::=} = {\ensuremath{=}},
+%   }
+% }
 \begin{center}
   \begin{tabular}{ | c | c | c |}
 	Variant & Grammar & Notes \\
-	Base Welkin & TBD & If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
+	Base Welkin &
+  \begin{bnf}
+  terms ::= term*;;
+  graph ::= unit? `\{' terms `\}' ;;
+  connections ::= term (connector term)+ ;;
+	connector ::=
+
+   | `-' term `-' $\to$ edge
+   | `-' term `-\>' $\to$ left\_arrow
+	 | `<-' term `-' $\to$ right\_arrow ;;
+  member ::= unit? (`.'(ident || string)? || `\#'num )+ ;;
+	unit ::= ident || string || num ;;
+  ident ::= CHAR\* ;;
+	string ::= STRING ;;
+	num ::= NUMBER
+\end{bnf}
+& If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
 
 \end{tabular}
 \end{center}
-\begin{center}\begin{bnfgrammar}
- % 	 relation-sym-map = {
- %       {::=} = {\ensuremath{=}}
- % }
-	terms ::= term* ;;
-	term ::= graph || connections || member || unit ;;
-	graph ::= unit? `\{' terms `\}' ;;
-	connections ::= term (connector term)+ ;;
-	connector ::= `-' term `-' $\to$ edge
-	| `-' term `->' $\to$ left\_arrow
-	| `<-' term `-' $\to$ right\_arrow ;;
-	member ::= unit? (`.'(ident || string)? || `\#'num )+ ;;
-	unit ::= ident || string || num ;;
-	ident ::= CHAR* ;;
-	string ::= STRING ;;
-	num ::= NUMBER
-  \end{bnfgrammar}
-\end{center}
+% relation-sym-map = {
+%       {::=} = {\ensuremath{=}}
+%	}
+
+
+	% term ::= graph || connections || member || unit ;;
+	% graph ::= unit? `\{' terms `\}' ;;
+	% connections ::= term (connector term)+ ;;
+	% connector ::= `-' term `-' $\to$ edge
+	% | `-' term `->' $\to$ left\_arrow
+	% | `<-' term `-' $\to$ right\_arrow ;;
+	% member ::= unit? (`.'(ident || string)? || `\#'num )+ ;;
+	% unit ::= ident || string || num ;;
+	% ident ::= CHAR* ;;
+	% string ::= STRING ;;
+	% num ::= NUMBER
+
+
 
 % TODO: the slashes quotes above should be slashes, and then quotes. We need to fix this!
 Base Welkin is given by the grammar in Figure ??. Note that if $\numbers= \emptyset,$ any instances of the rule \texttt{num} must be excluded from the parser. This grammar defines the text-based interface to the Welkin Information Graph (see Subsection 2.? for more details). Recall Rule ?.? that specifices which characters are forbidden in identifiers.
@@ -194,11 +230,11 @@ We break down our semantics first by terms. Directives are handled separately in
 \begin{definition}
 Equality of terms.
 \begin{itemize}
-  \item \textbf{Basis.}
+  \item \textbf{Basis.} Two units are equal if they are the same kind and obey one of the following.
 	\begin{itemize}
 	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
-      \item \texttt{string} terms are equal if their corresponding internal strings are equal. Thus, \texttt{``A''} coincides with \texttt{'A'},
-	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10*$E^{-1}$}.
+      \item \texttt{string} terms are equal if their corresponding contents are equal. Thus, \texttt{``A''} coincides with \texttt{'A'},
+	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
 	\end{itemize}
   \item \textbf{Recursion.}
 		\begin{itemize}
@@ -243,14 +279,31 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
  \end{definition}
 % TODO: talk about encoding of numbers. This probably a separate encoding from the one used to write the welkin file
 \begin{definition}
-	A \textbf{Welkin Information Graph (WIG)} with $n$ \textbf{layers} is given by $G = \bigcup^{n}_{i=0}G_{i},$ where for each $0 \leq i \leq n,$ each \textbf{layer} $G_{i} = (V_{i}, E_{i}, A_{i})$ consists of
-	\begin{itemize}
-		\item $V_{i},$ a set of \textbf{vertices} or \textbf{nodes,}
-		\item $E_{i} \subseteq V^{2},$ a set of \textbf{(directed) edges,}
-		\item $A_{i}: \chars* \to V_{i} \cup E_{i},$ an \textbf{alias function.}
-	\end{itemize}
-  \end{definition}
-  Notice that not every vertex or edge in a WIG have an alias, as opposed to a colored graph. There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
+	A \textbf{Welkin Information Graph (WIG)} $\mathcal{G}$ consists of
+  \begin{itemize}
+    \item sets $G_{0}, G_{1}, \cdots, G_{n}$ of \textbf{layers},
+    \item for each $0 \leq k \leq n,$ functions $s_{k}, t_{k}: G_{k+1} \to G_{k}$ called the $i$-th $\textbf{source}$ and $\textbf{target}$ maps, respectively,
+    \item for each $k,$ an injective function $i_{k}: G_{k} \to G_{k+1},$
+    \item a set $\mathcal{L}$ of \textbf{labels} or \textbf{aliases}, and
+    \item for each $k,$ an injective function $l_{k}: \mathcal{L} \to G_{k}$ called the $k$-th \textbf{labeling map,}
+  \end{itemize}
+  that obey the following equations:
+  \begin{itemize}
+    \item $s_{k} \circ s_{k+1} = s_{k} \circ t_{k+1}$
+    \item $t_{k} \circ s_{k+1} = t_{k} \circ t_{k+1}$
+    \item $s_{k} \circ i_{k} = \textrm{id} = t_{k} \circ i_{k} $
+    \item (Condition to allow edges to be the ``intervals'' of connectors)
+  \end{itemize}
+  We may illustrate the above definition via the following diagram.
+\end{definition}
+% Cite: WIGs are a special form of reflexive n-graphs, or n-globular sets. We add the labeling function to
+% store a record of labels from a previous Welkin file, and the last property is used to distinguish internal arcs from
+% connectors
+Notice that not every vertex or edge in a WIG have an alias, as opposed to a colored graph. There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
+
+To select a single graph from a layer, we use the following definition.
+\begin{definition} (Abstract version of graphs) ...
+\end{definition}
 \begin{lemma}
 The conversion from ASTs to Welkin Information Graphs is valid.
 \end{lemma}

@@ -1,0 +1,33 @@
+//SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
+//SPDX-License-Identifier: CC-BY-4.0
+statement = (prefixed_directive | term)*
+prefixed_directive = '@'.directive
+directive = attribute
+% TODO: make a BNF construct for parantheses
+attribute = 'import'.'(' (list | tuple | operation) ')' -> import
+            | 'self' -> self
+            | 'parse'.'(' ')' -> parse
+            | 'validate'.'(' ')' -> validate
+            | 'record'.'(' ')' -> record
+            | 'render' -> render
+            //| 'condition'.'(' operation ')' -> cond // TODO: make conditions a native part of attributes
+            | ''.graph_ident  -> custom_attribute
+term = graph | connection | struct | unit
+struct ::= operation | tuple | list
+list ::= '[' term ',' (term ',')* ','? ']'
+tuple ::= '(' term ',' (term ',')* ','? ')'
+operation ::= term.tuple | term unit term
+all_term ::= '*'
+import base.txt
+
+// Included in base.txt
+graph       = unit? '{' term '}'
+connections = term (connector term)+
+connector   = '-' term '-' -> edge
+            | '-' term '>' -> left_arrow
+            | '<' term '-' -> right_arrow
+member      = unit? ('.'(ident | string) | '#'num)+
+unit        = ident | string | num
+ident       = CHAR*
+string      = STRING
+num         = NUMBER

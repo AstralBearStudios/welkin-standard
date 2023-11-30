@@ -6,10 +6,10 @@
 % TODO: create a version for welkin-standard.tex that directly includes the copyright notice
 % Henceforth, compliant Welkin implementations will be collectively referred to as ``Welkin.'' A formal definition of
 
-We now provide the full specification of the Welkin language. Everything beyond this paragraph is included in the official welkin-standard.pdf, available at \url{https://github.com/AstralBearStudios/welkin-book/}. Note that the entire standard, including its references, is self contained.
+We now provide the full specification of the Welkin language. Everything beyond this paragraph is included in the official standard. Note that the entire standard, including its references, is self contained.
 
 
-This standard requires a cursory background in discrete mathematics and Context Free Grammars. A reading of [] and [] suffices to understand this document.
+This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document.
 
 \section{Preliminaries}
 
@@ -42,22 +42,21 @@ Character encodings may be given as finite tables, matching natural numbers with
 \end{itemize}
 
 We denote $\chars = \decoding(\chars)$ and CHAR* as the
-Kleene-closure of CHAR, whose elements are called \textbf{words.}
-\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
+Kleene-closure of CHAR, whose elements are called \textbf{words.}\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
 can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
 We recognize distinguished (possibly empty) subimages $\numbers, \whitespaces \subset \chars,$ as well as a set $\delimiters \subset \chars^{2}.$ A $\textbf{string}$ $s$ is a word such of the form
 \begin{align*}
-s = d_{1}ud_{2} \\ (u \in \chars \setminus \delimiters, (d_{1}, d_{2}) \in \delimiters^{2}).
+s = d_{1}ud_{2} \ (u \in \chars \setminus \delimiters, (d_{1}, d_{2}) \in \delimiters^{2}).
 \end{align*}
 We call $u$ the \textbf{contents} of $s.$ We define $\strings := \strings(\delimiters)$ as the set of strings over $\delimiters.$ Strings may include their delimiters by escaping them, i.e., using a different or suffix DELIMITER\_ESCAPE.
 
 Every standard Welkin grammar is written in ASCII, but the interpreter may support additional encodings. (See Section ?.?).
 
-We implicitly assume that $\chars*$ does not conflict with literals defined in a given standard grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers containing those characters. However, these characters may creating a custom grammar (see Section ?).
+We implicitly assume that $\chars*$ does not conflict with literals defined in a given standard grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers containing those characters. However, these characters may be used by creating a custom grammar (see Section ?).
 
 
-\subsection{EBNF Variant}
-Our variant of EBNF uses the notation in Table ?.?.
+\subsection{BNF Variant}
+Our variant of BNF uses the notation in Table ?.?.
 \begin{center}
 \begin{tabular}{ | m{3cm} | m{5cm} | m{5cm} | }
 	\hline
@@ -222,6 +221,7 @@ We break down our semantics first by terms. Directives are handled separately in
 \begin{definition}
 Equality of terms.
 \begin{itemize}
+    % TODO: decide if ''A`` is the same as A
   \item \textbf{Basis.} Two units are equal if they are the same kind and obey one of the following.
 	\begin{itemize}
 	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
@@ -229,15 +229,10 @@ Equality of terms.
 	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
 	\end{itemize}
   \item \textbf{Recursion.}
-		\begin{itemize}
-		  \item Equality of connectors
-				\begin{itemize}
-				  \item
-				  \item
-				  \item \texttt{edge} terms are equal if they correspond as both left and right arrows.
-				\end{itemize}
-
-		  \item Two connections are equal if they connect the same terms and have equal connectors.
+        \begin{itemize}
+        \item Two members are the same if they contain the same list of units. % TODO: include the case of relative imports
+        \item Two connectors are equal if they are equal as terms. %TODO: rework to make this clearer
+ 		  \item Two connections are equal if they connect the same terms and have equal connectors.
 		  \item Two graphs are equal if they contain the same terms.
 	\end{itemize}
 
@@ -269,11 +264,23 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 	\item Every unit is converted into its corresponding encoding via $\encoding^{*}.$
   \end{itemize}
  \end{definition}
-% TODO: talk about encoding of numbers. This probably a separate encoding from the one used to write the welkin file
+ % TODO: talk about encoding of numbers in the structure itself. This probably a separate encoding from the one used to write the welkin file
+ % TODO: determine best term for 3-uniform hypergraph
+ \begin{definition}
+   A \textbf{layer} is a structure $(V, E)$
+   \footnote{Layers are special cases of 3-uniform hypergraphs, as found in the mathematical field category theory. Welkin Information Graphs are a special case of n-hypergraphs (see [], []), which are essential for the isomorphism algorithms described in Section ?.?.},
+   where
+   \begin{itemize}
+     \item $V$ is the set of \textbf{vertices,}
+     \item $E \subseteq V^{3}$ is the set of \textbf{edges}
+   \end{itemize}
+  \end{definition}
+
+  % TODO: see if there is a nicer definition in the literature (at least for n-hypergraphs)
 \begin{definition}
-	A \textbf{Welkin Information Graph (WIG)} $\mathcal{G}$ consists of
+	A \textbf{Welkin Information Graph (WIG)} $\mathcal{G} = (L, t, s, i)$ consists of
   \begin{itemize}
-    \item sets $G_{0}, G_{1}, \cdots, G_{n}$ of \textbf{layers},
+    \item a set $ G = \{G_{0}, G_{1}, \cdots, G_{n}\}$ of layers,
     \item for each $0 \leq k \leq n,$ functions $s_{k}, t_{k}: G_{k+1} \to G_{k}$ called the $i$-th $\textbf{source}$ and $\textbf{target}$ maps, respectively,
     \item for each $k,$ an injective function $i_{k}: G_{k} \to G_{k+1},$
     \item a set $\mathcal{L}$ of \textbf{labels} or \textbf{aliases}, and
@@ -284,7 +291,6 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
     \item $s_{k} \circ s_{k+1} = s_{k} \circ t_{k+1}$
     \item $t_{k} \circ s_{k+1} = t_{k} \circ t_{k+1}$
     \item $s_{k} \circ i_{k} = \textrm{id} = t_{k} \circ i_{k} $
-    \item (Condition to allow edges to be the ``intervals'' of connectors)
   \end{itemize}
   We may illustrate the above definition via the following diagram.
 \end{definition}

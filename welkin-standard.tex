@@ -1,5 +1,41 @@
 % SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
 % SPDX-License-Identifier: CC-BY-4.0
 % welkin-standard.tex - Standalone file for the Welkin standard
-\includeonly{chapters/3-spec.tex}
-\input{welkin-book}
+% TODO: decide if the standard should be a separate document or compiled as a chapter
+% from the book (to avoid going back between both sources)
+
+\documentclass{article}
+\usepackage{standalone}
+
+\usepackage{titling}
+\usepackage{outlines}
+\usepackage{csquotes}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{simplebnf}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{array}
+% Needed to avoid underscores merging into characters; see https://tex.stackexchange.com/questions/48632/underscores-in-words-text
+\usepackage[T1]{fontenc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+% TODO: find a different format for the standard
+\title{The Welkin Standard}
+\author{Oscar Bender-Stone}
+%\date{November 2023}
+
+
+\begin{document}
+\maketitle
+
+%\frontmatter
+%\tableofcontents
+
+\input{chapters/3-spec}
+
+\end{document}

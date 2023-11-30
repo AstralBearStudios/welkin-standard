@@ -12,8 +12,8 @@ It is possible to manually parse and evaluate the resulting .welkin files, but f
 # Contents 
 
 - welkin-book.pdf contains the complete guide on Welkin, including some major results. It is the best place to start to get an overall understanding of Welkin and different ways to use it. Note, however, that this is not a complete characterization of Welkin's abilities.
-- welkin-standard.pdf contains Chapter 3 on the Welkin Standard. This is a must for an official implementations.
-- grammars contains text based versions of Welkin grammars. These should be used for official implementations.
+- welkin-standard.pdf contains Chapter 3 on the Welkin Standard. This is a must for official implementations.
+- grammars contains text based versions of Welkin grammars. While these are listed out in the standard, grammars is the definitive source for direclty writing an official parser for a Welkin variant.
 - .auctex-auto can be ignored or deleted, unless you are an emacs user (in which case, keep it!)
 
 

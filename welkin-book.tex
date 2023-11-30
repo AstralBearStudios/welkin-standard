@@ -7,6 +7,7 @@
 \usepackage{titling}
 \usepackage{outlines}
 \usepackage{csquotes}
+\usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{simplebnf}
 \usepackage{amsfonts}
@@ -24,7 +25,7 @@
 \title{Welkin \\
   An Information Language}
 \author{Oscar Bender-Stone}
-\date{October 2023}
+\date{November 2023}
 
 
 \begin{document}
@@ -33,18 +34,29 @@
 %\frontmatter
 %\tableofcontents
 
+\begin{center}
+{\sc License}\
+
+\vspace{2ex}
+This book, version ?.?, is licensed under a Creative Commons Attribution 4.0 International License.
+A copy of this license is provided at \url{http://creativecommons.org/licenses/by-sa/4.0/}.
+\end{center}
+
+\newpage
+
 \chapter*{Preface}
 
 To be written...
 
 
-Chapters 1 and 2 provide the philosophical basis for Welkin. Chapter 3 contains the Welkin Standard, a formal specification describing high level, algorithmic properties in compliant Welkin interpreters. Chapter 4 explores several ways to use Welkin. Chapter 5 concludes with the future of digitally storing mathematical documents, synthesized programs, and the overall organization of ideas.
+Chapters 1 and 2 provide the philosophical basis for Welkin. Chapter 3 contains the Welkin Standard, a formal specification describing high level, algorithmic properties in compliant Welkin interpreters. Chapter 4 concludes with the future of digitally storing mathematical documents, synthesized programs, and the overall organization of ideas.
 
 
 \mainmatter
 
 \input{chapters/1-intro}
 \input{chapters/2-background}
+\chapter{The Welkin Standard}
 \input{chapters/3-spec}
 \input{chapters/4-conclusion}
 

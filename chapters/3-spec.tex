@@ -3,10 +3,12 @@
 % 4-spec.tex - Specifices the Welkin language and provides a theoretical framework
 % for general implementations
 
-\chapter{The Welkin Standard}
-
 % TODO: create a version for welkin-standard.tex that directly includes the copyright notice
 % Henceforth, compliant Welkin implementations will be collectively referred to as ``Welkin.'' A formal definition of
+
+We now provide the full specification of the Welkin language. Everything beyond this paragraph is included in the official welkin-standard.pdf, available at \url{https://github.com/AstralBearStudios/welkin-book/}. Note that the entire standard, including its references, is self contained.
+
+
 This standard requires a cursory background in discrete mathematics and Context Free Grammars. A reading of [] and [] suffices to understand this document.
 
 \section{Preliminaries}
@@ -45,19 +47,13 @@ Kleene-closure of CHAR, whose elements are called \textbf{words.}
 can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
 We recognize distinguished (possibly empty) subimages $\numbers, \whitespaces \subset \chars,$ as well as a set $\delimiters \subset \chars^{2}.$ A $\textbf{string}$ $s$ is a word such of the form
 \begin{align*}
-s = d_{1}ud_{2}, u \in \chars \setminus \delimiters, (d_{1}, d_{2}) \in \chars^{2}.
+s = d_{1}ud_{2} \\ (u \in \chars \setminus \delimiters, (d_{1}, d_{2}) \in \delimiters^{2}).
 \end{align*}
-We call $u$ the \textbf{contents} of $s. $We define $\strings := \strings(\delimiters)$ as the set of strings over $\delimiters.$
+We call $u$ the \textbf{contents} of $s.$ We define $\strings := \strings(\delimiters)$ as the set of strings over $\delimiters.$ Strings may include their delimiters by escaping them, i.e., using a different or suffix DELIMITER\_ESCAPE.
 
-Every standard Welkin grammar is written in ASCII, but the interpreter may support any additional character encoding. (See Section ?.?).
+Every standard Welkin grammar is written in ASCII, but the interpreter may support additional encodings. (See Section ?.?).
 
-As an auxiliary set, define
-\begin{align*}
-	\strings &:= \strings(\delimiters) \\ &= \{s \in \chars* \;|\; s = d_{1} u d_{2}, u \in (\chars\} \setminus \delimiters)^{*}, d_{1}, d_{2} \in \delimiters\},\end{align*}
-where $\delimiters \subset \chars^{2}.$
-Strings may include their delimiters by escaping them, i.e., using a sufficient prefix or suffix DELIMITER\_ESCAPE to distinguish them from delimtiers.
-
-We implicitly assume that $CHAR*$ does not conflict with literals defined in a given standard grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers containing those characters. However, this can be changed by creating a custom grammar (see Section ?).
+We implicitly assume that $\chars*$ does not conflict with literals defined in a given standard grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers containing those characters. However, these characters may creating a custom grammar (see Section ?).
 
 
 \subsection{EBNF Variant}
@@ -70,11 +66,6 @@ Our variant of EBNF uses the notation in Table ?.?.
 	Rule Assignment & $=$ & $term = atom$\\
   Empty String & $\varepsilon := \emptyset \in \chars*$ & $term = \varepsilon$ \\
   Concatenation (No white space) & ``.'' & \\
-	Concatenation (white space) & Separated by whitespace & $term = A B$ \\
-	Alternation & $|$ & $term = A | B$\\
-	Zero or more instance & $*$ & $terms = term*,$ equivalent to $terms = term terms | term | \varepsilon$ \\
-	One of more instance & $+$ & $terms = term*,$ equivalent to $terms = term terms$ \\
-  Literal characters & ``chars'', with $chars \in \chars*$ & $list = "[" terms "]"$ \\
   \hline
 \end{tabular}
 \end{center}
@@ -111,9 +102,8 @@ There are three fundamental variants of Welkin that define the foundation for th
 \begin{itemize}
 	\item Base Welkin, mirroring the key properties of the core data structure,
 	\item Attribute Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data,
-	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the Operating System. This is equivalent to Attribute Welkin with two new directives: $@eval$ and $@exec.$ See Section ?.? for more details.
-\end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, $@eval$ makes the interpreter Turing complete (see Section ?.?), and using $@exec$ can significantly impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
+	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the user's Operating System. This is equivalent to Attribute Welkin with two new directives: \texttt{@eval} and \texttt{@exec}. \end{itemize}
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can significantly impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -158,30 +148,32 @@ Set $\reserved = \{\texttt{\{, \}, ., -, ->, <-}\}.$
 %   relation-sym-map = {
 %     {::=} = {\ensuremath{=}},
 %   }
-% }
-\begin{center}
-  \begin{tabular}{ | c | c | c |}
-	Variant & Grammar & Notes \\
+%   }
+% TODO: fix table!
+  \begin{table}[htbp]
+    \centering
+  \begin{tabularx}{\textwidth}{| c | c | c |}
+    Variant & Grammar & Notes \\
+    \hline
 	Base Welkin &
   \begin{bnf}
   terms ::= term*;;
   graph ::= unit? `\{' terms `\}' ;;
   connections ::= term (connector term)+ ;;
 	connector ::=
-
    | `-' term `-' $\to$ edge
    | `-' term `-\>' $\to$ left\_arrow
 	 | `<-' term `-' $\to$ right\_arrow ;;
   member ::= unit? (`.'(ident || string)? || `\#'num )+ ;;
 	unit ::= ident || string || num ;;
-  ident ::= CHAR\* ;;
+  ident ::= CHAR* ;;
 	string ::= STRING ;;
 	num ::= NUMBER
 \end{bnf}
-& If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
+   & If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
 
-\end{tabular}
-\end{center}
+ \end{tabularx}
+ \end{table}
 % relation-sym-map = {
 %       {::=} = {\ensuremath{=}}
 %	}
@@ -341,9 +333,8 @@ Each directive relies on the following components.
 
 
 \subsection{Customization}
-All Welkin files are infinitely customizable via the welkin config file, which is written in attribute welkin.
-
-Every .welkin file has a corresponding configuration. It may either be put as a comment or (preferred) written in a separate file, which, by default, is called config.welkin. It has the following format:
+All Welkin files are infinitely customizable via the welkin config file, which is written in Attribute Welkin. Any attribute can be used, and other Welkin files can be imported. A base config file is required to customize a Welkin grammar. From there, configs can be arbitrarily nested to create and connect any desired (context-free) grammar, validator, and displayer.
+t has the following format:
 % TODO: replace itemzie with listing
 % TODO: decide how to work with a folder (or folders) of config files
 \begin{itemize}
@@ -365,60 +356,7 @@ Every .welkin file has a corresponding configuration. It may either be put as a 
 				\end{itemize}
 \end{itemize}
 
-Alternatively, a file with a different name may be used; see th
-
-
-% \begin{itemize}
-% 	\item Current problem: we need a way to recognzie which Welkin modules (graphs) define grammars. (Then we can figure out how one can customize \textit{any} aspect of Welkin). Here are some possible solutions (and evaluations thereof):
-% 				\begin{itemize}
-% 					\item Introduce a new meta-arrow \texttt{=>} designed specifically to be detected by Welkin (the left hand side denotes any terms in the user file; the right hand side must be terms that are defined by the Welkin interface). Using this symbol may initially work, but what if a user would like to use this meta-arrow in their grammar? How do we control how much the meta-arrow is used? I feel as though this could be dangerous, if not managed. Moreover, logistically, \textit{how} do we inform users of the terms they may bind to? For example, in the long-term, how do we make it clear that there is a ident for, say, num (standing in for general int/float)?
-% 					\item Create a different welkin file, such as welkin.config, that only uses minimal syntax (or a slightly extended version). This would ensure that there is a distinction between the information in welkin files and the grammars that they utilize. However, we want to makek Welkin infinitely customizable, so I aim not to use this solution, if at all possible.
-% 					\item Preferred, but still in the works: bootstrap interfaces. We would probably want to add this subsection later on, but definitely mention it while customizing grammars. \textit{Actually, customizing grammars is NOT a part of the standard, but rather, it is a part of the API. We will include EBNF and the custom grammar for standard Welkin}
-% 				  \item I am aiming to use the last solution, but what should the standard Welkin language be? Should it be aimed for programmers? Should it be aimed for general information preservation?
-% 				\end{itemize}
-% 	\item At this point, I believe I am aiming to use the first solution; it would be benefitcial for Welkin itself to intrepret what Welkin files do, not \textit{directly} the other way around. At its core, Welkin files store information; it is up to an external program (such as Welkin) to figure out \textit{how} those files may be interpreted.
-% 				\begin{itemize}
-% 					\item Moreover, doing the other way around directly would prove formally difficult. For correctness, we would have to worry about having a correct model for C, the operating system, etc.. But, part of this project is building the infrastructure for \textit{getting and organizing} that specification! For initial implementations, Welkin need not \textit{have} a low-level specification, so neither should this standard. That should be taken care of in a formally verified programming language (or formally verified binaries).
-% 					\item I hope that using the meta arrow could be optional in time; there could easily be ambigiuity if
-% 								care is not taken. For example, the rule (test1 -> test2 -> graph) is ambiguous because of the ordering of the parantheses; it is unclear what is ultimately turned into a rule.
-% 					\item However, if the lefthand side only uses terms in the minimal grammar, this would not be ambigiuous. That could certainly work. Regardless, \textit{we need to make it clear HOW Welkin, the program, is involved. Using the meta arrow is probably the least intrustive way to go about this, and can easily be customized by the user.}
-% 				\end{itemize}
-
-%   \item Rephrasing above problem: how do we make it clear when we are defining a new semantics?
-% 		\begin{itemize}
-% 		  \item A key realization: Welkin \textit{is a semantics language.} You can define anything in it! It suffices to show that we can embed Welkin into discrete foci (or, more directly, can define any Chomsky grammars. This part is pretty clear from the semantics given to base welkin (or for graphs, and for connections, not for a reference to self + ?))
-% 		  \item We could try making code blocks that specifically contain bindings. This would be a fancier alternative to restricting names (or coming up with a system, such as names prefixed with $_{}$). My hesitance to go with this solution is flexibility; should we force the users to do this?
-% 		  \item Here is a possible question we can ask: how do we distinguish between regular and \textit{interfaced} Welkin?
-% 		  \item The goal is to have the \textit{guest} tackle how to interpret Welkin... but we still want to put the guest in Welkin!
-% 				\begin{itemize}
-% 				  \item How do we gain ``awareness'' about Welkin's interfaces?
-% 				  \item We need a place to talk about \textit{interpretations.} We know Welkin can talk about it, but how do we \textbf{reference external things? (Files, programs, even a simple microcontroller?)}
-% 						\begin{itemize}
-% 						  \item Do we directly include a pointer to the file? Is that strictly necessary8? It could definitely break on different machines. We would have to keep some config data in mind.
-% 						  \item We know that any possible import symbols, as per compiler theory (and general humanb comprehension) need to be applied directlyat the \textit{top} of a page. But how do we define the import statement itself?
-% 						  \item Can we bootstrap an interface mechanism?
-% 						\end{itemize}
-% 				\end{itemize}
-% 		\end{itemize}
-
-%   \item Current (recommended) solution: we define standard Welkin to have direct access to the interpreter, similar to prolog. \textit{Later on, we will make it clear that standard Welkin can be queries, but can do more.} Ultimately, \textit{it is up to the individual to decide whether they include programming elements into their own welkin files. This is the key thing! } All the user needs to do is define their EBNF in standard Welkin
-% 		\begin{itemize}
-% 		  \item Here's a big idea: we can go back and \textit{refine} the base interface through standard Welkin! That's the powerful of Welkin, after all!
-% 		  \item More precisely, we need to implement Vero, the Welkin interface for stating and verifying formal properties. \textit{We only want to make this through the APIs specified by Welkin. The implementation should NEVER matter for verification.}
-% 		  \item There should be a separate document outling the thought process behind Vero, but for the most part, Vero should be defined \textit{with Welkin alone.} It will be the big first test for Welkin to make sure Welkin's claim for any layer of abstraction works well.
-% 		\item Vero comes with its own grammar which is fully customizable (some mathematicians/logicians/etc may want to change it, for their personal preference). We also have certain semantics that impose checks on graphs. This is the key thing here: \textit{we want to make checks/formal properties explicit.}
-% 		  \item Main takeaway: \textit{the interface can always be defined first. It need not be perfect. We can start with any interface and clarify it with Welkin. We can delete things, but we NEVER have to. We can add onto it instead}
-% 		  \item Moreover, using standard Welkin for \textit{all implementations} is a good sanity check; how can we check different configs with completely different grammars! At some point, \textit{ we need to use the same language to customize things!} Starting with this idea, it is straight forward to make custom interpreter settings \textit{in your own language.} You just have to invoke it in standard welkin at some point.
-% 				\begin{itemize}
-% 				  \item In fact, some core plugins will use this idea as well! One of the big things to have is a suitable \textit{build system.} That will be included and have a straightforward interface.
-% 				  \item Other key starter grammars include: bullets (for bullet point type notes) and literate (for a starting point with code blocks). (As an implementation detail, these should be \textit{optional} packages the user can be install; they should be more straightforward to get setup)
-% 				\end{itemize}
-% 		\end{itemize}
-
-
-% \end{itemize}
-
-\subsubsection*{Attribute Welkin}
+subsubsection*{Attribute Welkin}
 
 In Welkin, we informally write the BNF above as follows:
 % TODO: explain unit notation (as it maybe clearer than the recursion below). In other words, mark arbitrary variables with the keyword unit

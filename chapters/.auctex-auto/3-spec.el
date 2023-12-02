@@ -12,7 +12,8 @@
     "delimiters"
     "encoding"
     "decoding"
-    "scope")
+    "scope"
+    "arraystretch")
    (LaTeX-add-labels
     "ch:spec"))
  :latex)

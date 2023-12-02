@@ -2,35 +2,13 @@
 % SPDX-License-Identifier: CC-BY-4.0
 % welkin-book.tex - Sets up the main Welkin Book settings, packages, and chapters
 \documentclass[oneside, leqno]{book}
-\usepackage{standalone}
 
-\usepackage{titling}
-\usepackage{outlines}
-\usepackage{csquotes}
-\usepackage{tabularx}
-\usepackage{hyperref}
-\usepackage{simplebnf}
-\usepackage{amsfonts}
-\usepackage{amsthm}
-\usepackage{array}
-% Needed to avoid underscores merging into characters; see https://tex.stackexchange.com/questions/48632/underscores-in-words-text
-\usepackage[T1]{fontenc}
-% This is a suitable font for programming that has two features:
-% - It is monospaced
-% - It has clear symbol for @`
-\usepackage[scaled]{DejaVuSansMono}
-\usepackage[T1]{fontenc}
-
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
-
+\input{setup}
 
 \title{Welkin \\
   An Information Language}
 \author{Oscar Bender-Stone}
-\date{November 2023}
+\date{December 2023}
 
 
 \begin{document}

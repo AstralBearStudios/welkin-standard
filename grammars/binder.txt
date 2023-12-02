@@ -1,0 +1,3 @@
+directives = '@'.(attributes | binders)
+binders = 'eval'.'(' unit ')' -> eval
+          'exec'.'(' string ') -> exec

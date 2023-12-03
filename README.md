@@ -67,16 +67,15 @@ work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
 Please note that this book is still a work in progress! No official versioning scheme has been used because this project is vastly in development. (There will be a transition to sTeX soon).
 Most importantly, this means that there may be more authors; this will **not** be the finalized citation.
 
+(If you see that these citations refer to the Metamath book, please ignore it! I was using it as a guide for creating the Bibtex entries. I will mention Metamath in a separate update to this README)
+
 ## Welkin Book
 ``` bibtex
 @Book{
-author = {Norman D. Megill and David A. Wheeler},
-title = {Metamath: A Computer Language for Pure Mathematics},
-year = {2019},
-publisher = {Lulu Press},
-address = {Morrisville, North Carolina},
-url = {http://us.metamath.org/downloads/metamath.pdf},
-note = {{\tt https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf}},
+author = {Oscar E. Bender-Stone},
+title = {Welkin: An Information Language},
+year = {2023},
+url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf},
 }
 ```
 
@@ -84,13 +83,10 @@ note = {{\tt https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-b
 
 ``` bibtex
 @Article{
-author = {Norman D. Megill and David A. Wheeler},
+author = {Oscar E. Bender-Stone},
 title = {Metamath: A Computer Language for Pure Mathematics},
-year = {2019},
-publisher = {Lulu Press},
-address = {Morrisville, North Carolina},
-url = {http://us.metamath.org/downloads/metamath.pdf},
-note = {{\tt https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf}},
+year = {2023},
+url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf},
 }
 ```
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.24)  1 DEC 2023 18:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.24)  2 DEC 2023 21:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1038,12 +1038,12 @@ Chapter 3.
 > Step: calculate cell and line sizes.
 > Step: build the whole table.
 
-Underfull \hbox (badness 10000) in paragraph at lines 95--95
+Underfull \hbox (badness 10000) in paragraph at lines 111--111
 |[]
  []
 
 
-Overfull \hbox (3.66306pt too wide) in paragraph at lines 95--95
+Overfull \hbox (3.66306pt too wide) in paragraph at lines 111--111
 []
  []
 
@@ -1055,21 +1055,21 @@ Overfull \hbox (3.66306pt too wide) in paragraph at lines 95--95
 > Step: execute table commands.
 > Step: calculate cell and line sizes.
 
-Package tabularray Warning: Table width is too small, need 15.74966pt more!
+Package tabularray Warning: Table width is too small, need 4.50241pt more!
 
 > Step: build the whole table.
 
-Overfull \hbox (15.74966pt too wide) in paragraph at lines 95--96
+Overfull \hbox (4.50241pt too wide) in paragraph at lines 111--112
 []|[]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--97
+Underfull \hbox (badness 10000) in paragraph at lines 113--113
 |[]
  []
 
 
-Overfull \hbox (3.66306pt too wide) in paragraph at lines 97--97
+Overfull \hbox (3.66306pt too wide) in paragraph at lines 113--113
 []
  []
 
@@ -1081,6 +1081,11 @@ Overfull \hbox (3.66306pt too wide) in paragraph at lines 97--97
 > Step: execute table commands.
 > Step: calculate cell and line sizes.
 > Step: build the whole table.
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--115
+[]|\T1/cmr/m/n/10 Parantheses
+ []
+
 > Step: init table outer spec.
 > Step: parse table options.
 > Step: split table.
@@ -1105,7 +1110,15 @@ Overfull \hbox (3.66306pt too wide) in paragraph at lines 97--97
 > Step: execute table commands.
 > Step: calculate cell and line sizes.
 > Step: build the whole table.
-[5]
+> Step: init table outer spec.
+> Step: parse table options.
+> Step: split table.
+> Step: init table inner spec.
+> Step: parse table inner spec.
+> Step: execute table commands.
+> Step: calculate cell and line sizes.
+> Step: build the whole table.
+[5] [6]
 > Step: init table outer spec.
 > Step: parse table options.
 > Step: split table.
@@ -1119,12 +1132,12 @@ Package tabularray Warning: Table width is too small, need 8.33832pt more!
 
 > Step: build the whole table.
 
-Overfull \hbox (8.33832pt too wide) in paragraph at lines 204--205
+Overfull \hbox (8.33832pt too wide) in paragraph at lines 235--236
 []|[]| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 206--206
+Underfull \hbox (badness 10000) in paragraph at lines 237--237
 []|\T1/cmr/m/n/10 Attribute
  []
 
@@ -1137,7 +1150,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 206--206
 > Step: calculate cell and line sizes.
 > Step: build the whole table.
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--219
+Underfull \hbox (badness 10000) in paragraph at lines 260--260
 []|\T1/cmr/m/n/10 Binder
  []
 
@@ -1149,73 +1162,58 @@ Underfull \hbox (badness 10000) in paragraph at lines 219--219
 > Step: execute table commands.
 > Step: calculate cell and line sizes.
 > Step: build the whole table.
-[6] [7]
-Overfull \hbox (17.20125pt too wide) in paragraph at lines 313--314
-[][]\T1/cmr/bx/n/10 Definition 3.2.4. []\T1/cmr/m/n/10 A \T1/cmr/bx/n/10 Welkin
- In-for-ma-tion Graph (WIG) $\OMS/cmsy/m/n/10 G \OT1/cmr/m/n/10 = (\OML/cmm/m/i
-t/10 G; L; \OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 t; s; c; i; l\OMS/cmsy/m/n/10 g\O
-T1/cmr/m/n/10 )$
- []
+[7]
+
+LaTeX Warning: Text page 8 contains only floats.
 
 [8] [9] [10]) (./chapters/4-conclusion.tex) [11] (./welkin-book.aux)
  ***********
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-11-09>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `welkin-book.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `welkin-book.out':
-(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
-(rerunfilecheck)             After:  EEE1F1374987411A341FEA22C65C72F7;1486.
+Package rerunfilecheck Info: File `welkin-book.out' has not changed.
+(rerunfilecheck)             Checksum: EEE1F1374987411A341FEA22C65C72F7;1486.
  ) 
 Here is how much of TeX's memory you used:
- 27074 strings out of 474273
- 532136 string characters out of 5747713
- 1964555 words of memory out of 5000000
- 48727 multiletter control sequences out of 15000+600000
- 590845 words of font info for 115 fonts, out of 8000000 for 9000
+ 26892 strings out of 474273
+ 527845 string characters out of 5747713
+ 1981555 words of memory out of 5000000
+ 48541 multiletter control sequences out of 15000+600000
+ 594279 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 130i,22n,124p,731b,1090s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 130i,22n,124p,731b,871s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/dejavu/DejaVuSansMono.
-pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.p
-fb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb
-></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><
-/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
-sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/lo
-cal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local
-/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/te
-xlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
-live/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texli
-ve/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive
-/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
-023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/202
-3/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive
-/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2
-023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/202
-3/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/
-texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/te
-xmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texm
-f-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2023/texmf-
-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2023/texmf-di
-st/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist
-/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/f
-onts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fon
-ts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts
-/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/t
-ype1/public/cm-super/sfsl1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/typ
-e1/public/cm-super/sfti1000.pfb>
-Output written on welkin-book.pdf (14 pages, 405964 bytes).
+pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.p
+fb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb>
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
+usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/l
+ocal/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/loca
+l/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/te
+xlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texl
+ive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
+e/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texl
+ive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texliv
+e/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/
+2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/20
+23/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023
+/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/t
+exmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2023/tex
+mf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2023/texmf
+-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-d
+ist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dis
+t/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/
+fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fo
+nts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/font
+s/type1/public/cm-super/sfsl1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/
+type1/public/cm-super/sfti1000.pfb>
+Output written on welkin-book.pdf (14 pages, 413887 bytes).
 PDF statistics:
- 258 PDF objects out of 1000 (max. 8388607)
- 181 compressed objects within 2 object streams
- 39 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 290 PDF objects out of 1000 (max. 8388607)
+ 214 compressed objects within 3 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -41,7 +41,9 @@ Guide across different systems: TBD. All of these are provided by a full install
 
 # Copyright and License
 
-*Welkin: An Information Language* (c) 2023 by Oscar Bender-Stone
+# The Welkin Book
+
+*Welkin: An Information Language* (c) 2023 by Oscar Bender-Stone.
 
 *Welkin: An Information Language* is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
@@ -49,4 +51,49 @@ Guide across different systems: TBD. All of these are provided by a full install
 
 You should have received a copy of the license along with this
 work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+
+# The Welkin Standard
+
+*The Welkin Standard* (c) 2023 by Oscar Bender-Stone.
+
+*The Welkin Standard* is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+
+[![img](http://i.creativecommons.org/l/by/3.0/80x15.png)](http://creativecommons.org/licenses/by/3.0/deed)
+
+You should have received a copy of the license along with this
+work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+
+# Citation
+Please note that this book is still a work in progress! No official versioning scheme has been used because this project is vastly in development. (There will be a transition to sTeX soon).
+Most importantly, this means that there may be more authors; this will **not** be the finalized citation.
+
+## Welkin Book
+``` bibtex
+@Book{
+author = {Norman D. Megill and David A. Wheeler},
+title = {Metamath: A Computer Language for Pure Mathematics},
+year = {2019},
+publisher = {Lulu Press},
+address = {Morrisville, North Carolina},
+url = {http://us.metamath.org/downloads/metamath.pdf},
+note = {{\tt https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf}},
+}
+```
+
+## Welkin Standard
+
+``` bibtex
+@Article{
+author = {Norman D. Megill and David A. Wheeler},
+title = {Metamath: A Computer Language for Pure Mathematics},
+year = {2019},
+publisher = {Lulu Press},
+address = {Morrisville, North Carolina},
+url = {http://us.metamath.org/downloads/metamath.pdf},
+note = {{\tt https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf}},
+}
+```
+
+
+
 

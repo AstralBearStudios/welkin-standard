@@ -14,9 +14,9 @@ attribute = 'import'.'(' (list | tuple | operation) ')' -> import
             | ''.graph_ident  -> custom_attribute
 term = graph | connection | struct | unit
 struct ::= operation | tuple | list
+operation ::= term.tuple | term unit term
 list ::= '[' term ',' (term ',')* ','? ']'
 tuple ::= '(' term ',' (term ',')* ','? ')'
-operation ::= term.tuple | term unit term
 all_term ::= '*'
 import base.txt
 

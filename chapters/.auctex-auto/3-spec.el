@@ -10,6 +10,7 @@
     "term"
     "terms"
     "delimiters"
+    "escapes"
     "encoding"
     "decoding"
     "scope"

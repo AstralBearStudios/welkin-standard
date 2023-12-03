@@ -1,32 +1,35 @@
 //SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
 //SPDX-License-Identifier: CC-BY-4.0
-statement = (prefixed_directive | term)*
-prefixed_directive = '@'.directive
+
+#import base.txt
+#override term
+
+term = "@".directive | construct | graph | conection | member | unit
 directive = attribute
 % TODO: make a BNF construct for parantheses
-attribute = 'import'.'(' (list | tuple | operation) ')' -> import
-            | 'self' -> self
-            | 'parse'.'(' ')' -> parse
-            | 'validate'.'(' ')' -> validate
-            | 'record'.'(' ')' -> record
-            | 'render' -> render
-            //| 'condition'.'(' operation ')' -> cond // TODO: make conditions a native part of attributes
-            | ''.graph_ident  -> custom_attribute
-term = graph | connection | struct | unit
+attribute = "import"."(" (list | tuple | operation) ")" -> import
+            | "self" -> self
+            | "parse"."(" ")" -> parse
+            | "validate"."(" ")" -> validate // TODO: add very simple conditions in validate.
+            | "record"."(" ")" -> record // TODO: come up with better names for record and render
+            | "render" -> render
+            | "attribute".graph[empty, term] -> attribute
+            | unit.term -> custom_attribute
+term = graph | connection  unit
 struct ::= operation | tuple | list
 operation ::= term.tuple | term unit term
-list ::= '[' term ',' (term ',')* ','? ']'
-tuple ::= '(' term ',' (term ',')* ','? ')'
-all_term ::= '*'
+list ::= "[" term "," (term ",")* ","? "]"
+tuple ::= "(" term "," (term ",")* ","? ")"
+all_term ::= "*"
 import base.txt
 
 // Included in base.txt
-graph       = unit? '{' term '}'
+graph       = unit? "{" term "}"
 connections = term (connector term)+
-connector   = '-' term '-' -> edge
-            | '-' term '>' -> left_arrow
-            | '<' term '-' -> right_arrow
-member      = unit? ('.'(ident | string) | '#'num)+
+connector   = "-" term "-" -> edge
+            | "-" term ">" -> left_arrow
+            | "<" term "-" -> right_arrow
+member      = unit? ("."(ident | string) | "#"num)+
 unit        = ident | string | num
 ident       = CHAR*
 string      = STRING

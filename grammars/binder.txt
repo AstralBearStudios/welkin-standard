@@ -1,3 +1,7 @@
-directives = '@'.(attributes | binders)
-binders = 'eval'.'(' unit ')' -> eval
-          'exec'.'(' string ') -> exec
+#import attribute.txt
+#override directives
+
+directives = attributes | binders
+binders = "eval".tuple[unit] -> eval
+          | "exec".tuple[string] -> exec
+          | "binding".tuple[unit] -> binding // TODO: develop semantics for this (with eval and exec)

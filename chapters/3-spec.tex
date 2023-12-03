@@ -1,5 +1,5 @@
 % SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
-% SPDX-License-Identifier: CC-BY-4.0
+% SPDX-License-Identifier: MIT
 % 4-spec.tex - Specifices the Welkin language and provides a theoretical framework
 % for general implementations
 
@@ -55,10 +55,10 @@ Character encodings may be given as finite tables, matching natural numbers with
 	\item US-ASCII []. We will refer to this as ASCII, but there are subtle variations accross specific nationalities and applications (see []).
 	\item UTF-8, UTF-16 []. % TODO write notes about both
 \end{itemize}
-Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much as possible.Every BNF grammar (see Section ?.?) for this standard will be written in ASCII as a unifying encoding, but users may create grammars using UTF-8 or their own encodings (see Section ?.?).
+Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much as possible. Every BNF grammar (see Section ?.?) for this standard will be written in ASCII as a unifying encoding, but users may create grammars using UTF-8 or their own encodings (see Section ?.?).
 % TODO: put this into table format. We need an easy way to reference any of these sets and notes about them
 % Defining each subimage linearly is not working that well.
-We list several secondary notions in Table ?.? All of these sets, except STRING, are arbitrary.
+We list several secondary notions in Table ?.? All of these sets, except $\strings(d)$ and $D_{\strings},$ are arbitrary.
 % TODO: center text in the first row!
 \begin{center}
   \bgroup
@@ -108,16 +108,18 @@ Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals
   \hline
   Empty Word & $\varepsilon := \emptyset$ & \begin{bnf} term ::= $\varepsilon$ \end{bnf} \\
     \hline
-  \makecell{Concatenation \\ (No white spaces \\ inbetween rules)} & \makecell{Separate with \\  a period (.)}&  \begin{bnf} function ::= name.'('.number.')'\end{bnf} \\
+  \makecell{Concatenation \\ (No white spaces \\ inbetween rules)} & \makecell{Separate with \\  a period (.)}&  \begin{bnf} function ::= name.``(''.number.``)''\end{bnf} \\
   \hline
   \makecell{Concatenation \\ (White spaces \\ allowed)} & \makecell{Separate with \\ white space} & \begin{bnf} data ::= date name\end{bnf} \\
-    \hline
-    Groupings & Parantheses () & \begin{bnf} boolean ::= (true || false)\end{bnf} \\
-    \hline
-    Literals & ``word'' & \begin{bnf} boolean ::= `true' || `false' \end{bnf} \\
-    \hline
-  Choice Names & terms $\to$ rule & \makecell{\begin{bnf} boolean ::= `true' $\to$ true || `false' $\to$ false \end{bnf}, \\ equivalent to \\ \begin{bnf}  boolean ::= true // false ;; true ::= `true' ;; false ::= `false' \end{bnf}} \\
-    \hline
+  \hline
+  Groupings & Parantheses () & \begin{bnf} boolean ::= (true // false)\end{bnf} \\
+  \hline
+  Literals & ``word'' & \begin{bnf} boolean ::= ``true'' // ``false'' \end{bnf} \\
+  \hline
+  Choice Names & terms $\to$ rule & \makecell{\begin{bnf} boolean ::= ``true'' $\to$ true || ``false'' $\to$ false \end{bnf}, \\ equivalent to \\ \begin{bnf}  boolean ::= true // false ;; true ::= ``true'' ;; false ::= ``false'' \end{bnf}} \\
+  \hline
+
+
 \end{tabular}
 \end{center}
 % TODO: convert this into a table for easy access
@@ -239,13 +241,14 @@ Each grammar is provided in Table 3.?.
   \makecell{import grammars/base.txt \\ override term}
   \begin{bnf}
 
-  term ::= ``@''.(directive // graph[directive]) | construct | term ;;
-  directive ::= attribute | alias ;;
-  alias ::= unit ``\:='' (unit // graph);;
+  term ::= ``@''.(directive // graph[directive]) | construct | graph | connection | member | unit;;
+  directive ::= attribute ;;
   attribute ::= ``import'' tuple $\to$ import
   | ``self'' $\to$ self
+  | ``alias''.graph $\to$ alias
   | ``parse''.(graph // unit) $\to $ parse
   | ``validate''.tuple $\to$ validate
+  | ``resources''.graph[unit] $\to$ resources
   | ``metadata''.graph[unit] $\to$ metadata
   | ``record''.term $\to$ record
   | ``render''.graph $\to$ render ;;
@@ -291,7 +294,7 @@ Equality of terms.
   \item \textbf{Basis.} Two units are equal if they are the same kind and obey one of the following.
 	\begin{itemize}
 	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
-      \item \texttt{string} terms are equal if their corresponding contents are equal. Thus, \texttt{``A''} coincides with \texttt{'A'},
+      \item \texttt{string} terms are equal if their corresponding contents are equal. Thus, if $", '$ are delimiters, \texttt{``A''} coincides with \texttt{'A'},
 	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
 	\end{itemize}
   \item \textbf{Recursion.}
@@ -321,7 +324,7 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
   Base Welkin is parsed into the following AST $\mathcal{A}.$
   \begin{itemize}
 	\item Every term is a new subtree with its contents as children.
-    \item Every graph is an ordered pair of its aliases and list of children.
+    \item Every graph is an ordered pair of its name and list of children.
     % TODO: how to deal with empty connectors? Big issue for parsing and storing in a WIG!
     \item Every connection is an ordered pair:
 		  \begin{itemize}
@@ -329,7 +332,7 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 			\item Right arrows $u \xrightarrow{e} v$ correspond to the triple $(v, e, u);$
 			\item Edges correspond to both a left and right arrow.
 		  \end{itemize}
-	\item Every unit is converted into its corresponding encoding via $\encoding^{*}.$
+	\item Every unit is encoded via $\encoding^{*}.$ Numbers are further transformed into a machine representable form, which is dependent on the implementation.
   \end{itemize}
  \end{definition}
  % TODO: talk about encoding of numbers in the structure itself. This probably a separate encoding from the one used to write the welkin file
@@ -372,26 +375,64 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 % \end{tikzcd}
 % \end{equation*}
 
-%   We call each member of $G_{k}$ a $k$\textbf{-cell}.
-% \end{definition}
- \begin{definition} A \textbf{Welkin Information Graph} $G = \{G_{n}\}$ consists of sets $G_{0}, G_{1}, \cdots, G_{n}$ called $\textbf{layers}$
-   such that for each $1 \leq k \leq n,$ $G_{k+1}$ is a reflexive ternary relation on $G_{k}.$ In other words,
+ \begin{definition} A \textbf{Welkin Information Graph} (WIG) $G = (\{G_{k}\}, \{c_{k}, u_{k}\})$ consists of
    \begin{itemize}
-  \item $G_{k+1} \subseteq G_{k}^{3},$ and
-     \item for each $I \in G_{k},$ $(I, I, I) \in G_{k+1}.$
-    We call each member of $G_{k}$ a $k$\textbf{-unit}. We denote $0-$units by $A \xrightarrow{e} B,$ and for all other units, we use the notation $A \xRightarrow{e} B.$ In particular, if $A \in G_{k}, a \in G_{k+2},$ $A \xRightarrow{a} A$ means $(A, A, A) \xRightarrow{a} (A, A, A).$
-
+     \item tuples $G_{k} = (V_{k}, E_{k}, F_{k})$ called $\textbf{layers},$ where
+           \begin{itemize}
+             \item $V_{k}$ is a set of \textbf{vertices} or \textbf{units,}
+             \item $E_{k} \subseteq V_{k}^{2}$ is a set of \textbf{edges,}
+             \item $F_{k} \subseteq V_{k} \times E_{k} \times V_{k},$ is a set of \textbf{faces} or \textbf{connections}
+           \end{itemize}
+     \item functions $c_{k}: V_{k} \to \mathcal{P}(V_{k+1}),$ called the $k$-th \textbf{contents map,}
+     \item injective functions $u_{k}: V_{k+1} \to V_{k},$ called the $k$-th \textbf{unit map,}
    \end{itemize}
-   Notice that the second condition implies the map $i_{k}: G_{k} \hookrightarrow G_{k+1}$ given by $i(A) = (A, A, A)$ is well-defined.
-   % TODO: develop this paragraph more. This is essential for connections accross layers!
-   % Best approach: define i accross ALL the k.
-   We may therefore ``mix'' between cells at different layers via recursion.
-   \begin{itemize}
-     \item \textbf{Basis:} $i(A) = (A, A, A)$
-    \item \textbf{Recursion:} if $I_{1}, I_{2}, I_{3}$ are cells, then $\cdots$
-   \end{itemize}
+   such that for h $k \leq n,$
+    \begin{itemize}
+    \item $E_{k}, F_{k}$ are reflexive: for all $I \in V_{k},$
+            $(I, I) \in E_{k}$ and $(I, (I, I), I) \in F_{k}.$
+    \end{itemize}
 
     \end{definition}
+
+    % Extremely important discussion: describe composities of c and u to ensure that we can always
+    % have connections between ANY vertices, no matter where they are. This means explaining both:
+    % the semantics of A.b - e -> B.b
+    % the semantics of .a - e -> .b, and
+    Notice that the third condition implies the map $i_{k}: G_{k} \hookrightarrow G_{k+1}$ given by $i(A) = (A, A, A)$ is well-defined. We may also extend the content and unit maps to form edges between all vertices as follows.
+    % TODO: maybe find more concise ways to state these extensions?
+    % TODO: choose this or recursive definition? Note: this is essentially a transitive closure, treating c, u
+    % as generalized membership relations. (c is definitely more suited for this; u is more of a mechanism for
+    % encoding .a - e -> .b with relative members)
+%  TODO: Explain relevance of this construction in explicitly in Lemma 2.4!
+\begin{definition} (Extensions). Let $A \in G_{k}$ and $B \in G_{k+m}.$
+    \begin{itemize}
+      \item $\cdots$
+      \item $\cdots$
+    \end{itemize}
+\end{definition}
+
+Graphs and connections, as defined in Base Welkin, are special cases of these arcs. In fact, the contents of $A,$ along with restrictions to $c,$ forms a WIG.
+% TODO: restrict following contents functions to only A and its units' contents
+\begin{lemma}
+
+For any $A \in V_{k},$ $\hat{A} := (c(V_{k}), \{c'_{k}\})$ is a WIG.
+\end{lemma}
+\begin{lemma}
+WIGs are closed under unions and complements, as well as intersection by De Morgan's Laws. % TODO: find all relevant properties
+\end{lemma}
+Both lemmas above ensure that arbitraily many units can be defined and gradually appended to a WIG.
+
+
+% \end{itemize}
+% TODO; fix these for both E and F
+   % TODO: develop this paragraph more. This is essential for connections accross layers!
+   % Best approach: define i accross ALL the k.
+   % We may therefore ``mix'' between cells at different layers via recursion.
+   % \begin{itemize}
+   %   \item \textbf{Basis:} $i(A) = (A, A, A)$
+   %  \item \textbf{Recursion:} if $I_{1}, I_{2}, I_{3}$ are cells, then $\cdots$
+   % \end{itemize}
+
 
  We abuse notation to , defined via recursion. and refer to $A$ synonymously with $(A, A, A).$ We can generalize this equivalence for any cells $I_{1}, I_{2}, I_{3}$ via recursion. More generally, the cell $(I_{1}, I_{2}, I_{3})$ for $A, B \in G_{k_1}, I \in G_{}$
  Formally, this may be done by taking a map $i: G_{i}$
@@ -402,24 +443,26 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 % store a record of labels from a previous Welkin file, and the last property is used to distinguish internal arcs from
 % connectors
 % The first three equations ensure that two cells $I_{1} = A_{1} \xrightarrow{e_{1}} B, I_{2} = A_{2} \xrightarrow{e_{2}} B_{2}$ are equal precisely when $(A_{1}, e_{1}, B_{1}) = (A_{2}, e_{2}, B_{2})$. In particular, we have $i(A) = A \xrightarrow{A} A,$ so we may associate each element of $G_{k}$ with a triple in $G_{k+1}.$ These equations mean that a WIG is, under cryptomorphism, equivalent to a list of nested ternary relations.
-WIGS are generalizations of multi directed graphs in two different ways:
+WIGS are generalizations of directed multigraphs in two different ways:
 \begin{itemize}
-  \item Arcs (or arrows) are defined by three vertices instead of two.
-  \item There can be arcs between arcs. In our definition above, these are separated by each $G_{k}.$
+  \item Faces are a generalized edge defined by three vertices instead of two.
+  \item There can be edges between edges. In our definition above, these are separated by each $G_{k}.$
 \end{itemize}
 % TODO: decide where to put category theory references. May be helpful for category theorists looking at this
 % standard!
-Graphs and connections, as defined in Base Welkin, are special cases of these arcs.
-\begin{definition}
-  \item A \textbf{graph} for unit $A \in G_{k}$ is the set of units $G(A) = \{ A \xRightarrow{a} A \}.$
-  \item A \textbf{connection} is any cell of the form $(A, I, B) \in G_{k+2},$ where $A, B \in G_{k}, I \in G_{k+1}.$
-\end{definition}
 %Moreover, notice that our definition does not require every vertex to have an alias, as opposed to a colored graph (in which all vertices are colored).
 % TODO: is the claim below true? What we want to say is that some structure may not always be apparent in a Welkin file (particularly if a high level grammar is used). To find more structure, more often than not, a new welkin annotation file is needed.
 % There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
 
 We provide the following definition that are nearly identical with graph morphisms. We will return to this definition later in Section ?.?
-\begin{definition} Let $\mathcal{G}, \mathcal{H}$ be WIGs. A \textbf{morphism} $f: \mathcal{G} \to \mathcal{H}$ is a map such that for each $0 \leq k \leq n,$ $(A, I, B) \in G_{k}$ implies $(f(A), f(I), f(B)) \in f(G_{k}).$ An \textbf{isomorphism} is an invertible morphism, and an \textbf{automorphism} is an isomorphism $\alpha: \mathcal{G} \to \mathcal{G}.$
+\begin{definition} Let $G, H$ be WIGs. A \textbf{morphism} $f: G \to H$ is a map such that for each $0 \leq k \leq n$ and all $A, B \in V_{k}, e \in E_{k},$
+  \begin{itemize}
+    \item Edges are preserved: $(A, B) \in E_{k}$ implies $(f(A), f(B)) \in E'_{k},$
+    \item Faces are preserved: $(A, e, B) \in F_{k}$ implies $(f(A), f(B)) \in F'_{k}.$
+  \end{itemize}
+  % TODO: find a better way to state this that is explicit. Little to no graph theory knowledge should be neeed
+  % (this document is meant to be widely accessible)
+  An \textbf{isomorphism} is a morphism with an inverse, meaning it is a bijection and all implications above are replaced with biconditions (if and only if). An \textbf{automorphism} is an isomorphism $\alpha: \mathcal{G} \to \mathcal{G}.$
 \end{definition}
 % TODO: use the mixed cell argument to show that this must be true accross ALL connections. Again, pretty
 % important for examining isomorphisms that cross layer boundaries.
@@ -427,6 +470,8 @@ We provide the following definition that are nearly identical with graph morphis
 Morphisms preserve ``mixed'' cells.
 \end{lemma}
 
+% TODO: in the conversion, note that A - A - B -> B, equivalent to A --> B, is converted to A - { A - B } -> B. So both of them are equivalent on Welkin. Every other connection, however, will be parsed with full brackets, i.e.,
+% A - {{ A --> B }} -> B will be parsed as it is.
 \begin{lemma}
   The conversion from ASTs to Welkin Information Graphs is valid and is given by $\mu: \mathcal{T} \to \mathcal{W}, \mu(\mathcal{A}) = ...$
 \end{lemma}
@@ -456,7 +501,7 @@ Each directive relies on the following components.
   \begin{tabular}{| c | c | c |}
 	Directive & Definition & Example \\
 	\hline
-	\texttt{import} & \makecell{Concatenates input // with current file} & Example
+	\texttt{import} & \makecell{Concatenates input \\ with current file} & Example
 
   \end{tabular}
 \end{center}

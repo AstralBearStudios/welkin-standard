@@ -4,4 +4,4 @@
 directives = attributes | binders
 binders = "eval".tuple[unit] -> eval
           | "exec".tuple[string] -> exec
-          | "binding".tuple[unit] -> binding // TODO: develop semantics for this (with eval and exec)
+          | "binding".graph[empty, term] -> binding // TODO: develop semantics for this (with eval and exec)

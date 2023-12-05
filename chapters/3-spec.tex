@@ -6,9 +6,11 @@
 % TODO: create a version for welkin-standard.tex that directly includes the copyright notice
 % Henceforth, compliant Welkin implementations will be collectively referred to as ``Welkin.'' A formal definition of
 
-This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document.
+This document describes the Welkin information language, a programming language aimed and preserving, analyzing, and extending information. This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document.
 
 This edition of the standard, in English, is the basis for all other translations. Only the grammars will be given in english and should be copied identically. However, any terms in this document may be translated or changed as necessary.
+
+Every instance of the word ``Welkin interpreter'' means ``official Welkin interpreter.'' This class of interpreters are also conformant; see a definnition in Section ?.?.
 
 \section{Preliminaries}
 
@@ -44,7 +46,7 @@ In a formalist fashion, we define text, character encodings, and character decod
 Let Char be an arbitrary, finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathbb{N} \to \textrm{Char}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \mathrm{Char} \to \mathbb{N}$ of $\encoding.$ There is a natural extension $\decoding^{*}: \textrm{Char}^{*} \to \mathbb{N}^{*}$
 that maps sequences in Char componentwise to sequences in $\mathbb{N}^{*}.$
 We denote $\chars = \decoding(\textrm{Char})$ and CHAR* as the
-Kleene-closure of CHAR, whose elements $w$ are called \textbf{words.}\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure our BNF
+Kleene-closure of CHAR, whose elements $w$ are called \textbf{words.}\footnote{Traditionally, the Klenne-closure of a set $A$ is denoted by $A^{*}.$ However, to ensure every BNF in this document
   can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.} A word $w_{1}$ is a $b$-\textbf{separated} \textbf{subword} of $w_{2},$ denoted $w_{1} \subseteq_{b} w_{2},$ if $bw_{1} \subseteq w_{2}$ or $w_{1}b \subseteq w_{2}.$ In particular, if $b = \emptyset,$ then we simply call $w_{1}$ a \textbf{subword} of $w_{2}.$
 
 Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are defined in the following sources.
@@ -93,8 +95,7 @@ We implicitly assume that $\chars*$ does not conflict with literals defined in a
 
 
 \subsection{BNF Variant}
-Our variant of BNF uses the notation in Table ?.?. Our notation, as well as eevery standard Welkin grammar, is written in ASCII, but the interpreter may support additional encodings. (See Section ?.?).
-
+Our variant of BNF uses the notation shown in Table ?.? and in Definition ?.?. Our notation, as well as eevery standard Welkin grammar, is written in ASCII, but the interpreter may support additional encodings. (See Section ?.?).
 
 Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. We will explicty state these for standard Welkin grammars in the next section.
 
@@ -106,11 +107,11 @@ Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals
   \hline
 	Rule Assignment & $=$ & \begin{bnf} term ::= atom\end{bnf}\\
   \hline
-  Empty Word & $\varepsilon := \emptyset$ & \begin{bnf} term ::= $\varepsilon$ \end{bnf} \\
+  Empty Word & \makecell{$\varepsilon := \emptyset$ \\ ``empty'' in ascii} & \begin{bnf} term ::= $\varepsilon$ \end{bnf} \\
     \hline
   \makecell{Concatenation \\ (No white spaces \\ inbetween rules)} & \makecell{Separate with \\  a period (.)}&  \begin{bnf} function ::= name.``(''.number.``)''\end{bnf} \\
   \hline
-  \makecell{Concatenation \\ (White spaces \\ allowed)} & \makecell{Separate with \\ white space} & \begin{bnf} data ::= date name\end{bnf} \\
+  \makecell{Concatenation \\ (Zero or more \\ white spaces allowed)} & \makecell{Separate with \\ white space} & \begin{bnf} data ::= date name\end{bnf} \\
   \hline
   Groupings & Parantheses () & \begin{bnf} boolean ::= (true // false)\end{bnf} \\
   \hline
@@ -118,10 +119,21 @@ Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals
   \hline
   Choice Names & terms $\to$ rule & \makecell{\begin{bnf} boolean ::= ``true'' $\to$ true || ``false'' $\to$ false \end{bnf}, \\ equivalent to \\ \begin{bnf}  boolean ::= true // false ;; true ::= ``true'' ;; false ::= ``false'' \end{bnf}} \\
   \hline
+  \makecell{Rule Substitution \\ (Definition ?.?)} & rule1[rule2 $\to$ rule3] & \makecell{\begin{bnf} rule1 ::= rule2 \end{bnf}, \\ equivalent to \\ s } \\
+    \hline
+  \end{tabular}
+  \end{center}
 
+We introduce one new notion that is definable with BNFs.
+\begin{definition} (Rule Substitution) Let $rule_{1}, rule_{2}$ be rules with $rule_{2}$ appearing on the right hand side of $rule_{1}.$ Suppose $rule_{3}$ appears on the lefthand side of $rule_{2}.$ Then $rule_{1}[rule_{2}\to rule_{3}]$ is $rule_{1}$ with every instance of $rule_{2}$ replaced by $rule_{1}.$
 
-\end{tabular}
-\end{center}
+% TODO: clean up this definition!
+Some particular cases:
+\begin{itemize}
+\item $term[empty]$ means no rule should be applied.
+\end{itemize}
+
+\end{definition}
 % TODO: convert this into a table for easy access
 % \begin{itemize}
 %   \item $::=$ denotes rule assignment,
@@ -154,7 +166,7 @@ There are three fundamental variants of Welkin that define the foundation for th
 	\item Base Welkin, mirroring the key properties of the core data structure.
 	\item Attribute Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data.
 	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the user's operating system. This is equivalent to Attribute Welkin with two new directives: \texttt{@eval} and \texttt{@exec}. \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can significantly impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can run external programs that impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
 % \begin{itemize}
 % 	% \item First Define character encodings in general. Helpful reference: \url{https://www.w3.org/International/questions/qa-what-is-encoding}
 % 	%       \begin{itemize}
@@ -193,10 +205,10 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 % GraphViz notation (for possible compatiblity reasons), but at the same time, we can keep track of the out-neighbors (out going
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
-Set each $\reserved$ set as follows. % TODO: figure out better way to display these! Hard to read delimiters!
+Define each $\reserved$ set as follows. % TODO: figure out better way to display these! Hard to read delimiters!
 \begin{itemize}
-\item $\reserved_{\textrm{base}} = \{\{, \}, ., -, ->, <-\},$
-\item $\reserved_{\textrm{attribute}} = \{\{, \}, (, ), [, ], ., -, ->, <-, @\},$
+\item $\reserved_{\textrm{base}} = \{\texttt{\{, \}, ., -, ->, <-\{},$
+\item $\reserved_{\textrm{attribute}} = \{\texttt{\{, \}, (, ), [, ], ., -, ->, <-, @\}},$
 \item $\reserved_{\textrm{binder}} = \reserved_{\textrm{attribute}}.$
 \end{itemize}
 Each grammar is provided in Table 3.?.
@@ -229,7 +241,7 @@ Each grammar is provided in Table 3.?.
    | ``-'' term ``-'' $\to$ edge
    | ``-'' term ``>'' $\to$ left\_arrow
 	 | ``<-'' term `-' $\to$ right\_arrow ;;
-  member ::= unit? (`.'.(ident // string)? // `\#'.num )+ ;;
+  member ::= unit? (``.''.(ident // string)? // ``\#''.num )+ ;;
 	unit ::= ident // string // num ;;
   ident ::= CHAR* ;;
 	string ::= STRING ;;
@@ -238,35 +250,36 @@ Each grammar is provided in Table 3.?.
    \hline
       Attribute Welkin &
   % TODO: decide how to make import and override statements a part of bnf
-  \makecell{import grammars/base.txt \\ override term}
+  \makecell{\%import grammars/base.txt \\ \%override term}
   \begin{bnf}
-
-  term ::= ``@''.(directive // graph[directive]) | construct | graph | connection | member | unit;;
-  directive ::= attribute ;;
-  attribute ::= ``import'' tuple $\to$ import
-  | ``self'' $\to$ self
-  | ``alias''.graph $\to$ alias
+  term ::= ``@''.(directive // graph[directive]) | construct // graph // connection | member // unit ;;
+  directive ::= attributes ;;
+  attributes ::= ``import''.tuple $\to$ import
+  | ``self''.(member?) $\to$ self
+  | ``alias''.graph[empty] $\to$ alias
+  | ``resource''.graph[unit] $\to$ resources
+  | ``metadata''.graph[unit] $\to$ metadata
+  | ``input''.graph $\to$ input
   | ``parse''.(graph // unit) $\to $ parse
   | ``validate''.tuple $\to$ validate
-  | ``resources''.graph[unit] $\to$ resources
-  | ``metadata''.graph[unit] $\to$ metadata
   | ``record''.term $\to$ record
-  | ``render''.graph $\to$ render ;;
-
+  | ``output''.graph $\to$ output ;;
+  | graph[unit] $\to$ custom ;;
   construct ::= operation // tuple // list ;;
   operation ::= term.tuple // term unit term ;;
-  tuple ::= ``('' term ``,'' (term ',')* ','? ``)'' ;;
-  list ::= ``['' term ``,'' [term ',']* ``,''? ``]''
+  tuple ::= ``('' term ``,'' (term ',')* ``,''? ``)'' ;;
+  list ::= ``['' term ``,'' (term ',')* ``,''? ``]''
  \end{bnf} \\
                       %& This is limited to the CLI and GUI (TBD). \\
    \hline
    Binder Welkin &
-\makecell{import grammars/attribute.txt \\ override directives}
+\makecell{\%import grammars/attribute.txt \\ \%override directives}
     \begin{bnf}
      directives ::= attributes // binders ;;
      binders ::= ``eval''.tuple[unit] $\to$ eval
      | ``exec''.tuple[string] $\to$ exec
-   \end{bnf} \\ %& Intended for use by programmers, mathematicians, and scientists.\\
+     | ``bind''.graph[empty] $\to$ bind
+   \end{bnf} \\
     \hline
     \end{tabular}
   \end{table}
@@ -341,39 +354,13 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
   % nested relations, but I think this is a much better approach that trying to include some intuition about
   % category theory here. Categories are essential for understanding structures made in Welkin, but the standard
   % needs to be relatively simple and, most importantly, accessible.
-% \begin{definition}
-% 	A \textbf{Welkin Information Graph (WIG)} $\mathcal{G} = (G, L, \{t, s, c, i, l\})$ consists of
-%   \begin{itemize}
-%     \item a sequence $G = (G_{0}, G_{1}, \cdots, G_{n})$ of sets called \textbf{layers}, whose contents are \textbf{cells,}
-%     \item a set $L$ of \textbf{labels} or \textbf{aliases},
-%     \item a family of functions $s_{k}, t_{k}, c_{k}: G_{k+1} \to G_{k}$ called the \textbf{source, target,} and \textbf{connector maps,} respectively, and
-%     \item a family of injective functions $i_{k}, l_{k}: G_{k} \to G_{k+1}$ called the \textbf{embedding} and \textbf{labeling maps,}
-%    \end{itemize}
-%   that obey the following equations:
-%   \begin{itemize}
-%     \item $s_{k} \circ c_{k + 1} = s_{k} \circ s_{k+1} = s_{k} \circ t_{k+1},$
-%     \item $t_{k} \circ c_{k + 1} = t_{k} \circ s_{k+1} = t_{k} \circ t_{k+1},$
-%     \item $c_{k} \circ c_{k + 1} = c_{k} \circ s_{k+1} = c_{k} \circ t_{k+1},$
-%     \item $s_{k} \circ i_{k} = \textrm{id}_{G_{k}} = t_{k} \circ i_{k} = c_{k} \circ i_{k}.$
-%   \end{itemize}
-%   Graphically, this definition can be displayed as a diagram
-% \begin{equation*}
-%   \begin{tikzcd}
-%   G_0 \arrow[r,"i_{0}"'] &
-%   G_1 \arrow[r, "i_k"] \arrow[l, "s_0"', bend right] \arrow[l, "t_0", bend left] \arrow[l, "c_0"] &
-%   G_2 \arrow[r, "i_k"] \arrow[l, "s_k"] \arrow[l, "t_k"] \arrow[l, "c_k"] &
-%   \cdots \arrow[r, "i_k"] \arrow[l, "s_k"] \arrow[l, "t_k"] \arrow[l, "c_k"] &
-%   G_n &
-% \end{tikzcd}
-% \end{equation*}
-% where the following diagrams commute (i.e., their composites are equal)
-% \begin{equation*}
-%   \begin{tikzcd}
-%   G_0 \arrow[r,"i_{0}"] &
-%   G_1 \arrow[r, "i_k"] \arrow[l, "s_0"] \arrow[l, "t_0"] \arrow[l, "c_0"] &
-%   G_2 \arrow[l, "t_k"] \arrow[l, "c_k"] &
-% \end{tikzcd}
-% \end{equation*}
+
+% \begin{definition} (Layers) A $\textbf$ layer $G = (V_{k}, E_{k}, C_{k})$
+
+
+
+% \end{definition}
+
 
  \begin{definition} A \textbf{Welkin Information Graph} (WIG) $G = (\{G_{k}\}, \{c_{k}, u_{k}\})$ consists of
    \begin{itemize}
@@ -381,34 +368,40 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
            \begin{itemize}
              \item $V_{k}$ is a set of \textbf{vertices} or \textbf{units,}
              \item $E_{k} \subseteq V_{k}^{2}$ is a set of \textbf{edges,}
-             \item $F_{k} \subseteq V_{k} \times E_{k} \times V_{k},$ is a set of \textbf{faces} or \textbf{connections}
+             \item $F_{k} \subseteq V_{k} \times E_{k} \times V_{k},$ is a set of \textbf{faces} or \textbf{connections;}
            \end{itemize}
      \item functions $c_{k}: V_{k} \to \mathcal{P}(V_{k+1}),$ called the $k$-th \textbf{contents map,}
      \item injective functions $u_{k}: V_{k+1} \to V_{k},$ called the $k$-th \textbf{unit map,}
    \end{itemize}
-   such that for h $k \leq n,$
+   such that for $k \leq n,$
     \begin{itemize}
     \item $E_{k}, F_{k}$ are reflexive: for all $I \in V_{k},$
             $(I, I) \in E_{k}$ and $(I, (I, I), I) \in F_{k}.$
     \end{itemize}
-
     \end{definition}
 
     % Extremely important discussion: describe composities of c and u to ensure that we can always
     % have connections between ANY vertices, no matter where they are. This means explaining both:
     % the semantics of A.b - e -> B.b
     % the semantics of .a - e -> .b, and
-    Notice that the third condition implies the map $i_{k}: G_{k} \hookrightarrow G_{k+1}$ given by $i(A) = (A, A, A)$ is well-defined. We may also extend the content and unit maps to form edges between all vertices as follows.
+    % TODO: fix up this notation. Important for extensions!
+    Notice that the third condition implies the $k$-th \textbf{identity assignment} $i_{k, 1}: V_{k} \hookrightarrow E_{k+1}, i_{k, 2}: E_{k} \to C_{k+1}$ given by $i_{k, 1}(A) = (A, A), i_{k}(A, B) = (A, (A, B), B)$ are well-defined. Through these maps, we will abuse notation and write $A \in E_{k}, E \in C_{k}$ whenever $A \in E_{k}, E \in C_{k}.$ We write $A \in G_{k}$ if $A$ is a kth vertex, edge, or face, $A \in G$ if $A \in G_{k}$ for some $k.$
+
+To encompass a wide range of connections, we extend these map, as well as the content and unit maps, to form edges between all faces as follows.
     % TODO: maybe find more concise ways to state these extensions?
     % TODO: choose this or recursive definition? Note: this is essentially a transitive closure, treating c, u
     % as generalized membership relations. (c is definitely more suited for this; u is more of a mechanism for
     % encoding .a - e -> .b with relative members)
 %  TODO: Explain relevance of this construction in explicitly in Lemma 2.4!
-\begin{definition} (Extensions). Let $A \in G_{k}$ and $B \in G_{k+m}.$
+\begin{definition} (Extensions). Let $A \in G_{k_{1}}, B \in G_{k_{2}}$ with $k_{2} > k_{1}.$
     \begin{itemize}
-      \item $\cdots$
-      \item $\cdots$
+      \item $B \in c(A)$ if for some $k,$ $B \in c^{(m)}_{k}(A),$
+      \item $u(B) = A$ if for some $k,$ $u^{(m)}_{k}(B).$
     \end{itemize}
+\end{definition}
+
+
+\begin{definition} (Generalized Connections). Let $A, B, C \in G_{k}.$ Then $(A, B) \in E_{k}$ if $\cdots$
 \end{definition}
 
 Graphs and connections, as defined in Base Welkin, are special cases of these arcs. In fact, the contents of $A,$ along with restrictions to $c,$ forms a WIG.
@@ -418,7 +411,7 @@ Graphs and connections, as defined in Base Welkin, are special cases of these ar
 For any $A \in V_{k},$ $\hat{A} := (c(V_{k}), \{c'_{k}\})$ is a WIG.
 \end{lemma}
 \begin{lemma}
-WIGs are closed under unions and complements, as well as intersection by De Morgan's Laws. % TODO: find all relevant properties
+WIGs are closed under unions and complements, as well as intersections by De Morgan's Laws. % TODO: find all relevant properties
 \end{lemma}
 Both lemmas above ensure that arbitraily many units can be defined and gradually appended to a WIG.
 
@@ -433,16 +426,9 @@ Both lemmas above ensure that arbitraily many units can be defined and gradually
    %  \item \textbf{Recursion:} if $I_{1}, I_{2}, I_{3}$ are cells, then $\cdots$
    % \end{itemize}
 
-
- We abuse notation to , defined via recursion. and refer to $A$ synonymously with $(A, A, A).$ We can generalize this equivalence for any cells $I_{1}, I_{2}, I_{3}$ via recursion. More generally, the cell $(I_{1}, I_{2}, I_{3})$ for $A, B \in G_{k_1}, I \in G_{}$
- Formally, this may be done by taking a map $i: G_{i}$
-
-
-% We will abuse notation and write $\mathcal{G}$ for $G$ and $\mathcal{G}_{k}$ for $G_{k}.$
-% Cite: WIGs are a special form of reflexive n-graphs, or n-globular sets. We add the labeling function to
+% Cite: WIGs are a special form of reflexive n-hypergraphs, or generalized n-globular sets. We add the labeling function to
 % store a record of labels from a previous Welkin file, and the last property is used to distinguish internal arcs from
 % connectors
-% The first three equations ensure that two cells $I_{1} = A_{1} \xrightarrow{e_{1}} B, I_{2} = A_{2} \xrightarrow{e_{2}} B_{2}$ are equal precisely when $(A_{1}, e_{1}, B_{1}) = (A_{2}, e_{2}, B_{2})$. In particular, we have $i(A) = A \xrightarrow{A} A,$ so we may associate each element of $G_{k}$ with a triple in $G_{k+1}.$ These equations mean that a WIG is, under cryptomorphism, equivalent to a list of nested ternary relations.
 WIGS are generalizations of directed multigraphs in two different ways:
 \begin{itemize}
   \item Faces are a generalized edge defined by three vertices instead of two.
@@ -457,7 +443,7 @@ WIGS are generalizations of directed multigraphs in two different ways:
 We provide the following definition that are nearly identical with graph morphisms. We will return to this definition later in Section ?.?
 \begin{definition} Let $G, H$ be WIGs. A \textbf{morphism} $f: G \to H$ is a map such that for each $0 \leq k \leq n$ and all $A, B \in V_{k}, e \in E_{k},$
   \begin{itemize}
-    \item Edges are preserved: $(A, B) \in E_{k}$ implies $(f(A), f(B)) \in E'_{k},$
+    \item Edges are preserved: $(A, B) \in E_{k}$ implies $(f(A), f(B)) \in E'_{k}$
     \item Faces are preserved: $(A, e, B) \in F_{k}$ implies $(f(A), f(B)) \in F'_{k}.$
   \end{itemize}
   % TODO: find a better way to state this that is explicit. Little to no graph theory knowledge should be neeed
@@ -482,29 +468,62 @@ A WIG is in \textbf{Welkin Canonical Form (WCF)} if ...
 \end{definition}
 Based on this form, we have chosen a unique way to represent Welkin files. In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into WNF.
 
+
+
+
 \section{General Application Behavior}
 
 Note that all apparent structures may be adjusted under cryptomorphism.
+
+\subsubsection{Bootstrap}
+The welkin/bootstrap file faciliates the user API to Attribute Welkin. It is currently located at \url{https://github.com/AstralBearStudios/welkin} and is essential for creating a stable Welkin interpreter.
+
+Every Welkin interpreter must implement Base Welkin. To implement Attribute Welkin, the parser must be equipped with a parser for this variant, create a WIG for \texttt{attribute} (with all imported units in bootstrap), and follow the General Application Guidelines for its implementation.
+
+Finally, to support Base Welkin, the interpreter must be written with a programming language that is Turing complete and can execute system resources. The final command, $\texttt{@bind},$ is defined in terms of these notions. % TODO: is it definable in terms of these? Need to check and spell this out!
+
+
+
 \subsubsection*{Directives}
 Each directive relies on the following components.
 \begin{itemize}
+  \item Input: processes an input or set of inputs.
   \item Parser: takes in a Welkin file and generates an AST,
   \item Validator: ensures that the AST is valid, raising an error that directly points to a violation,
   \item From here, an AST may be processed by three different means:
 		\begin{itemize}
 		  \item Recorder: takes the AST, converts it into a WIG in WCF, serializes the data,
-		  \item Attributor: %TODO: change name!
-		  \item Binder:
+		  \item Output: displays some information provided in a Welkin file to the user.
+		  \item Evaluator: evaluates, executes, or binds commands into Welkin units.
 		\end{itemize}
 \end{itemize}
-\begin{center}
-  \begin{tabular}{| c | c | c |}
-	Directive & Definition & Example \\
-	\hline
-	\texttt{import} & \makecell{Concatenates input \\ with current file} & Example
 
-  \end{tabular}
-\end{center}
+All official implementations may implement
+\begin{itemize}
+\item Base Welkin alone,
+\item Attribute and Base Welkin, or
+\item All three variants.
+\end{itemize}
+
+In each case, these variants must be implemented according to the welkin/bootstrap file. This file bootstraps the essential information from this standard. (See Section ?.? on a specification of this bootstrap)
+
+
+% \begin{center}
+%   \begin{tabular}{| c | c | c |}
+% 	Directive & Definition & Example \\
+% 	\hline
+%     \texttt{import} & \makecell{Concatenates input \\ with current file} & Example \\
+%     \texttt{import} & \makecell{Concatenates input \\ with current file} & Example \\
+%     \texttt{self} & \makecell{Gets the \\ current graph} & Example \\
+%     \texttt{input} & \makecell{Manage inputs} & Example \\
+%     \texttt{parse} & \makecell{Manages parsing data} & Example \\
+%     \texttt{validate} & \makecell{Concatenates input \\ with current file} & Example \\
+%     \texttt{record} & \makecell{Concatenates input \\ with current file} & Example \\
+%     \texttt{output} & \makecell{Manage outputs} & Example \\
+%     \texttt{attribute} & \makecell{Concatenates input \\ with current file} & Example \\
+
+%   \end{tabular}
+% \end{center}
 
 \subsection{Customization}
 All Welkin files are infinitely customizable via the welkin config file, which is written in Attribute Welkin. Any attribute can be used, and other Welkin files can be imported. A base config file is required to customize a Welkin grammar. From there, configs can be arbitrarily nested to create and connect any desired (context-free) grammar, validator, recroder, and displayer.

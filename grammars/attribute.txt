@@ -9,10 +9,11 @@ directive = attribute
 % TODO: make a BNF construct for parantheses
 attribute = "import"."(" (list | tuple | operation) ")" -> import
             | "self" -> self
-            | "parse"."(" ")" -> parse
-            | "validate"."(" ")" -> validate // TODO: add very simple conditions in validate.
-            | "record"."(" ")" -> record // TODO: come up with better names for record and render
-            | "render" -> render
+            | "parse".tuple[] -> parse
+            | "input".graph -> output
+            | "validate".graph[unit] -> validate // TODO: add very simple conditions in validate.
+            | "record".graph[unit] -> record // TODO: come up with better names for record and output
+            | "output".graph -> output
             | "attribute".graph[empty, term] -> attribute
             | unit.term -> custom_attribute
 term = graph | connection  unit

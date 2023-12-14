@@ -3,3 +3,7 @@
 *.out
 *.sta
 setup.aux
+/*.bbl
+*.bbl
+*.blg
+/*.blg

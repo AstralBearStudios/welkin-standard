@@ -39,22 +39,16 @@ You can manually compile your own PDF, but you will need several components:
 
 Guide across different systems: TBD. All of these are provided by a full installation of TexLive any time after **November 29, 2023.** This is because [simplebnf][https://github.com/Zeta611/simplebnf] is now version 1.0.0, and works well with Welkin grammars. (Special thanks to [Zeta611][https://github.com/Zeta611] and [wilbowma][https://github.com/wilbowma] for this amazing package!)
 
-To generate a pdf, follow either of these terminal commmands in the the root directory of this project (welkin-book).
-# The Welkin Book
+To generate a pdf, use either [build](build.sh) or follow either of these terminal commmands in the the root directory of this project (welkin-book).
+## The Welkin Book
 ``` shell
-pdflatex welkin-standard.book
+./build.sh welkin-book
 ```
 
-# The Welkin Standard
+## The Welkin Standard
 ``` shell
-pdflatex welkin-standard.book
+./build.sh welkin-standard
 ```
-
-
-
-
-
-
 
 # Copyright and License
 
@@ -67,7 +61,7 @@ setup.tex, welkin-book.tex, welkin-standard.tex, chapters/{1-intro.tex, 2-backgr
 
 The LaTeX source files are licensed under the MIT license, located in the directory LICENSES.
 
-# The Welkin Book
+## The Welkin Book
 
 *Welkin: An Information Language* (c) 2023 by Oscar Bender-Stone.
 
@@ -78,7 +72,7 @@ The LaTeX source files are licensed under the MIT license, located in the direct
 You should have received a copy of the license along with this
 work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
 
-# The Welkin Standard
+## The Welkin Standard
 
 *The Welkin Standard* (c) 2023 by Oscar Bender-Stone.
 
@@ -90,10 +84,8 @@ You should have received a copy of the license along with this
 work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
 
 # Citation
-Please note that this book is still a work in progress! No official versioning scheme has been used because this project is vastly in development. (There will be a transition to sTeX soon).
+Please note that this book is still a work in progress! No official versioning scheme has been used because this project is heavily in development.
 Most importantly, this means that there may be more authors; this will **not** be the finalized citation.
-
-(If you see that these citations refer to the Metamath book, please ignore it! I was using it as a guide for creating the Bibtex entries. I will mention Metamath in a separate update in some form, mostly likely on my blog).
 
 ## Welkin Book
 ``` bibtex
@@ -110,7 +102,7 @@ url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pd
 ``` bibtex
 @Article{
 author = {Oscar E. Bender-Stone},
-title = {Metamath: A Computer Language for Pure Mathematics},
+title = {The Welkin Standard}
 year = {2023},
 url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf},
 }

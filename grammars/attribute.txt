@@ -8,12 +8,13 @@ term = "@".directive | construct | graph | conection | member | unit
 directive = attribute
 attribute = "import".tuple -> import
             | "self" -> self
+            | "alias".graph[empty] -> alias
             | "parse".tuple[] -> parse
             | "input".graph -> output
             | "validate".graph[unit] -> validate // TODO: add very simple conditions in validate.
             | "record".graph[unit] -> record // TODO: come up with better names for record and output
             | "output".graph -> output
-            | "attribute".graph[empty, term] -> attribute
+            | "attribute".graph[empty, term] -> new_attribute
             | unit.term -> custom_attribute
 construct ::= operation | tuple | list | series | all_terms
 operation ::= term.tuple | term unit term

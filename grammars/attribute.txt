@@ -6,8 +6,7 @@
 
 term = "@".directive | construct | graph | conection | member | unit
 directive = attribute
-% TODO: make a BNF construct for parantheses
-attribute = "import"."(" (list | tuple | operation) ")" -> import
+attribute = "import".tuple -> import
             | "self" -> self
             | "parse".tuple[] -> parse
             | "input".graph -> output
@@ -16,12 +15,12 @@ attribute = "import"."(" (list | tuple | operation) ")" -> import
             | "output".graph -> output
             | "attribute".graph[empty, term] -> attribute
             | unit.term -> custom_attribute
-term = graph | connection  unit
-struct ::= operation | tuple | list
+construct ::= operation | tuple | list | series | all_terms
 operation ::= term.tuple | term unit term
 list ::= "[" term "," (term ",")* ","? "]"
 tuple ::= "(" term "," (term ",")* ","? ")"
-all_term ::= "*"
+series ::= term "," (term ",")
+all_terms ::= "*"
 import base.txt
 
 // Included in base.txt

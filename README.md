@@ -23,6 +23,7 @@ It is possible to manually parse and evaluate the resulting .welkin files, but f
 - **[welkin-book.tex](welkin-book.tex)** stores the main place where the chapters are collected for the Welkin Book the chapters are collected for the Welkin Book.
 - **[welkin-standard.tex](welkin-standard.tex)** modifies the format of [chapters/3-spec.tex.](chapters/3-spec.tex) 
 as an article, but leaves the contents the same.
+- **[build.sh](build.sh)** generates both welkin-book.pdf and welkin-standard.pdf.
 - **[.auctex-auto](.auctex-auto)** is tied to the [the AUCTeX mode for emacs](https://www.gnu.org/software/auctex/).
 
 

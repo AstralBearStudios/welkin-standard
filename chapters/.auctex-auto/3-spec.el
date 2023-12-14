@@ -13,8 +13,8 @@
     "escapes"
     "encoding"
     "decoding"
-    "scope"
-    "arraystretch")
+    "can"
+    "scope")
    (LaTeX-add-labels
     "ch:spec"))
  :latex)

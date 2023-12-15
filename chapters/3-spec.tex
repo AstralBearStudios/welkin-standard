@@ -43,18 +43,18 @@ Throughout this document, every instance of ``Welkin grammar'' means ``standard 
 \subsection{Mathematical Background}
 This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document. We clarify on our mathematical notation below.
 
-Let $A, B, C$ be sets. We denote by $A^{*}$ the set of finite sequences of $A$ (or \texttt{A*} in text written in ASCII), including the empty sequence $\varepsilon := \emptyset,$ and we call each $w \in A^{*}$ a \textbf{word.}
-% \footnote{Traditionally, the set of finite sequences over a set $A$ is denoted by $A^{*}.$ However, to ensure every BNF in this document
+Let $A, B, C$ be sets. We denote by $A^{*}$ the set of finite sequences of $A$ (or \texttt{A*} in text written in ASCII), including the empty sequence $\varepsilon := \emptyset,$ and we call each $w \in A^{*}$ a \textbf{word.}% \footnote{Traditionally, the set of finite sequences over a set $A$ is denoted by $A^{*}.$ However, to ensure every BNF in this document
 %   can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
 
-Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite of $f$ and $g$ by $g \circ f,$ and by $f^{*}: A \to B*$ the extension of $f$ to finite sequences of $A$ componentwise to finite sequences in $B.$
+Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite of $f$ and $g$ by $g \circ f,$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$
 
+Finally, let $[n] := \{0 \leq k \leq n-1\}.$
 
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
 We define text, character encodings, and character decodings as abstract notions. The discussion here may be carried out in terms of bytes and specific data formats, but these concepts are beyond the scope of this standard.
 
-Let Char be a finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathbb{N} \to \textrm{Char}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \mathrm{Char} \to \mathbb{N}$ of $\encoding.$ We denote $\chars = \decoding(\textrm{Char}).$
+Let Char be a finite set. An \textbf{encoding} is an injective mapping $\encoding : \Char \to \mathbb{N}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \encoding^{-1}(\mathbb{N}) \to \mathrm{Char}$ of $\encoding.$ We denote $\chars = \decoding(\mathbb{N}).$
 
 Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are defined in the following sources.
 % TODO: put these references in bibtex
@@ -76,7 +76,7 @@ Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much
 % TODO: decide if string escapes is parametric or must be consistent
 % TODO: allow numbers to be delimtiers (in case users want that)
 \begin{definition}
-  A \textbf{BNF encoding} under Char is an encoding $\encoding: \mathbb{N} \to \textrm{Char}$ along with five subsets $\chars*,$
+  A \textbf{BNF encoding} under Char is an encoding $\encoding: \textrm{Char} \to \mathbb{N}$ along with five subsets $\chars*,$
   \begin{itemize}
   \item $\whitespaces$
   \item $\numbers$
@@ -138,13 +138,15 @@ Every Welkin grammar, written in a BNF metasyntax, uses the ASCII encoding with
 
 % We implicitly assume that does not conflict with literals defined in a grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers. However, these characters may be used by creating a custom grammar (see Section ?).
 
+% A { { A {} }
+
 A \textbf{text} is a subset of $\chars*.$ We will not consider streaming issues, i.e, we will assume every Welkin file is present at one time.
 % TODO: describe issues with files! How to work with this?
 
 \subsection{BNF Variant}
 Our variant of BNF uses the notation shown in Table ?.? and in Definition ?.?. Our notation, as well as every standard Welkin grammar, is available in ASCII.
 
-Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. We will explicty state these for Welkin variants in the next section.
+Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. These literals are always matched first, which means that set-based terminals (e.g., from $\numbers$) . We will explictly state these for the Welkin variants in the next section.
 
 % TODO: fix spacing issues with all rows. BNF is not fitting in there well!
 \begin{center}
@@ -184,7 +186,7 @@ Some particular cases:
 
 \end{definition}
 
-An conformant parser for all three grammars should include the ability to compose and override rules. This ensures that any updates to grammars, if necessary, are isolated. See more details in Section ?.?.
+An conformant parser for all three grammars should include the ability to compose and override rules. This ensures that any updates to grammars, if necessary, are isolated. See Section ?.? for more details.
 % TODO: convert this into a table for easy access
 % \begin{itemize}
 %   \item \texttt{term ::= $S \subseteq \chars^{*}$} means \texttt{term $\in S$},
@@ -200,7 +202,7 @@ There are three fundamental variants of Welkin that define the foundation for th
 	\item Base Welkin, mirroring the key properties of the core data structure.
 	\item Attribute Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data.
 	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the user's operating system. This is equivalent to Attribute Welkin with three new directives: \texttt{@eval}, \texttt{@exec}, and \texttt{@bind}. \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can run external programs that impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in the Section ?.?
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can run external programs that impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in Section ?.?.
 %\renewcommand{\syntleft}{\normalfont\bfseries}
 %\renewcommand{\syntright}{}
 
@@ -208,11 +210,11 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 % is the same as those found in any implementation
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
-Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation. For example, $\{xy\}$ stands for $\{x, y\}.$}
+Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation (possibly spaces inbetween). For example, $\{x y\}$ stands for $\{x, y\}.$}
 % TODO: figure out better way to display these! Hard to read delimiters!
 \begin{itemize}
-\item $\reserved_{\textrm{base}} = \{\texttt{\{\} () [] . ,}\} \cup \{\texttt{->, <-}\},$
-\item $\reserved_{\textrm{attribute}} = \{\texttt{\{, \}, (, ), [, ], ., , , *, -, ->, <-, @\}},$ % TODO: remove commas for single characters for clarity
+\item $\reserved_{\textrm{base}} = \{\texttt{\{\} () [] . =}\} \cup \{\texttt{->, <-, \_\{},\} $
+  \item $\reserved_{\textrm{attribute}} = \{\texttt{\{\} () [] . , * @}\} \cup \{i\texttt{--, ->, <-}\}$ % TODO: remove commas for single characters for clarity
 \item $\reserved_{\textrm{binder}} = \reserved_{\textrm{attribute}}.$
 \end{itemize}
 Each grammar is provided in Table 3.?.
@@ -239,7 +241,7 @@ Each grammar is provided in Table 3.?.
   \begin{bnf}
   terms ::= term* ;;
   term ::= (graph // connections // member // unit) ;;
-  graph ::= unit? ``\{'' terms ``\}'' ;;
+  graph ::= (unit ``:='')? ``\{'' terms ``\}'' ;;
   connections ::= term (connector term)+ ;;
 	connector ::=
    | ``-'' term ``-'' $\to$ edge
@@ -358,10 +360,10 @@ We adapt the terminology from Jensen and Milner \citep{jensen-milner-bigraphs} f
     \item a set $V^{\top} \subseteq U$ ($V^{\bot} \subseteq V$) of \textbf{roots (sites),}
     \item a function $p: V \to V$ called the \textbf{parent function,}
     \item a set $L$ of \textbf{labels,} and
-    \item a function $l: V \to L \uplus \varepsilon$ called the \textbf{labeling function,} % TODO: make this clearer!
-          % We want to avoid l: V \to L because we do not know if every vertex is labeled!
+    \item a surjective function $l: V \to L \uplus \varepsilon$ called the \textbf{labeling function,}
   \end{itemize}
-  such that $p^{(k)}(v) \neq v$ for all $k > 0$ and that $f(u) = f(v) \neq \varepsilon$ implies $u = v.$ A place graph is \textbf{full} if $m = |U|.$ %Equivalently, a labeld hiearchy is a labeled tree.
+  such that $p^{(k)}(v) = v$ iff $k = 0$ and that $l(u) = l(v) \neq \varepsilon$ implies $u = v.$ A unit graph is \textbf{full} if ...
+  % $V^{T} = \{v \;:\; \exists u. u = p(v) \wedge \forall u. \}$ and $.$  %Equivalently, a labeled hiearchy is a labeled tree.
 \end{definition}
 
 \begin{definition}
@@ -375,7 +377,7 @@ We adapt the terminology from Jensen and Milner \citep{jensen-milner-bigraphs} f
 
 \begin{definition} A \textbf{Welkin Information Graph} $G = (V, C, L, l)$ consists of
   \begin{itemize}
-    \item a unit graph $(V, L, l),$ and
+    \item a full unit graph $(V, L, l),$ and
     \item a reflexive connection graph $(V, C).$
   \end{itemize}
 \end{definition}
@@ -415,100 +417,6 @@ The next lemma defines the basis for the recorder. Every WIG must be put into a 
 
 In fact, the structure of a WIG can only be appended. Any new additions to the graph do not remove existing structure.
 
-
-%  \begin{definition} A \textbf{Welkin Information Graph} (WIG) $G = (\{G_{k}\}, \{c_{k}, u_{k}\})$ consists of
-%    \begin{itemize}
-%      \item tuples $G_{k} = (V_{k}, E_{k}, F_{k})$ called $\textbf{layers},$ where
-%            \begin{itemize}
-%              \item $V_{k}$ is a set of \textbf{vertices} or \textbf{units,}
-%              \item $E_{k} \subseteq V_{k}^{2}$ is a set of \textbf{edges,}
-%              \item $F_{k} \subseteq V_{k} \times E_{k} \times V_{k},$ is a set of \textbf{faces} or \textbf{connections;}
-%            \end{itemize}
-%      \item functions $c_{k}: V_{k} \to \mathcal{P}(V_{k+1}),$ called the $k$-th \textbf{contents map,}
-%      \item injective functions $u_{k}: V_{k+1} \to V_{k},$ called the $k$-th \textbf{unit map,}
-%    \end{itemize}
-%    such that for $k \leq n,$
-%     \begin{itemize}
-%     \item $E_{k}, F_{k}$ are reflexive: for all $I \in V_{k},$
-%             $(I, I) \in E_{k}$ and $(I, (I, I), I) \in F_{k}.$
-%     \end{itemize}
-%     \end{definition}
-
-%     % Extremely important discussion: describe composities of c and u to ensure that we can always
-%     % have connections between ANY vertices, no matter where they are. This means explaining both:
-%     % the semantics of A.b - e -> B.b
-%     % the semantics of .a - e -> .b, and
-%     % TODO: fix up this notation. Important for extensions!
-%     Notice that the third condition implies the $k$-th \textbf{identity assignment} $i_{k, 1}: V_{k} \hookrightarrow E_{k+1}, i_{k, 2}: E_{k} \to C_{k+1}$ given by $i_{k, 1}(A) = (A, A), i_{k}(A, B) = (A, (A, B), B)$ are well-defined. Through these maps, we will abuse notation and write $A \in E_{k}, E \in C_{k}$ whenever $A \in E_{k}, E \in C_{k}.$ We write $A \in G_{k}$ if $A$ is a kth vertex, edge, or face, $A \in G$ if $A \in G_{k}$ for some $k.$
-
-% To encompass a wide range of connections, we extend these map, as well as the content and unit maps, to form edges between all faces as follows.
-%     % TODO: maybe find more concise ways to state these extensions?
-%     % TODO: choose this or recursive definition? Note: this is essentially a transitive closure, treating c, u
-%     % as generalized membership relations. (c is definitely more suited for this; u is more of a mechanism for
-%     % encoding .a - e -> .b with relative members)
-% %  TODO: Explain relevance of this construction in explicitly in Lemma 2.4!
-% \begin{definition} (Extensions). Let $A \in G_{k_{1}}, B \in G_{k_{2}}$ with $k_{2} > k_{1}.$
-%     \begin{itemize}
-%       \item $B \in c(A)$ if for some $k,$ $B \in c^{(m)}_{k}(A),$
-%       \item $u(B) = A$ if for some $k,$ $u^{(m)}_{k}(B).$
-%     \end{itemize}
-% \end{definition}
-
-
-% \begin{definition} (Generalized Connections). Let $A, B, C \in G_{k}.$ Then $(A, B) \in E_{k}$ if $\cdots$
-% \end{definition}
-
-% Graphs and connections, as defined in Base Welkin, are special cases of these arcs. In fact, the contents of $A,$ along with restrictions to $c,$ forms a WIG.
-% % TODO: restrict following contents functions to only A and its units' contents
-% \begin{lemma}
-
-% For any $A \in V_{k},$ $\hat{A} := (c(V_{k}), \{c'_{k}\})$ is a WIG.
-% \end{lemma}
-% \begin{lemma}
-% WIGs are closed under unions and complements, as well as intersections by De Morgan's Laws. % TODO: find all relevant properties
-% \end{lemma}
-% Both lemmas above ensure that arbitraily many units can be defined and gradually appended to a WIG.
-
-
-% % \end{itemize}
-% % TODO; fix these for both E and F
-%    % TODO: develop this paragraph more. This is essential for connections accross layers!
-%    % Best approach: define i accross ALL the k.
-%    % We may therefore ``mix'' between cells at different layers via recursion.
-%    % \begin{itemize}
-%    %   \item \textbf{Basis:} $i(A) = (A, A, A)$
-%    %  \item \textbf{Recursion:} if $I_{1}, I_{2}, I_{3}$ are cells, then $\cdots$
-%    % \end{itemize}
-
-% % Cite: WIGs are a special form of reflexive n-hypergraphs, or generalized n-globular sets. We add the labeling function to
-% % store a record of labels from a previous Welkin file, and the last property is used to distinguish internal arcs from
-% % connectors
-% WIGS are generalizations of directed multigraphs in two different ways:
-% \begin{itemize}
-%   \item Faces are a generalized edge defined by three vertices instead of two.
-%   \item There can be edges between edges. In our definition above, these are separated by each $G_{k}.$
-% \end{itemize}
-% % TODO: decide where to put category theory references. May be helpful for category theorists looking at this
-% % standard!
-% %Moreover, notice that our definition does not require every vertex to have an alias, as opposed to a colored graph (in which all vertices are colored).
-% % TODO: is the claim below true? What we want to say is that some structure may not always be apparent in a Welkin file (particularly if a high level grammar is used). To find more structure, more often than not, a new welkin annotation file is needed.
-% % There are several examples demonstrating that, under a suitable transformation, a normalized WIG may contain new structures not found in a Welkin file. See Example ??.
-
-% We provide the following definition that are nearly identical with graph morphisms. We will return to this definition later in Section ?.?
-% \begin{definition} Let $G, H$ be WIGs. A \textbf{morphism} $f: G \to H$ is a map such that for each $0 \leq k \leq n$ and all $A, B \in V_{k}, e \in E_{k},$
-%   \begin{itemize}
-%     \item Edges are preserved: $(A, B) \in E_{k}$ implies $(f(A), f(B)) \in E'_{k}$
-%     \item Faces are preserved: $(A, e, B) \in F_{k}$ implies $(f(A), f(B)) \in F'_{k}.$
-%   \end{itemize}
-%   % TODO: find a better way to state this that is explicit. Little to no graph theory knowledge should be neeed
-%   % (this document is meant to be widely accessible)
-%   An \textbf{isomorphism} is a morphism with an inverse, meaning it is a bijection and all implications above are replaced with biconditions (if and only if). An \textbf{automorphism} is an isomorphism $\alpha: \mathcal{G} \to \mathcal{G}.$
-% \end{definition}
-% % TODO: use the mixed cell argument to show that this must be true accross ALL connections. Again, pretty
-% % important for examining isomorphisms that cross layer boundaries.
-% \begin{lemma}
-% Morphisms preserve ``mixed'' cells.
-% \end{lemma}
 
 % % TODO: in the conversion, note that A - A - B -> B, equivalent to A --> B, is converted to A - { A - B } -> B. So both of them are equivalent on Welkin. Every other connection, however, will be parsed with full brackets, i.e.,
 % % A - {{ A --> B }} -> B will be parsed as it is.

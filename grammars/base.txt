@@ -2,14 +2,16 @@
 //SPDX-License-Identifier: CC-BY-4.0
 
 terms       = term*
-term        = graph | connections | member
-graph       = (unit | "_".) "{" term "}"
+term        = connections | graph ","? | member ("," | _ )
 connections = vertex (connector vertex)+
 connector   = "-" vertex? "-" -> edge
             | "-" vertex? "->" -> left_arrow
             | "<-" vertex? "-" -> right_arrow
-vertex      = graph | unit
-member      = unit? (".".(ident | string) | "#".num)*
+vertex      = graph | member _
+graph       = (member | "_".) "{" term "}"
+member      = "."+ (ident | string | "#" number) element*
+            | unit element*
+element     = "." (ident | string) | "#" number
 unit        = ident | string | num
 ident       = CHAR*
 string      = STRING

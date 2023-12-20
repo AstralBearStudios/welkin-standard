@@ -2,9 +2,9 @@
 //SPDX-License-Identifier: CC-BY-4.0
 
 #import base.txt
-#override term
+#override base.term
 
-term = "@".directive | construct | graph | conection | member | unit
+term = "@".directive | connections | construct ","? | member ("," | _)
 directive = attribute
 attribute = "import".tuple -> import
             | "self" -> self
@@ -16,7 +16,7 @@ attribute = "import".tuple -> import
             | "output".graph -> output
             | "attribute".graph[empty, term] -> new_attribute
             | unit.term -> custom_attribute
-construct ::= operation | tuple | list | series | all_terms
+construct ::= operation | tuple | list | series | all_terms | graph
 operation ::= term.tuple | term unit term
 list ::= "[" term "," (term ",")* ","? "]"
 tuple ::= "(" term "," (term ",")* ","? ")"
@@ -24,14 +24,18 @@ series ::= term "," (term ",")
 all_terms ::= "*"
 import base.txt
 
-// Included in base.txt
-graph       = unit? "{" term "}"
-connections = term (connector term)+
-connector   = "-" term "-" -> edge
-            | "-" term ">" -> left_arrow
-            | "<" term "-" -> right_arrow
-member      = unit? ("."(ident | string) | "#"num)+
-unit        = ident | string | num
-ident       = CHAR*
-string      = STRING
-num         = NUMBER
+// Included in base.txt (for reference)
+// term        = connections | graph ","? | member ("," | _ )
+// connections = vertex (connector vertex)+
+// connector   = "-" vertex? "-" -> edge
+//             | "-" vertex? "->" -> left_arrow
+//             | "<-" vertex? "-" -> right_arrow
+// vertex      = graph | member _
+// graph       = (member | "_".) "{" term "}"
+// member      = "."+ (ident | string | "#" number) element*
+//             | unit element*
+// element     = "." (ident | string) | "#" number
+// unit        = ident | string | num
+// ident       = CHAR*
+// string      = STRING
+// number      = NUMBER

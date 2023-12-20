@@ -43,18 +43,31 @@ Throughout this document, every instance of ``Welkin grammar'' means ``standard 
 \subsection{Mathematical Background}
 This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document. We clarify on our mathematical notation below.
 
-Let $A, B, C$ be sets. We denote by $A^{*}$ the set of finite sequences of $A$ (or \texttt{A*} in text written in ASCII), including the empty sequence $\varepsilon := \emptyset,$ and we call each $w \in A^{*}$ a \textbf{word.}% \footnote{Traditionally, the set of finite sequences over a set $A$ is denoted by $A^{*}.$ However, to ensure every BNF in this document
-%   can be written in pure ASCII, we append $*$ without a superscript on $\chars$ and its subsets.}
+For each $n \in \mathbb{N},$ Let $A, B, C$ be sets and $n \in \mathbb{N}$. We define $[n] := \{0 \leq k \leq n-1\}.$ We denote disjoint union of $A, B$ as $A \uplus B,$ and we denote an arbitrary equivalence relation on $A$ by $\sim_{A}$
+$A^{*}$ the set of finite sequences of $A$ (or \texttt{A*} in text files), including the empty sequence $\varepsilon := \emptyset$ (\texttt{empty} in text files), and we call each $w \in A^{*}$ a \textbf{word.}
 
-Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite of $f$ and $g$ by $g \circ f,$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$
+Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite of $f$ and $g$ by $g \circ f,$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$ We frequently use definitions involving composites. As a reference, we provide explicit definitions of the following composites.\footnote{These are all examples of universal properties found in category theory; see \cite{maclane} for further information. It suffices to expand these definitions in certain cases for this standard.}
 
-Finally, let $[n] := \{0 \leq k \leq n-1\}.$
+% TODO: use this definition with sets index by I \times J
+\begin{itemize}
+  \item For any disjoint union $A \uplus B,$ there are disjoint unions $i_{A}: A \to A \uplus B, i_{B}: B \to A \uplus B$ given by $i_{A}(a) = a, i_{B}(b) = b.$ To define $f: A \uplus B \to C$ means providing functions $f_{1}: A \to C, f_{2}: B \to C$ such that
+  \begin{align*}
+    f \circ i_{A} = f_{1}, f \circ i_{B} = f_{2}.
+  \end{align*}
+  \item For any cartesian product $A \times B,$ there are projection functions $\pi_{1}: A \times B \to A, \pi_{2}: A \times B \to A$ given by $\pi_{1}(a, b) = a, \pi_{2}(a, b) = b.$ To defines $g: A \to B \times C$ means providing functions $g_{1}: B \to A, g_{2}: C \to A$ such that
+  \begin{align*}
+    \pi_{A} \circ g = g_{1}, \pi_{B} \circ g = g_{2}.
+  \end{align*}
+\end{itemize}
+
+% TODO: generalize McAllester's definition to include set theory (or reference type theory, as necessary)
+Finally, two structures are \textbf{cryptomorphic} if their key properties are defined by the same first order theory. % Any structure in the standard may be considered modulo cryptomorphism. Thus, any implementation can use their own data structure, \textit{as long} as it satisfies the properties in this document.
 
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
 We define text, character encodings, and character decodings as abstract notions. The discussion here may be carried out in terms of bytes and specific data formats, but these concepts are beyond the scope of this standard.
 
-Let Char be a finite set. An \textbf{encoding} is an injective mapping $\encoding : \Char \to \mathbb{N}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \encoding^{-1}(\mathbb{N}) \to \mathrm{Char}$ of $\encoding.$ We denote $\chars = \decoding(\mathbb{N}).$
+Let Char be a finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathrm{Char} \to \mathbb{N}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \encoding^{-1}(\mathbb{N}) \to \mathrm{Char}$ of $\encoding.$ We denote $\chars = \decoding(\mathbb{N}).$
 
 Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are defined in the following sources.
 % TODO: put these references in bibtex
@@ -67,7 +80,7 @@ Character encodings may be given as finite tables, matching natural numbers with
 
 % We render special characters, frequently used in our BNF, as glyphs. See Table ?.? for more details.
 
-Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much as possible. Every BNF grammar (see Section ?.?) for this standard will be written in ASCII as a unifying encoding, but users may create grammars using UTF-8, UTF-16, or their own encodings (see Section ?.?).
+Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much as possible. The BNFs for this standard (\ref{section:grammar}) are written in ASCII as a unifying encoding, but users may create grammars using UTF-8, UTF-16, or their own encodings (see \ref{section:customization}).
 % TODO: put this into table format. We need an easy way to reference any of these sets and notes about them
 % Defining each subimage linearly is not working that well.
 
@@ -210,6 +223,7 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 % is the same as those found in any implementation
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
+\label{section:syntax}
 Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation (possibly spaces inbetween). For example, $\{x y\}$ stands for $\{x, y\}.$}
 % TODO: figure out better way to display these! Hard to read delimiters!
 \begin{itemize}
@@ -263,6 +277,7 @@ Each grammar is provided in Table 3.?.
   attributes ::= ``import''.tuple $\to$ import
   | ``self''.(member?) $\to$ self
   | ``alias''.graph[empty] $\to$ alias
+  | ``extend''.graph[empty] $\to$ extend
   | ``resource''.graph[unit] $\to$ resources
   | ``metadata''.graph[unit] $\to$ metadata
   | ``input''.graph $\to$ input
@@ -309,7 +324,7 @@ Equality of terms.
   \item \textbf{Basis.} Two units are equal if they are the same kind and obey one of the following.
 	\begin{itemize}
 	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
-      \item \texttt{string} terms are equal if their corresponding contents are equal. Thus, if $", '$ are delimiters, \texttt{``A''} coincides with \texttt{'A'},
+    \item \texttt{string} terms are equal if their corresponding contents are equal.
 	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
 	\end{itemize}
   \item \textbf{Recursion.}
@@ -352,46 +367,84 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
  \end{definition}
  % TODO: talk about encoding of numbers in the structure itself. This probably a separate encoding from the one used to write the welkin file
 
-We adapt the terminology from Jensen and Milner \citep{jensen-milner-bigraphs} for our needs.
+ We adapt the terminology from Jensen and Milner \citep{jensen-milner-bigraphs} for our needs.
+
+% \begin{definition} A \textbf{labeling signature} $\mahcal{L} = (L, p_{L})$ consists of
+%    \begin{itemize}
+%      \item a set $L$ of \textbf{labels,}
+%     \item a function $L$
+%    \end{itemize}
+% \end{definition}
+
+% TODO: revisit bigraph isomorphism and determine if we could use an adjaceny map instead. (Parent function forces us to define roots; this is not needed with child based approach
+% INSIGHT: I thought we needed to add a tree based structure to the labels (to make sure that user's content is preserved), BUT we can add this later. In fact, we can put this
+% into our canonical form! (Can(G) needs to ensure we CAN recover related labels; we'll define this formally, but essentially, if parent(1) = 0, 1 is labeled with a, 0 is labeled with A, then
+ % we have to recover this original labeling.) We stil need to figure out how to merge multiple labelings together...
 \begin{definition}
-  A \textbf{(labeled) unit graph} $U = (V, V^{\top}, V^{\bot}, p, L, l)$ consists of
+  % A unit graph is a tree. A labeled unit graph is a tree whose nodes are labeled by trees.
+  A \textbf{unit graph} $U = (V, V^{\top}, p)$ consists of
   \begin{itemize}
     \item a set $V$ of \textbf{units,}
-    \item a set $V^{\top} \subseteq U$ ($V^{\bot} \subseteq V$) of \textbf{roots (sites),}
-    \item a function $p: V \to V$ called the \textbf{parent function,}
-    \item a set $L$ of \textbf{labels,} and
-    \item a surjective function $l: V \to L \uplus \varepsilon$ called the \textbf{labeling function,}
+    \item a set $V^{\top} \subseteq V$ of \textbf{roots,}
+    \item a function $p: V \setminus V^{\top} \to V$ called the \textbf{parent function,}
   \end{itemize}
-  such that $p^{(k)}(v) = v$ iff $k = 0$ and that $l(u) = l(v) \neq \varepsilon$ implies $u = v.$ A unit graph is \textbf{full} if ...
-  % $V^{T} = \{v \;:\; \exists u. u = p(v) \wedge \forall u. \}$ and $.$  %Equivalently, a labeled hiearchy is a labeled tree.
+  such that $p$ is acyclic: $p^{(k)}(v) = v$ iff $k = 0$. We define $V^{\bot} = \{v \;:\; \forall u. p^{(k)}(v) \neq u \}$ as the set of \textbf{sites.} Equivalently, $U$ is a forest, with roots $V^{T},$ leaves $V^{\bot}$ , and edges $\{(v, p(v)), (p(v), v) \;:\; v \in V\}.$ We say
+
+  A unit graph $\mathcal{L} = (N = L / \sim_{L}, N^{\top}, p_{\mathcal{L}})$ is said to \textbf{label} a unit graph $U = (V, V^{\top}, p)$
+  if there exists a function $l: V \to N \uplus \varepsilon$ such that, whenever $l(u) = l(v),$ $l(v) = \varepsilon$ or $p(u) = p(v), l(v) \neq \varepsilon$ imply $u = v.$ In this case, we call $\sim_{L}$ an \textbf{alias equivalence} and $l$ a \textbf{labeling function.} Abusing notation, we will write $L$ for $\mathcal{L}.$
+  % In other words, the restriction of $l$ to $\{(u, v) \;:\; p(u) = p(v)\} \cup l^{-1}(\varepsilon)$ is injective.
+   % \footnote{In order to support anonymous graphs, it is necessary to add the empty set as a label. The special labeling condition ensures that vertices are uniquely determined by non-empty labels.}
 \end{definition}
 
 \begin{definition}
   A \textbf{connection graph} $G = (V, C)$ consists of
   \begin{itemize}
     \item a set $V$ of \textbf{vertices,} and
-    \item a set $C \subseteq V \times (V \uplus \{\varepsilon\}) \times V$ of $\textbf{connections.}$
+    \item a set $C \subseteq V^{2} \cup V^{3}$ of \textbf{connections.}
   \end{itemize}
-        A connection graph is \textbf{reflexive} if $(A, A, A) \in V$ for each $A \in V.$ In this case, there is a function $i: V \to C$ given by $i(A) = (A, A, A).$ Abusing notation, we will write $A$ and $(A, A, A)$ synonymously (with the notation being clear from context).
+  The subset $C \cap V^{2}$ is called the set of \textbf{atomic connections} or \textbf{arcs.} A connection graph is \textbf{reflexive} if $(A, A), (A, A, A) \in V$ for each $A \in V.$
+
+  We frequently use the \textbf{component} functions of $C,$ given as follows.
+  \begin{itemize}
+  \item The \textbf{source map} $s = \pi_{1, 1} \uplus \pi_{2, 1}: C \to V$ returns the first entry in any connection,
+  \item The \textbf{target map} $t = \pi_{1, 2} \uplus \pi_{2, 2}: C \to V,$ returns the second entry in an arc, or third element in a non-atomic connection, and
+  \item The \textbf{connector map} $c = \pi_{2, 2}: C \cap V^{3} \to V$ returns the second entry in a non-atomic connection.
+  \end{itemize}
 \end{definition}
 
-\begin{definition} A \textbf{Welkin Information Graph} $G = (V, C, L, l)$ consists of
+% We frequently use an auxilary notion known as a port, as used by \cite{milner}.
+
+% \begin{definition}
+% A \textbf
+
+% \end{definition}
+
+%Throughout this document, we will assume all connection graphs are simple.
+%\footnote{It is possible to allow loops, i.e., connections of the form $(A, A)$ or $(A, A, A).$ This property, however, is automatically part of a graph's structure: a morphism \ref{def:morphism}
+%maps vertices of one graph to another, while separately mapping connections to connections. Separating these maps ensures that a non-trivial graph cannot be embeded into a single point, avoiding structural collapse. }
+
+% In this case, there is a function $i: V \to C$ given by $i(A) = (A, A, A).$ Abusing notation, we will write $A$ and $(A, A, A)$ synonymously (with the notation being clear from context).
+
+Now we may present the core data structure of Welkin (modulo cryptomorphism).
+
+\begin{definition} A \textbf{Welkin Information Graph (WIG)} $G = (V, V^{T}, p, C, \{L_{i}, l_{i}\})$ consists of
   \begin{itemize}
-    \item a full unit graph $(V, L, l),$ and
-    \item a reflexive connection graph $(V, C).$
+    \item a unit graph $(V, V^{T}, p),$ labeled by pair-wise disjoint $L_{i}$ and labeling function $l_{i}$ for each $1 \leq i \leq m,$ and
+    \item a (simple) connection graph $(V, C).$
   \end{itemize}
 \end{definition}
 
 % TODO: talk about whether edges can collapse into loops. This is not possible in an isomorphism, but it is worth mentioning
 \begin{definition}
-  Let $G = (V_{G}, C_{G}, L_{G}, l_{G}), H = (V_{H}, C_{H}, L_{H}, l_{H})$ be WIGS. A \textbf{morphism} $f: G \to H$ is a triple of functions $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H}, f_{L}: L_{G} \to L_{H})$ such that conditions hold:
-  \begin{itemize}
-    \item   $f_{C}(A, e, B) = (f_{V}(A), f_{V}(e), f_{V}(B))$ for $A, e, B \in V_{G},$. Equivalently, $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{V}(B)) \in C_{H}.$\footnote{Note that it is possible for loops to be sent to edges. In an isomorphism, however, this is not possible: all loops are mapped exactly to loops.}
-    \item $test$
+  Let $G = (V_{G}, V^{\top}_{G}, C_{G}, \{\L_{G, i}, l_{G, i}\}), H = (V_{H}, V^{\top}_{H}, C_{H}, \{L_{H, i}, l_{H, i}\})$ be WIGs. A \textbf{morphism} $f: G \to H$ is a triple of functions $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H}, f_{L}: L_{G} \to L_{H})$ such that the folowing equalities hold:
+    \begin{itemize}
+    %\item
+    % \item $f_{V}$ preserves edges: $f_{C}(A, e, B) = (f_{V}(A), f_{V}(e), f_{V}(B)) \in C$ for $A, e, B \in V_{G},$. Equivalently, $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{V}(B)) \in C_{H}.$\footnote{Note that it is possible for loops to be sent to edges. In an isomorphism, however, this is not possible: all loops are mapped exactly to loops.}
+    \item for each $i \in \mathbb{N},$ $f_{L} \circ l_{G,i} = l_{H, i} \circ f_{V}.$
   \end{itemize}
   An \textbf{isomorphism} is a morphism with an inverse (i.e., such that the above conditions hold in both directions).
-
 \end{definition}
+
 
 % send edges to edges:
 % send loops to loops: (A, A, A)
@@ -415,7 +468,7 @@ The next lemma defines the basis for the recorder. Every WIG must be put into a 
 \begin{lemma} For any WIG $G,$ $G \cong \can(G).$
 \end{lemma}
 
-In fact, the structure of a WIG can only be appended. Any new additions to the graph do not remove existing structure.
+In fact, the structure of a WIG can only be appended. Any new additions to the graph do not remove existing structure. It is possible for existing structure to be repeated, in which case, the complexity of the connection graph does not increase.
 
 
 % % TODO: in the conversion, note that A - A - B -> B, equivalent to A --> B, is converted to A - { A - B } -> B. So both of them are equivalent on Welkin. Every other connection, however, will be parsed with full brackets, i.e.,
@@ -477,7 +530,7 @@ In each case, these variants must be implemented according to the welkin/bootstr
 % \end{center}
 
 \subsubsection{Bootstrap}
-The welkin/bootstrap file faciliates the user API to Attribute and Binder Welkin. It is currently located at \url{https://github.com/AstralBearStudios/welkin} and is essential for creating a stable Welkin interpreter. Every official interpreter must follow this document first, and then be able to succesfully parse for the final (bootstrapped) command: \texttt{@attribute.}
+The welkin/bootstrap file faciliates the user API to Attribute and Binder Welkin. It is currently located at \url{https://github.com/AstralBearStudios/welkin} and is essential for creating a stable Welkin interpreter. Every official interpreter must follow this document first, and then be able to succesfully parse for the final (bootstrapped) attribute: \texttt{@attribute.}
 
 
 % TODO: put below text somewhere else!
@@ -488,6 +541,7 @@ The welkin/bootstrap file faciliates the user API to Attribute and Binder Welkin
 
 
 \subsection{Customization}
+
 All Welkin files are infinitely customizable via the welkin config file, which is written in Attribute Welkin. Any attribute can be used, and other Welkin files can be imported. A base config file is required to customize a Welkin grammar. From there, configs can be arbitrarily nested to create and connect any desired (context-free) grammar, validator, recroder, and displayer.
 % TODO: figure out best way to apply these directives to an entire folder or set of files
 % TODO: replace itemzie with listing

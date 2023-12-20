@@ -16,6 +16,7 @@
     "can"
     "scope")
    (LaTeX-add-labels
+    "section:syntax"
     "ch:spec"))
  :latex)
 

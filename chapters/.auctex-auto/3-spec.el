@@ -17,6 +17,8 @@
     "scope")
    (LaTeX-add-labels
     "section:syntax"
-    "ch:spec"))
+    "lemma:closure"
+    "def:iso"
+    "sec:bootstrap"))
  :latex)
 

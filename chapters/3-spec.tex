@@ -11,7 +11,7 @@ This document describes the Welkin information language, a programming language 
 
 This edition of the standard, in English, is the basis for all other translations. Only the grammars will be given in an English (specifically ASCII) and should be copied identically. However, these grammars can be built upon via Section ?.?, and any other terms in this document may be translated or changed as necessary.
 
-Throughout this document, every instance of ``Welkin grammar'' means ``standard Welkin grammar.'' Every instance of ``Welkin interpreter'' means ``conformant Welkin interpreter.'' For a definition of conformance, refer to Section ?.?
+Throughout this document, every instance of ``Welkin grammar'' means ``standard Welkin grammar.'' Every instance of ``Welkin interpreter'' means ``conformant Welkin interpreter.'' For a definition of conformance, refer to \ref{section: conformance}.
 
 \section{Preliminaries}
 
@@ -41,24 +41,32 @@ Throughout this document, every instance of ``Welkin grammar'' means ``standard 
   }
 }
 \subsection{Mathematical Background}
-This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document. We clarify on our mathematical notation below.
+This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document. We clarify our mathematical notation below.
 
-For each $n \in \mathbb{N},$ Let $A, B, C$ be sets and $n \in \mathbb{N}$. We define $[n] := \{0 \leq k \leq n-1\}.$ We denote disjoint union of $A, B$ as $A \uplus B,$ and we denote an arbitrary equivalence relation on $A$ by $\sim_{A}$
-$A^{*}$ the set of finite sequences of $A$ (or \texttt{A*} in text files), including the empty sequence $\varepsilon := \emptyset$ (\texttt{empty} in text files), and we call each $w \in A^{*}$ a \textbf{word.}
+Let $A, B, C$ be sets and $n \in \mathbb{N}$. We define $[n] := \{0 \leq k \leq n-1\}.$ We denote the disjoint union of $A, B$ as $A \sqcup B,$ and an arbitrary equivalence relation on $A$ by $\sim_{A}.$ We let
+$A^{*}$ be the set of finite sequences of $A$ (or \texttt{A*} in text files), including the empty sequence $\varepsilon := \emptyset$ (\texttt{empty} in text), and we call each $w \in A^{*}$ a \textbf{word.}
 
-Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite of $f$ and $g$ by $g \circ f,$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$ We frequently use definitions involving composites. As a reference, we provide explicit definitions of the following composites.\footnote{These are all examples of universal properties found in category theory; see \cite{maclane} for further information. It suffices to expand these definitions in certain cases for this standard.}
-
-% TODO: use this definition with sets index by I \times J
+Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite $g \circ f$ as the function $g \circ f = g(f(x)),$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$ We frequently use the product and disjoint union of two functions. We explicilty define these for a family of sets $A = \{A_j\}_{j \in J}$, with $|J| = n.$\footnote{These are all examples of universal properties found in category theory; see \cite{maclane} for further information. It suffices to expand these definitions in certain cases for this standard.}
 \begin{itemize}
-  \item For any disjoint union $A \uplus B,$ there are disjoint unions $i_{A}: A \to A \uplus B, i_{B}: B \to A \uplus B$ given by $i_{A}(a) = a, i_{B}(b) = b.$ To define $f: A \uplus B \to C$ means providing functions $f_{1}: A \to C, f_{2}: B \to C$ such that
-  \begin{align*}
-    f \circ i_{A} = f_{1}, f \circ i_{B} = f_{2}.
-  \end{align*}
-  \item For any cartesian product $A \times B,$ there are projection functions $\pi_{1}: A \times B \to A, \pi_{2}: A \times B \to A$ given by $\pi_{1}(a, b) = a, \pi_{2}(a, b) = b.$ To defines $g: A \to B \times C$ means providing functions $g_{1}: B \to A, g_{2}: C \to A$ such that
-  \begin{align*}
-    \pi_{A} \circ g = g_{1}, \pi_{B} \circ g = g_{2}.
-  \end{align*}
+\item For the carteisan product $P = \prod_{j \in J}A_{j},$ there are \textbf{projections} $\pi_j: P \to A_{j},$ where $\pi_i(x_{1}, x_{2}, \cdots, x_{n}) = x_{i}.$ For $n$ functions $f_{j}: A_{j} \to C,$ there is a unique function $\prod_{j \in j}f_{j} := f: P \to C$ such that $f = f_{j} \circ \pi_{j}.$
+  \item For the disjoint union $D = \prod_{j \in J}A_{j},$ there are \textbf{injections} $\i_{j}: A_{j} \to D,$ where $i_{j}(x) = (x, j).$  For $n$ functions $g_j: C \to A_{j}$ there is a unique function $\coprod_{j \in J}g_{j} := g: C \to D$ such that
+$g = i_{j} \circ g_{j}.$
 \end{itemize}
+
+Finally, except when explicitly stated, all statements with a free variable $x$ are universal, i.e., must hold for all $x \in X.$
+% % TODO: use this definition with sets index by I \times J
+% \begin{itemize}
+%   \item
+
+%   % \item For any disjoint union $A \uplus B,$ there are disjoint unions $i_{A}: A \to A \uplus B, i_{B}: B \to A \uplus B$ given by $i_{A}(a) = a, i_{B}(b) = b.$ To define $f: A \uplus B \to C$ means providing functions $f_{1}: A \to C, f_{2}: B \to C$ such that
+%   % \begin{align*}
+%   %   f \circ i_{A} = f_{1}, f \circ i_{B} = f_{2}.
+%   % \end{align*}
+%   % \item For any cartesian product $A \times B,$ there are projection functions $\pi_{1}: A \times B \to A, \pi_{2}: A \times B \to A$ given by $\pi_{1}(a, b) = a, \pi_{2}(a, b) = b.$ To defines $g: A \to B \times C$ means providing functions $g_{1}: B \to A, g_{2}: C \to A$ such that
+%   % \begin{align*}
+%   %   \pi_{A} \circ g = g_{1}, \pi_{B} \circ g = g_{2}.
+%   % \end{align*}
+% \end{itemize}
 
 % TODO: generalize McAllester's definition to include set theory (or reference type theory, as necessary)
 Finally, two structures are \textbf{cryptomorphic} if their key properties are defined by the same first order theory. % Any structure in the standard may be considered modulo cryptomorphism. Thus, any implementation can use their own data structure, \textit{as long} as it satisfies the properties in this document.
@@ -224,7 +232,7 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
 \label{section:syntax}
-Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation (possibly spaces inbetween). For example, $\{x y\}$ stands for $\{x, y\}.$}
+Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation (possibly spaces inbetween). For example, $\{\texttt{x y}\}$ stands for $\{\texttt{x, y}\}.$}
 % TODO: figure out better way to display these! Hard to read delimiters!
 \begin{itemize}
 \item $\reserved_{\textrm{base}} = \{\texttt{\{\} () [] . =}\} \cup \{\texttt{->, <-, \_\{},\} $
@@ -385,13 +393,19 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
   A \textbf{unit graph} $U = (V, V^{\top}, p)$ consists of
   \begin{itemize}
     \item a set $V$ of \textbf{units,}
-    \item a set $V^{\top} \subseteq V$ of \textbf{roots,}
-    \item a function $p: V \setminus V^{\top} \to V$ called the \textbf{parent function,}
+    \item a function $p: V_{0} \subseteq V \to V$ called the \textbf{parent function,}
   \end{itemize}
-  such that $p$ is acyclic: $p^{(k)}(v) = v$ iff $k = 0$. We define $V^{\bot} = \{v \;:\; \forall u. p^{(k)}(v) \neq u \}$ as the set of \textbf{sites.} Equivalently, $U$ is a forest, with roots $V^{T},$ leaves $V^{\bot}$ , and edges $\{(v, p(v)), (p(v), v) \;:\; v \in V\}.$ We say
+  such that $p$ is acyclic: $p^{(k)}(v) = v$ iff $k = 0$. We define
 
-  A unit graph $\mathcal{L} = (N = L / \sim_{L}, N^{\top}, p_{\mathcal{L}})$ is said to \textbf{label} a unit graph $U = (V, V^{\top}, p)$
-  if there exists a function $l: V \to N \uplus \varepsilon$ such that, whenever $l(u) = l(v),$ $l(v) = \varepsilon$ or $p(u) = p(v), l(v) \neq \varepsilon$ imply $u = v.$ In this case, we call $\sim_{L}$ an \textbf{alias equivalence} and $l$ a \textbf{labeling function.} Abusing notation, we will write $L$ for $\mathcal{L}.$
+  \begin{itemize}
+  \item $V^{\top} = V \setminus V_{0}$ as the set of \textbf{roots,} and
+  \item $V^{\bot} = \{v \;:\; p^{(k)}(v) \neq u \}$ as the set of \textbf{sites.}
+  \end{itemize}
+  Equivalently, $U$ is a forest, where each component has some root in $V^{T}$ and leaves in $V^{\bot}.$
+  % TODO: figure out if we need to say that L is isomorphic to U. This may ensure that L doesn have too much of a different structure than U
+  A unit graph $\mathcal{L} = (N = L / \sim_{L}, p_{\mathcal{L}})$ is said to \textbf{label} a unit graph $U = (V, p)$
+  if there exists a function $l: V \to N \sqcup \varepsilon$ such that, whenever $l(u) = l(v),$ $l(v) = \varepsilon$ or $p(u) = p(v), l(v) \neq \varepsilon$ imply $u = v.$ In this case, we call $\sim_{L}$ an \textbf{alias equivalence} and $l$ a \textbf{labeling.} In general, $L = \coprod_{1 \leq j \leq m}L_{j}$ for finitely many labels $j.$
+
   % In other words, the restriction of $l$ to $\{(u, v) \;:\; p(u) = p(v)\} \cup l^{-1}(\varepsilon)$ is injective.
    % \footnote{In order to support anonymous graphs, it is necessary to add the empty set as a label. The special labeling condition ensures that vertices are uniquely determined by non-empty labels.}
 \end{definition}
@@ -400,15 +414,15 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
   A \textbf{connection graph} $G = (V, C)$ consists of
   \begin{itemize}
     \item a set $V$ of \textbf{vertices,} and
-    \item a set $C \subseteq V^{2} \cup V^{3}$ of \textbf{connections.}
+    \item a set $C \subseteq V^{2} \cup V^{3}$ of \textbf{connections.} % TODO: re-evaluate if V^2 \cup V^3 OR V \times (V \cup \varepsilon) \cup V should be used!
   \end{itemize}
-  The subset $C \cap V^{2}$ is called the set of \textbf{atomic connections} or \textbf{arcs.} A connection graph is \textbf{reflexive} if $(A, A), (A, A, A) \in V$ for each $A \in V.$
+  Connections in $V^{2}$ are called \textbf{atomic connections} or \textbf{arcs.} A connection graph is \textbf{reflexive} if $(A, A, A) \in V$ for each $A \in V.$
 
   We frequently use the \textbf{component} functions of $C,$ given as follows.
   \begin{itemize}
-  \item The \textbf{source map} $s = \pi_{1, 1} \uplus \pi_{2, 1}: C \to V$ returns the first entry in any connection,
-  \item The \textbf{target map} $t = \pi_{1, 2} \uplus \pi_{2, 2}: C \to V,$ returns the second entry in an arc, or third element in a non-atomic connection, and
-  \item The \textbf{connector map} $c = \pi_{2, 2}: C \cap V^{3} \to V$ returns the second entry in a non-atomic connection.
+  \item The \textbf{source map} $s = \pi_{1} \sqcup \pi_{1}: C \to V$ returns the first entry in any connection,
+  \item The \textbf{target map} $t = \pi_{2} \sqcup \pi_{2}: C \to V,$ returns the second entry in an arc, or the third element in a non-atomic connection, and
+  \item The \textbf{connector map} $c = \pi_{2}: C \cap V^{3} \to V$ returns the second entry in a non-atomic connection.
   \end{itemize}
 \end{definition}
 
@@ -427,49 +441,100 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 
 Now we may present the core data structure of Welkin (modulo cryptomorphism).
 
-\begin{definition} A \textbf{Welkin Information Graph (WIG)} $G = (V, V^{T}, p, C, \{L_{i}, l_{i}\})$ consists of
+\begin{definition} A \textbf{Welkin Information Graph (WIG)} $G = (V, p, C, L)$ consists of
   \begin{itemize}
-    \item a unit graph $(V, V^{T}, p),$ labeled by pair-wise disjoint $L_{i}$ and labeling function $l_{i}$ for each $1 \leq i \leq m,$ and
-    \item a (simple) connection graph $(V, C).$
+    \item a unit graph $(V, p),$ with labels $L,$
+    \item a reflexive connection graph $(V, C).$
   \end{itemize}
 \end{definition}
+
+WIGs are a special case of a (lean) bigraph \cite{jensen-milner-bigraphs}, in which there is a ``site'' for each element in $V^{\bot},$ a ``root'' for each $v \in V^{\top},$ and there are no inner or outer faces. We add an independent labeling component that does not impact the overarching structure, but directly corresponds to a user's naming conventions.
+
+
+An important aspect of bigraph theory is Jensen and Milner's complete algebraic characterization \cite{jensen-milner-bigraphs}. This standard only requires one aspect of this theory.
+
+\begin{lemma}
+WIGs are closed under disjoint unions.
+\end{lemma}
+\label{lemma:closure}
+
+Lemma \ref{lemma:closure} ensures that WIGs may have an arbitrary size without special constraints. In fact, any new additions to the graph does not remove existing structure (see \ref{lemma:struct}). It is possible for existing structure to be repeated, in which case, the complexity of the connection graph does not increase (see \ref{tests:examples} for examples).
+
+% \begin{proof}
+% Trees and graphs are closed under each operation above, so it suffices to prove the lemma for the labels of a WIG. This follows by straightforward constructions.
+% \end{proof}
 
 % TODO: talk about whether edges can collapse into loops. This is not possible in an isomorphism, but it is worth mentioning
+
+% \delta_
+
+
+To support the identification of equivalent structures, we introduce a WIG equivalence, a special case of lean support equivalence in \cite{jensen-milner-bigraph}.
 \begin{definition}
-  Let $G = (V_{G}, V^{\top}_{G}, C_{G}, \{\L_{G, i}, l_{G, i}\}), H = (V_{H}, V^{\top}_{H}, C_{H}, \{L_{H, i}, l_{H, i}\})$ be WIGs. A \textbf{morphism} $f: G \to H$ is a triple of functions $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H}, f_{L}: L_{G} \to L_{H})$ such that the folowing equalities hold:
+  Let $G = (V_{G}, p_{G}, C_{G}, \{L_{G, i}, l_{G, i}\}), H = (V_{H}, p_{H}, C_{H}, \{L_{H, i}, l_{H, i}\})$ be WIGs. A \textbf{morphism} $f: G \to H$ consists of functions $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H}, f_{L}: L_{G} \to L_{H})$ such that the folowing equalities hold:
+  \begin{itemize}
+    \item $p_{H} \circ f_{V} = f_{V} \circ p_{G},$
+    \item Connections are preserved:
     \begin{itemize}
-    %\item
+      \item $(A, B) \in C$ implies $(f(A), f(B)) \in C$
+      \item $(A, e, B) \in C,$ $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{v}(B)) \in C_{H}.$
+    \end{itemize}
+    Equivalently, the following equalities hold.
+    \begin{itemize}
+      \item $s_{H} \circ f_{C} = f_{C} \circ s_{G},$
+      \item $t_{H} \circ f_{C} = f_{C} \circ t_{G},$
+      \item $c_{H} \circ f_{C} = f_{C} \circ c_{G}.$
+    \end{itemize}
     % \item $f_{V}$ preserves edges: $f_{C}(A, e, B) = (f_{V}(A), f_{V}(e), f_{V}(B)) \in C$ for $A, e, B \in V_{G},$. Equivalently, $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{V}(B)) \in C_{H}.$\footnote{Note that it is possible for loops to be sent to edges. In an isomorphism, however, this is not possible: all loops are mapped exactly to loops.}
-    \item for each $i \in \mathbb{N},$ $f_{L} \circ l_{G,i} = l_{H, i} \circ f_{V}.$
+    \item Preservation of loops: for $D \in V_{H},$ $f_{C}^{-1}(D, D, D) \subseteq \{(A, A, A) \in V^{3}_{G}\},$
+    \item $l_{H, i} \circ f_{V} = f_{L} \circ l_{G,i}.$
   \end{itemize}
-  An \textbf{isomorphism} is a morphism with an inverse (i.e., such that the above conditions hold in both directions).
+  An \textbf{equivalence} is bijective morphism. We write $G \cong H$ whenever two WIGs are equivalent.
 \end{definition}
+Our definition excludes the notion of ports, which are not needed in this standard. More information can be found in \cite{jensen-milner-bigraph}.
 
 
-% send edges to edges:
-% send loops to loops: (A, A, A)
-% Feels VERY much like a monoid! (BUT without composition)
 
+% TODO: reword this. Graph isomorphism is getting repetitive here.
+% TODO: cite specific definition in paragraph below (for support equivalence)
+Note that support equivalence includes a bijective graph homomorphism which does not induce a bijection between edges, but it does induce an equivalence relation \cite[jensen-milner-bigraph].\footnote{In category theory, equivalences are formally defined using maps between maps, and typically arise through adjunctions of categories (see [?]).} Thus, while graph isomorphisms are support equivalences (using trivial tree like-structures), the converse is not true.\footnote{See \cite{iso-counterexample}, Figure ?.? for a counterexample. Each graph is equivalent to a bigraph where all the nodes are roots.} This fact is crucial for Welkin implementations: there is a polynomial time algorithm for bigraph equivalence\cite{canonical-string}, while no such algorithm is known for graph isomorphism \cite{babai}. Determining WIG isomorphism is a core component of Welkin (see \ref{sec:core}), and we address how users may work with general graph equivalences (refined or coarse) in \ref{sec:customization}.
 
+% In \cite{milner}, the equivalence classes of bigraphs modulo support equivalence are called abstract bigraphs.
+
+In order to store WIGs for efficient retrieval, we define the associated canonical form, which is parameteric over the representation of nodes.
+
+% TODO: maybe we could generalize the set of vertices chosen? They are pretty arbitrary, but can always be represented by vertices
+% TODO: reword the canonical mapping on vertices. This is currently a bit messy.
+% TODO: look up storing topoi in a computer; they do use [n] for the representation of graphs!
 \begin{definition}
-  Let $G$ be a WIG. The \textbf{Welkin Canonical Form (WCF)} of $G$ is the WIG $\can(G) = (V', E', C', L, l'),$
+  Let $G$ be a WIG. The \textbf{Welkin Canonical Form (WCF) of} $G$ is the WIG $\can(G) = (\can(V), \can(p), \can(C), \{L_{i}, \can(l_{i})\}),$
   where
   \begin{itemize}
-    \item $\can(V) = \{0 \leq k \leq |G|\},$
-    \item $(\can(A), \can(B)) \in \can(E)$ if $(A, B) \in E$
-    \item $(\can(A), \can(E), \can(B)) \in \can(C)$ if $(A, E, B) \in C.$
-    \item (Condition on labeling)
+    \item $\can(V) = [|V|],$
+    \item Each $v \in V$ is assigned to a unique $\can(v) \in \can(V),$
+    \item $\can(p)(\can(v)) = \can(p(v)),$
+    \item if $(A, B) \in C,$ $\can(A, B) \in \can(C),$ and likewise, $\can(A, e, B) $
+    \item $\can(l_{i})(\can(v)) = l_{i}(v).$
   \end{itemize}
-
-
+In case $f(n) = [n],$ we say that the canonical form is ``natural.''
 \end{definition}
+\label{def:iso}
 
-The next lemma defines the basis for the recorder. Every WIG must be put into a universal form that can be labeled in completely different ways. The underlying structure of the WIG is always preserved, no matter what labels are added.
-\begin{lemma} For any WIG $G,$ $G \cong \can(G).$
+We summarize some key properties in the next lemma, which immediately follows by \label{def:iso} and \label{lemma:closure}
+
+\begin{lemma}
+  For any WIGs G, H, and fixed representation of nodes for $\can(G),$
+  \begin{itemize}
+    \item $G \cong \can(G),$
+    \item $G \cong H$ iff $\can(G) = \can(H),$ and
+    \item for any labels $L'_{i}, L''_{i},$ $G \sqcup L'_{i} \cong H \cup L^{''}_{i}.$
+  \end{itemize}
 \end{lemma}
 
-In fact, the structure of a WIG can only be appended. Any new additions to the graph do not remove existing structure. It is possible for existing structure to be repeated, in which case, the complexity of the connection graph does not increase.
-
+The next lemma defines the basis for the recorder. Every WIG must be put into a universal form that can be labeled in completely different ways. The underlying structure of the WIG is always preserved, no matter what labels are added.
+% TODO: we do NOT want to make labels required in this definition. That's the whole point! So, our isomorphism should NOT be reliant to ANY set of labels. That may need to be a looser definition. It would be much easier to consider graphs MODULO these labels. And THEN we can apply WIG isos
+\begin{lemma} For any WIG $G,$ $G \cong \can(G).$
+\end{lemma}
 
 % % TODO: in the conversion, note that A - A - B -> B, equivalent to A --> B, is converted to A - { A - B } -> B. So both of them are equivalent on Welkin. Every other connection, however, will be parsed with full brackets, i.e.,
 % % A - {{ A --> B }} -> B will be parsed as it is.
@@ -502,14 +567,26 @@ Each directive relies on the following components.
 		\end{itemize}
 \end{itemize}
 
-All official implementations may implement
+
 \begin{itemize}
-\item Base Welkin alone,
-\item Attribute and Base Welkin, or
-\item All three variants.
+  \item self
+  \item alias
+  \item extend
+  \item import
+  \item parse
+  \item validate
+  \item output
+  \item
 \end{itemize}
 
-In each case, these variants must be implemented according to the welkin/bootstrap file. This file bootstraps the essential information from this standard. (See Section ?.? on a specification of this bootstrap)
+% All official implementations may implement
+% \begin{itemize}
+% \item Base Welkin alone,
+% \item Attribute and Base Welkin, or
+% \item All three variants.
+% \end{itemize}
+
+% In each case, these variants must be implemented according to the welkin/bootstrap file. This file bootstraps the essential information from this standard. (See Section ?.? on a specification of this bootstrap)
 
 
 % \begin{center}
@@ -530,6 +607,7 @@ In each case, these variants must be implemented according to the welkin/bootstr
 % \end{center}
 
 \subsubsection{Bootstrap}
+\label{sec:bootstrap}
 The welkin/bootstrap file faciliates the user API to Attribute and Binder Welkin. It is currently located at \url{https://github.com/AstralBearStudios/welkin} and is essential for creating a stable Welkin interpreter. Every official interpreter must follow this document first, and then be able to succesfully parse for the final (bootstrapped) attribute: \texttt{@attribute.}
 
 
@@ -585,6 +663,33 @@ All Welkin files are infinitely customizable via the welkin config file, which i
 
 \subsection{Graph Encoding}
 
+\section{Conformance}
+A program may be conformant Welkin interpreter for some variant. A program conforms to Base Welkin if each of the conditions hold:
+\begin{itemize}
+  \item It provides the Base Welkin pipeline
+  \item It can store and retrieve any WIG.
+\end{itemize}
+Note
+
+A program conforms Attribute Welkin if
+\begin{itemize}
+  \item It conforms to Base Welkin,
+  \item It adds all
+  \item It implements all attributes , and
+  \item It bootstraps the last directive, \texttt{@attribute}, with the bootstrap folder.
+\end{itemize}
 
 
-\label{ch:spec}
+Finally, a program is conformant to Binder Welkin if
+\begin{itemize}
+  \item It is conformant to Attribute Welkin, and
+  \item It implements the following directives, as detailed in \ref{section:directives}:
+  \begin{itemize}
+    \item \texttt{@eval}
+    \item \texttt{@exec}
+    \item \texttt{@bind}
+  \end{itemize}
+
+
+
+\end{itemize}

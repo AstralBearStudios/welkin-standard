@@ -8,11 +8,11 @@ connector   = "-" vertex? "-" -> edge
             | "-" vertex? "->" -> left_arrow
             | "<-" vertex? "-" -> right_arrow
 vertex      = graph | member _
-graph       = (member | "_".) "{" term "}"
+graph       = (member | "_".) "{" terms "}"
 member      = "."+ (ident | string | "#" number) element*
             | unit element*
 element     = "." (ident | string) | "#" number
-unit        = ident | string | num
+unit        = ident | string | number
 ident       = CHAR*
 string      = STRING
 number      = NUMBER

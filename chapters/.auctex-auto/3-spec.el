@@ -14,11 +14,20 @@
     "encoding"
     "decoding"
     "can"
+    "bnfs"
     "scope")
    (LaTeX-add-labels
+    "sec:conformance"
+    "section:customization"
+    "section:conformance"
     "section:syntax"
+    "table:grammars"
+    "def:unit-graph"
+    "def:wig"
+    "req:labels"
     "lemma:closure"
     "def:iso"
-    "sec:bootstrap"))
+    "sec:bootstrap"
+    "sec:validator"))
  :latex)
 

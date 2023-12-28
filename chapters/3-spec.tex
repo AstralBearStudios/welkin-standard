@@ -28,6 +28,7 @@ Throughout this document, every instance of ``Welkin grammar'' means ``standard 
 \newcommand*{\encoding}{\mathcal{E}}
 \newcommand*{\decoding}{\mathcal{D}}
 \newcommand*{\can}{\textrm{Can}}
+\newcommand*{\bnfs}{\mathrm{BNF}}
 
 
 \newcommand*{\scope}{\textrm{scope}}
@@ -43,17 +44,20 @@ Throughout this document, every instance of ``Welkin grammar'' means ``standard 
 \subsection{Mathematical Background}
 This standard requires a cursory background in discrete mathematics, parsing, and Backus-Naur Form (BNF). A reading of [] and [] suffices to understand this document. We clarify our mathematical notation below.
 
-Let $A, B, C$ be sets and $n \in \mathbb{N}$. We define $[n] := \{0 \leq k \leq n-1\}.$ We denote the disjoint union of $A, B$ as $A \sqcup B,$ and an arbitrary equivalence relation on $A$ by $\sim_{A}.$ We let
-$A^{*}$ be the set of finite sequences of $A$ (or \texttt{A*} in text files), including the empty sequence $\varepsilon := \emptyset$ (\texttt{empty} in text), and we call each $w \in A^{*}$ a \textbf{word.}
+Whenever we require a specific mathematical symbol in a text file, we will write it in ASCII\footnote{American Standard Code for Information Interchange. See \ref{def:encodings} for more details.} with a different font. For example, we write $x$ as \texttt{x}. Further notation is explicitly defined as needed.
 
-Let $f: A \to B,$ $g: B \to C$ be functions. We denote the composite $g \circ f$ as the function $g \circ f = g(f(x)),$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$ We frequently use the product and disjoint union of two functions. We explicilty define these for a family of sets $A = \{A_j\}_{j \in J}$, with $|J| = n.$\footnote{These are all examples of universal properties found in category theory; see \cite{maclane} for further information. It suffices to expand these definitions in certain cases for this standard.}
+Let $A, B, C$ be sets and $n \in \mathbb{N}$. We define $[n] := \{0 \leq k \leq n-1\}.$  We denote the disjoint union of $A, B$ as $A \sqcup B,$ and an arbitrary equivalence relation on $A$ by $\sim_{A}.$ We let $A^{*}$ be the set of finite sequences of $A$ (or \texttt{A*} in text files), including the empty sequence $\varepsilon := \emptyset$ (\texttt{empty} in text), and we call each $w \in A^{*}$ a \textbf{word.}
+
+Let $f: A \to B,$ $g: B \to C$ be maps (i.e., functions). We denote the composite $g \circ f$ as the map $g \circ f = g(f(x)),$ and by $f^{*}: A^{*} \to B^{*}$ the extension of $f$ to finite sequences, given by $f^{*}(a_{1}, \cdots, a_{n}) = (f(a_{1}), \cdots, f(a_{n})).$
+
+We frequently use the product and disjoint union of two maps. We explicilty define these for a family of sets $A = \{A_j\}_{j \in J}$, with $|J| = n.$\footnote{These are all examples of universal properties found in category theory; see \cite{maclane} for further information. It suffices to expand these definitions in certain cases for this standard.}
 \begin{itemize}
-\item For the carteisan product $P = \prod_{j \in J}A_{j},$ there are \textbf{projections} $\pi_j: P \to A_{j},$ where $\pi_i(x_{1}, x_{2}, \cdots, x_{n}) = x_{i}.$ For $n$ functions $f_{j}: A_{j} \to C,$ there is a unique function $\prod_{j \in j}f_{j} := f: P \to C$ such that $f = f_{j} \circ \pi_{j}.$
-  \item For the disjoint union $D = \prod_{j \in J}A_{j},$ there are \textbf{injections} $\i_{j}: A_{j} \to D,$ where $i_{j}(x) = (x, j).$  For $n$ functions $g_j: C \to A_{j}$ there is a unique function $\coprod_{j \in J}g_{j} := g: C \to D$ such that
-$g = i_{j} \circ g_{j}.$
+\item Cartesian products $P = \prod_{j \in J}A_{j}$ have \textbf{projections} $\pi_j: P \to A_{j},$ where $\pi_i(x_{1}, x_{2}, \cdots, x_{n}) = x_{i}.$ For $n$ functions $f_{j}: C \to A_{j},$ the \textbf{product map} $\prod_{j \in j}f_{j} := f: C \to P$ is the unique map such that $f_{j} = \pi_{j} \circ f.$
+  \item Disjoint unions $D = \coprod_{j \in J}A_{j}$ have \textbf{injections} $i_{j}: A_{j} \to D,$ where $i_{j}(x) = (x, j).$ For $n$ functions $g_j: C \to A_{j}$ the \textbf{disjoint union of maps} $\coprod_{j \in J}g_{j} := g: D \to C$ is the unique map such that
+$g_{j} = g \circ i_{j}.$
 \end{itemize}
 
-Finally, except when explicitly stated, all statements with a free variable $x$ are universal, i.e., must hold for all $x \in X.$
+Additionally, suppose $\phi$ except when explicitly clarified, all statements with a free variable $x$ (not bound by a quantifier) are universal, i.e., must hold for all $x \in X.$
 % % TODO: use this definition with sets index by I \times J
 % \begin{itemize}
 %   \item
@@ -69,21 +73,24 @@ Finally, except when explicitly stated, all statements with a free variable $x$ 
 % \end{itemize}
 
 % TODO: generalize McAllester's definition to include set theory (or reference type theory, as necessary)
-Finally, two structures are \textbf{cryptomorphic} if their key properties are defined by the same first order theory. % Any structure in the standard may be considered modulo cryptomorphism. Thus, any implementation can use their own data structure, \textit{as long} as it satisfies the properties in this document.
+Finally, two structures are \textbf{(categorically) equivalent} if their models share the same overarching properties (independent of any specific model). A more precise definition can be found in \cite{theory-equivalence}. Any structure in this standard may be considered modulo (categorical) equivalence. Thus, any implementation can use their own data structures, interfaces, and algorithms, as long as they satisfy the properties in this document (see Section \label{sec:conformance} for more details).
 
 \subsection{Character Encodings}
 % TODO: generalize to byte encodings and numbers.
-We define text, character encodings, and character decodings as abstract notions. The discussion here may be carried out in terms of bytes and specific data formats, but these concepts are beyond the scope of this standard.
+We define text and character encodings and decodings as abstract notions. The discussion here may be carried out in terms of bytes and specific data formats, but these concepts are beyond the scope of this standard.
 
-Let Char be a finite set. An \textbf{encoding} is an injective mapping $\encoding : \mathrm{Char} \to \mathbb{N}.$ The associated \textbf{decoding} is the left-inverse $\decoding: \encoding^{-1}(\mathbb{N}) \to \mathrm{Char}$ of $\encoding.$ We denote $\chars = \decoding(\mathbb{N}).$
+\begin{definition}[Encodings]
+  Let Char be a finite set. An \textbf{encoding} is an injective map $\encoding : \mathrm{Char} \to \mathbb{N}.$ The associated \textbf{decoding} is the left-inverse ${\decoding: \encoding^{-1}(\mathbb{N}) \to \mathrm{Char}}$ of $\encoding.$ We denote $\chars = \decoding(\mathbb{N}).$
+\end{definition}
 
-Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are defined in the following sources.
+Character encodings may be given as finite tables, matching natural numbers with characters. Several major encodings are defined in the following sources (and are all bijections).
 % TODO: put these references in bibtex
 % US-ASCII (see references therein): https://www.iana.org/assignments/character-sets/character-sets.xhtml
 % UTF-8, UTF-16: https://www.unicode.org/versions/Unicode15.0.0/UnicodeStandafinite rd-15.0.pdf
 \begin{itemize}
-	\item US-ASCII []. We will refer to this simply as ASCII\footnote{American Standard Code for Information Exchange}, but there are subtle variations accross specific nationalities and applications (see []).
-	\item UTF-8, UTF-16 []. The Unicode Standard defines encodings across numerous human languages and unique characters.  % TODO write notes about both
+	\item US-ASCII [].
+        We will refer to this simply as ASCII\footnote{American Standard Code for Information Exchange}, but there are subtle variations across specific nationalities and applications (see []). We denote the ASCII character corresponding to \texttt{n} (in hexadecimal) by \texttt{\textbackslash0xn}. For example, \texttt{\textbackslash0x09} encodes the tab character.
+	\item UTF-8, UTF-16 []. The Unicode Standard defines encodings across thousands of human languages and unique characters. We will not refer to Unicode directly, but we make it a requirement for Attribute Welkin interpreters.
 \end{itemize}
 
 % We render special characters, frequently used in our BNF, as glyphs. See Table ?.? for more details.
@@ -92,25 +99,40 @@ Although ASCII is a subset of UTF-8, this standard will prioritize ASCII as much
 % TODO: put this into table format. We need an easy way to reference any of these sets and notes about them
 % Defining each subimage linearly is not working that well.
 
+In addition to a set of characters, each BNF has an associated terminal signature for their set of terminals.
 
-% TODO: decide if BNF encoding is a good name. Maybe something to do with terminals?
-% TODO: decide if string escapes is parametric or must be consistent
-% TODO: allow numbers to be delimtiers (in case users want that)
+% TODO: biggest thing notationally: should we capitalize sets of terminals or no? Feels like we need to, with CHAR and all
 \begin{definition}
-  A \textbf{BNF encoding} under Char is an encoding $\encoding: \textrm{Char} \to \mathbb{N}$ along with five subsets $\chars*,$
+  A \textbf{terminal signature} $S$ \textbf{under} $\encoding$ consists of an encoding $\encoding: \textrm{Char} \to \mathbb{N}$ along with five subsets $\chars*,$
   \begin{itemize}
-  \item $\whitespaces$
   \item $\numbers$
+  \item $\whitespaces$
   \item $\delimiters$
   \item $\escapes$
-  \item $\reserved$
+  \item $\reserved$\footnote{A set containing single characters is written with concatenation (possibly with spaces inbetween). For example, $\{\texttt{x y}\}$ denotes $\{\texttt{x, y}\}.$}
   \end{itemize}
-  such that $\whitespaces$ is pair-wise disjoint with every other subset.
+  such that
+  \begin{itemize}
+    \item Every pair $d_{1}, d_{2} \in \delimiters$ has an associated set $\textrm{ESCAPES}(d_{1}, d_{2})$ and
+          $\escapes = \bigcup_{d_{1}, d_{2} \in \delimiters}\textrm{ESCAPES}(d_{1}, d_{2}),$
+    \item $\whitespaces$ is pair-wise disjoint with every other subset.
+  \end{itemize}
 
-Moreover, let $\strings$ be the set of strings over $\delimiters,$ where a string is a word $d_{1}wd_{2}$ such that $w \in (\chars \setminus \delimiters \cup \escapes(d_{1}, d_{2}))*.$ Notice that $\delimiters, \escapes$ can be defined in terms of $\strings.$
+  Moreover, let $\strings$ be the associated set of strings over $\delimiters,$ where a \textbf{string} is a word $d_{1}wd_{2}$ such that
+\begin{align*}
+w \in (\chars \setminus \{d_{1}, d_{2}\} \cup \textrm{ESCAPES}(d_{1}, d_{2}))^*.
+\end{align*}
+  Notice that $\delimiters, \escapes$ can be defined in terms of $\strings,$ and the latter must be disjoint with $\whitespaces^{*}.$ Thus, it suffices to specify $\strings$ in any terminal signature instead.
 \end{definition}
-In our BNF encoding, we assume all sets above are non-empty. The first is an optional addition, adding support for defining machine representable numbers; the second distingushes words from one another; the next two are used for arbitrary strings; and the last enables parsers to priortize certain characters. Any of these sets, however, can made empty with a different grammar (see Section ?.?).
 
+Our definition provides useful sets of terminals for a parser.
+\begin{itemize}
+  \item $\numbers$ adds support for machine representations of numbers,
+  \item $\whitespaces$ distinguishes words from one another and can include aribtrary characters (not necesarially ASCII whitespace),
+  \item $\strings$ are used to define user-defined comments, descriptions, or other (non-processed) text,
+  \item $\reserved$ is used to prioritize certain words.
+\end{itemize}
+All of these sets are optional and can made empty with a different grammar (see \label{section:customization}). Every conformant parser must have builtin support for terminal signatures (Section \label{section:conformance}).
 % \begin{definition} A \textbf{BNF encoding under} Char is an encoding $\mathcal{E}: \mathcal{N} \to \textrm{Char}$ along with three disjoint subsets.
 
 
@@ -119,15 +141,18 @@ In our BNF encoding, we assume all sets above are non-empty. The first is an opt
 
 % Let $\escapes \subsetq \Char{*} \setminus W.$ This is optional and enables a grammar to include an existing literal in
 % TODO: decide if this should be a separate definition
-Every Welkin grammar, written in a BNF metasyntax, uses the ASCII encoding with
+
+
+Our BNF metasyntax uses the terminal signature $S_{\bnfs}$, consisting of the ASCII encoding with
 \begin{itemize}
-  \item $\numbers = \emptyset$,
-  \item $\whitespaces = $ = ASCII whitespace characters,
-  \item STRING = all ASCII characters enclosed by single or double quotes. We escape single (double) quotes via \' (\textbackslash'').
+  \item $\numbers = \emptyset,$
+  \item $\whitespaces = \{\texttt{\textbackslash x020, \textbackslash x090, \textbackslash 0x0d, \textbackslash 0x0A}\} $ is the set of all ASCII whitespace characters,
+  \item $\strings$ consists of all ASCII characters enclosed by single or double quotes (encoded as \texttt{\textbackslash 0x39} and \texttt{\textbackslash 0x34}, respectively). Strings may contain escaped quotes: we escape single (double) quotes via \textbackslash' (\textbackslash''), where backslashes are encoded by \texttt{\textbackslash 0x92}. Moreover, to use backslashes, the word \textbackslash\textbackslash  written in a string represents \textbackslash.\footnote{In this case, backslashes can be escaped (prefixed with another character). In general, this can be done by creating a superset $\mathrm{ESCAPES}$ of $\escapes$ and simplifying them in a parse tree. However, we do not require this superset in this standard.} For consistency, we will primarily write BNFs using double quotes.
+  \item $\reserved = \{\texttt{= | * + ? () []}\} \cup \{\texttt{->}\} \cup $\footnote{A set containing single characters is written with concatenation (possibly with spaces inbetween). For example, $\{\texttt{x y}\}$ denotes $\{\texttt{x, y}\}.$}
 \end{itemize}
 
-% We list several distinguished subsets secondary notions in Table ?.? All of these sets, except $\strings(d)$ and $D_{\strings},$ are arbitrary.
-% % TODO: Remove member notation? It seems like we don really need it
+
+
 % \begin{center}
 %   \bgroup
 %   \def\arraystretch{2.0}
@@ -159,55 +184,55 @@ Every Welkin grammar, written in a BNF metasyntax, uses the ASCII encoding with
 
 % We implicitly assume that does not conflict with literals defined in a grammar. In terms of the recommended LALR parser, this means that literals are matched first, not identifiers. However, these characters may be used by creating a custom grammar (see Section ?).
 
-% A { { A {} }
-
-A \textbf{text} is a subset of $\chars*.$ We will not consider streaming issues, i.e, we will assume every Welkin file is present at one time.
+A \textbf{text} is a subset of $\chars*.$ We will not consider streaming issues, i.e, we will assume every Welkin text is present at one time.
 % TODO: describe issues with files! How to work with this?
 
 \subsection{BNF Variant}
-Our variant of BNF uses the notation shown in Table ?.? and in Definition ?.?. Our notation, as well as every standard Welkin grammar, is available in ASCII.
+Our variant of BNF uses the notation shown below and in Definition \ref{table:substitution}, with $S_{\bnfs}$ defined in the previous section. Our notation, as well as every standard Welkin grammar, can be written purely in ASCII. For ease of use, we directly explain the direct connection to our notation and CFGs.
 
-Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. These literals are always matched first, which means that set-based terminals (e.g., from $\numbers$) . We will explictly state these for the Welkin variants in the next section.
+% Each BNF has an associated subset $\reserved \subseteq \chars*$ for any literals that appear in the grammar. These literals are always matched first, which means that set-based terminals (e.g., from $\numbers$) . We will explictly state these for the Welkin variants in the next section.
 
-% TODO: fix spacing issues with all rows. BNF is not fitting in there well!
-\begin{center}
-  \begin{tabular}{ | c | p{2cm} | p{6cm} | }
-  \hline
-  \textbf{Concept} & \textbf{Notation} & \textbf{Example} \\
-  \hline
-  Rule Assignment & $=$ & \begin{bnf} term ::= atom\end{bnf}\\
-  \hline
-  \makecell{Empty Word \\ (In ASCII)} & empty & \begin{bnf} term ::= empty\end{bnf}\\
-  \hline
-  Alternation & $|$ & \begin{bnf} boolean ::= true | false \end{bnf}\\
-  \hline
-  \makecell{Concatenation \\ (No white spaces \\ inbetween rules)} & \makecell{Separate with \\  a period (.)}&  \begin{bnf} function ::= name.``(''.number.``)''\end{bnf} \\
-  \hline
-  \makecell{Concatenation \\ (Zero or more \\ white spaces allowed)} & \makecell{Separate with \\ white space} & \begin{bnf} data ::= date name\end{bnf} \\
-  \hline
-  Groupings & Parantheses () & \begin{bnf} boolean ::= (true // false)\end{bnf} \\
-  \hline
-  Literals & ``word'' & \begin{bnf} boolean ::= ``true'' // ``false'' \end{bnf} \\
-  \hline
-  Choice Names & terms $\to$ rule & \makecell{\begin{bnf} boolean ::= ``true'' $\to$ true || ``false'' $\to$ false \end{bnf}, \\ equivalent to \\ \begin{bnf}  boolean ::= true // false ;; true ::= ``true'' ;; false ::= ``false'' \end{bnf}} \\
-  \hline
-  \makecell{Rule Substitution \\ (Definition ?.?)} & rule1[rule2 $\to$ rule3] & \makecell{\begin{bnf} rule1 ::= rule2 \end{bnf}, \\ equivalent to \\ s } \\
-    \hline
-  \end{tabular}
-  \end{center}
-
-We introduce one new notion that is definable with BNFs.
-\begin{definition} (Rule Substitution) Let $rule_{1}, rule_{2}$ be rules with $rule_{2}$ appearing on the right hand side of $rule_{1}.$ Suppose $rule_{3}$ appears on the lefthand side of $rule_{2}.$ Then $rule_{1}[rule_{2}\to rule_{3}]$ is $rule_{1}$ with every instance of $rule_{2}$ replaced by $rule_{1}.$
-
-% TODO: clean up this definition!
-Some particular cases:
+% TODO: review notation format (table vs itemize)
 \begin{itemize}
-\item $term[empty]$ means no rule should be applied.
+  \item Rules (i.e., productions) are denoted with $r = \beta$, where $r$ is a nonterminal and $\beta$ is any string of terminals and non-terminals.
+  \item Literals (words) are written as strings.
+  \item Choices between rules uses $|.$ Choices can be given names using $\to$ (\texttt{->} in text). For instance,
+  \begin{bnf}
+  boolean ::= ``true'' $\to$ true // ``false'' $\to$ false ;;
+\end{bnf}
+  is equivalent to
+
+\begin{bnf}
+  boolean ::= true // false ;; true ::= "true" ;; false ::= "false"
+\end{bnf}
+  \item * means zero or more instances, + means one or more instances, and ? means at most one instance of a rule.
+  \item The rule $c \in C_{0},$ with $C_{0} \subseteq \chars,$ is equivalent to $c = c_{0} \; | \; \dots \; | \; c_{n}$ for all $n$ characters of $C_{0}.$ For simplicitly, recognizing these character sets can be done with a separate component in the parser (see Section ?.?). Subsets of terminals will be capitalized. We will assume $\textrm{whitespace} \in \whitespaces$ is builtin to the parser (see Section ?.?) and we will not write these directly in any grammar.
+  \item Normal concatenation, denoted \texttt{r1.r2}, means r1 must be immediately followed by r2. With whitespaces, we add two shorthands for concatenating rules:
+  \begin{itemize}
+    \item \texttt{r1 r2} denotes \texttt{r1 whitespace* r2}
+    \item \texttt{r1;r2} denotes \texttt{r1 whitespace+ r2}
+  \end{itemize}
+  Note that if $\whitespaces = \emptyset,$ both shorthands above are equivalent to $r1.r2.$
+  \item Parantheses group rules together and can be written as a separate new rule.
+  \begin{itemize}
+    \item Groupings are left and right distributive under concatenation, i.e., \texttt{(r1. | r2;) r3} means \texttt{r1.r3 | r2;r3}, and \texttt{r1 (.r2 | ;r3)} means \texttt{r1.r2 | r1;r3}.
+  \end{itemize}
+  \item Rule substitution: suppose \texttt{r1} appears in \texttt{r3}. Then \texttt{r3[r1 $\to$ r2]} is the new rule for which every instance of \texttt{r1} in \texttt{r3} is replaced with \texttt{r2} (and all other rules are fixed). % More precisely, rule substiution is defined recursively:
+    \begin{itemize}
+    \item In case \texttt{r2} = \texttt{empty}, \texttt{r3[r1 $\to$ empty]} denotes the rule where every instance of \texttt{r1} in \texttt{r3} is removed.
+    \end{itemize}
 \end{itemize}
 
-\end{definition}
+% % TODO: clean up this definition!
+% Some particular cases:
+% \begin{itemize}
+% \item $term[empty]$ means no rule should be applied.
+% \end{itemize}
 
-An conformant parser for all three grammars should include the ability to compose and override rules. This ensures that any updates to grammars, if necessary, are isolated. See Section ?.? for more details.
+% \end{definition}
+% \label{substitution}
+
+A conformant parser for all three grammars should include the ability to compose and override rules. This ensures that any updates to inherited grammars are isolated (see Section \ref{section:conformance}).
 % TODO: convert this into a table for easy access
 % \begin{itemize}
 %   \item \texttt{term ::= $S \subseteq \chars^{*}$} means \texttt{term $\in S$},
@@ -223,7 +248,7 @@ There are three fundamental variants of Welkin that define the foundation for th
 	\item Base Welkin, mirroring the key properties of the core data structure.
 	\item Attribute Welkin, extending Base Welkin with attributes. Attributes are a limited type of directive that can customize how the interpreter accepts or presents data.
 	\item Binder Welkin, enabling arbitrary evaluation of Welkin files and access to the user's operating system. This is equivalent to Attribute Welkin with three new directives: \texttt{@eval}, \texttt{@exec}, and \texttt{@bind}. \end{itemize}
-Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can run external programs that impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in Section ?.?.
+Each of these variants can be parsed with LALR parsers and fundamentally have the same semantics. However, in Binder Welkin, \texttt{@eval} makes the interpreter Turing complete (see Section ?.?), and using \texttt{@exec} can run external programs that impact the user's system. For this reason, Binder Welkin is a separate, optional component, as detailed in Section \ref{section:conformance}.
 %\renewcommand{\syntleft}{\normalfont\bfseries}
 %\renewcommand{\syntright}{}
 
@@ -232,14 +257,23 @@ Each of these variants can be parsed with LALR parsers and fundamentally have th
 %\renewcommand{\bnfexpr}{\textbf}
 \subsubsection*{Syntax}
 \label{section:syntax}
-Define each $\reserved$ set as follows.\footnote{In with single characters, we write them with concatenation (possibly spaces inbetween). For example, $\{\texttt{x y}\}$ stands for $\{\texttt{x, y}\}.$}
-% TODO: figure out better way to display these! Hard to read delimiters!
+
+The terminal signatures $S_{\mathrm{base}}, S_{\mathrm{attribute}}, S_{\mathrm{binder}}$ are defined with the ASCII encoding, in which
 \begin{itemize}
-\item $\reserved_{\textrm{base}} = \{\texttt{\{\} () [] . =}\} \cup \{\texttt{->, <-, \_\{},\} $
-  \item $\reserved_{\textrm{attribute}} = \{\texttt{\{\} () [] . , * @}\} \cup \{i\texttt{--, ->, <-}\}$ % TODO: remove commas for single characters for clarity
+\item $\numbers$ consists of all words \texttt{SIGN?.DIGIT*.(``.''.DIGIT+)?.((``E'' | ``e'').SIGN?. DIGIT+)?}, where $\mathrm{SIGN} = \{\texttt{+ -}\}$ and $\mathrm{DIGIT} = \{\texttt{0 1 2 3 4 5 6 7 8 9}\}.$
+  \item $\strings$ is defined from $S_{\mathrm{BNF}},$
+\item Reserved sets are given by
+%  TODO: figure out better way to display these! Hard to read delimiters!
+\begin{itemize}
+\item $\reserved_{\textrm{base}} = \{\texttt{\{\} () [] " - . }\} \cup \{\texttt{->, <-, \_\{},\} \cup \numbers $
+  \item $\reserved_{\textrm{attribute}} = \{\texttt{\{\} () [] ' " - . , * @}\} \cup \{\texttt{->, <-, \_\{} \cup \numbers \}$ % TODO: remove commas for single characters for clarity
 \item $\reserved_{\textrm{binder}} = \reserved_{\textrm{attribute}}.$
 \end{itemize}
-Each grammar is provided in Table 3.?.
+\end{itemize}
+
+
+
+Each grammar is provided in Table \ref{table:grammars}.
 % TODO; figure out rule for when NUMBERS is empty
 % TODO: make different RESERVED key words for Base and Attribute Welkin. Binder Welkin is fairly straightforward
 % (We actually only need to look at prefixes; any attribute names WILL be parsed first. Welkin will assume
@@ -262,18 +296,21 @@ Each grammar is provided in Table 3.?.
       \makecell{Base \\ Welkin} &
   \begin{bnf}
   terms ::= term* ;;
-  term ::= (graph // connections // member // unit) ;;
-  graph ::= (unit ``:='')? ``\{'' terms ``\}'' ;;
-  connections ::= term (connector term)+ ;;
+  term ::= (connection // alias // graph // member) ;;
+  connection ::= term connector term ;;
 	connector ::=
-   | ``-'' term ``-'' $\to$ edge
-   | ``-'' term ``>'' $\to$ left\_arrow
-	 | ``<-'' term `-' $\to$ right\_arrow ;;
-  member ::= unit? (``.''.(ident // string)? // ``\#''.num )+ ;;
-	unit ::= ident // string // num ;;
+   | ``-'' vertex ``-'' $\to$ edge
+   | ``-'' vertex ``>'' $\to$ left\_arrow
+	 | ``<-'' vertex `-' $\to$ right\_arrow ;;
+  alias ::= vertex ``\:\='' vertex;;
+  graph ::= (member // ``\_''.) ``\{'' terms ``\}'' ;;
+  member ::= ``.'' (ident // string // ``\#'' number) element*
+  | unit? element+ ;;
+  element ::= ``.''.(ident // string) // ``\#''.number ;;
+	unit ::= ident // string // number ;;
   ident ::= CHAR* ;;
 	string ::= STRING ;;
-	num ::= NUMBER
+	number ::= NUMBER
 \end{bnf} \\ %& If $\numbers = \emptyset,$ any instance of \texttt{num} should be removed from the parser. \\
    \hline
       Attribute Welkin &
@@ -284,7 +321,6 @@ Each grammar is provided in Table 3.?.
   directive ::= attributes ;;
   attributes ::= ``import''.tuple $\to$ import
   | ``self''.(member?) $\to$ self
-  | ``alias''.graph[empty] $\to$ alias
   | ``extend''.graph[empty] $\to$ extend
   | ``resource''.graph[unit] $\to$ resources
   | ``metadata''.graph[unit] $\to$ metadata
@@ -315,6 +351,7 @@ Each grammar is provided in Table 3.?.
     \hline
     \end{tabular}
   \end{table}
+  \label{table:grammars}
 
 
 % Throughout this document, Welkin documents are formatted with the following convention: the ASCII sequence \texttt{->} is rendered as $\to$ (A graphical user interface may support this rendering via glyphs). % TODO: put special renderings in a table
@@ -325,22 +362,23 @@ Each grammar is provided in Table 3.?.
 \subsubsection*{Semantics}
 We break down our semantics first by terms. Directives are handled separately in the next section.
 % TODO: make this more efficient. (Probably best to follow the structure from a logic textbook)
-\begin{definition}
-Equality of terms.
+\begin{definition}[Equality of terms]
+
 \begin{itemize}
     % TODO: decide if ''A`` is the same as A
   \item \textbf{Basis.} Two units are equal if they are the same kind and obey one of the following.
 	\begin{itemize}
 	  \item \texttt{ident} terms are equal if their corresponding characters are equal,
     \item \texttt{string} terms are equal if their corresponding contents are equal.
-	  \item \texttt{num} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
+	  \item \texttt{number} terms are equal if they represent the same value. Thus, \texttt{1} coincides with \texttt{10E}.
 	\end{itemize}
   \item \textbf{Recursion.}
         \begin{itemize}
         \item Two members are the same if they contain the same list of units. % TODO: include the case of relative imports
         \item Two connectors are equal if they are equal as terms. %TODO: rework to make this clearer
  		  \item Two connections are equal if they connect the same terms and have equal connectors.
-		  \item Two graphs are equal if they contain the same terms.
+        \item Two graphs are equal if they contain the same terms.
+        \item Two vertices are equal if they are of the same sort and are equal.
 	\end{itemize}
 \end{itemize}
 \end{definition}
@@ -349,20 +387,25 @@ Equality of terms.
 % \end{definition}
 A \textbf{scope} is recursively defined and intutively is a level of terms.
 \begin{definition} (Scope)
- Let $t$ be a term.
+ Let $t$ be a term (or directive).
   \begin{itemize}
 	\item If $t$ is not contained in a graph, then $\scope(\texttt{term}) = 0,$
-	\item If $G' \in G$ are both graphs and $\scope(G') = n,$ then for all $t \in G',$ $\scope(t) = \scope(G) + 1.$
-\end{itemize}
+    \item If $U' \in U$ are both graphs and $\scope(U') = n,$ then for all $t \in U',$ $\scope(t) = \scope(U) + 1.$
+  \end{itemize}
 \end{definition}
-A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons. In particular, every graph must \textbf{only be defined once.} Note that, by the way equality was defined between two numbers,
-  there can only be one representation of a given number in a scope. For example, using \texttt{1} and \texttt{10E-1} in the same scope would produce a name collison.
-\\ We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a \textbf{Welkin Information Graph.}
+
 \begin{definition}
+A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in every scope, there are no name collisons, i.e., no two terms in $G$ with the same name are distinct. % TODO: improve this def!
+In particular, every graph must \textbf{only be defined once.} Note that, by the way equality was defined between two numbers,
+there can only be one representation of a given number in a scope. For example, using \texttt{1} and \texttt{10E-1} in the same scope would produce a name collison.
+\end{definition}
+We first form an Abstract Syntax Tree (AST), from which we form the final stored data in a Welkin Information Graph.
+\begin{definition}[Base Parse Tree]
   Base Welkin is parsed into the following AST $\mathcal{A}.$
   \begin{itemize}
 	\item Every term is a new subtree with its contents as children.
-    \item Every graph is an ordered pair of its name and list of children.
+  \item Every graph is an ordered pair of its name and list of children.
+  \item Every vertex is equal based on its sort.
     % TODO: how to deal with empty connectors? Big issue for parsing and storing in a WIG!
     \item Every connection is an ordered pair:
 		  \begin{itemize}
@@ -372,10 +415,16 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 		  \end{itemize}
 	\item Every unit is encoded via $\encoding^{*}.$ Numbers are further transformed into a machine representable form, which is dependent on the implementation.
   \end{itemize}
- \end{definition}
- % TODO: talk about encoding of numbers in the structure itself. This probably a separate encoding from the one used to write the welkin file
+\end{definition}
+\label{def:unit-graph}
+% TODO: talk about encoding of numbers in the structure itself. This probably a separate encoding from the one used to write the welkin file
 
- We adapt the terminology from Jensen and Milner \citep{jensen-milner-bigraphs} for our needs.
+% TODO: determine how to best explain this
+
+% Definition: lexographical order
+Every node in a AST is labeled in the lexographical order, \textit{regardless of its scope.}
+
+Every AST is then converted into Welkin's core data structure (Definition \ref{def:wig}), which consists of two main components. The first component is the unit graph, a tree-like structure that encodes a hierarchy of nodes.
 
 % \begin{definition} A \textbf{labeling signature} $\mahcal{L} = (L, p_{L})$ consists of
 %    \begin{itemize}
@@ -390,35 +439,49 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
  % we have to recover this original labeling.) We stil need to figure out how to merge multiple labelings together...
 \begin{definition}
   % A unit graph is a tree. A labeled unit graph is a tree whose nodes are labeled by trees.
-  A \textbf{unit graph} $U = (V, V^{\top}, p)$ consists of
+  A \textbf{unit graph} $U = (V, p)$ consists of
   \begin{itemize}
     \item a set $V$ of \textbf{units,}
-    \item a function $p: V_{0} \subseteq V \to V$ called the \textbf{parent function,}
+    \item a function $p: V_{0} \subseteq V \to V$ called the \textbf{parent map,}
   \end{itemize}
   such that $p$ is acyclic: $p^{(k)}(v) = v$ iff $k = 0$. We define
-
   \begin{itemize}
   \item $V^{\top} = V \setminus V_{0}$ as the set of \textbf{roots,} and
   \item $V^{\bot} = \{v \;:\; p^{(k)}(v) \neq u \}$ as the set of \textbf{sites.}
   \end{itemize}
   Equivalently, $U$ is a forest, where each component has some root in $V^{T}$ and leaves in $V^{\bot}.$
   % TODO: figure out if we need to say that L is isomorphic to U. This may ensure that L doesn have too much of a different structure than U
-  A unit graph $\mathcal{L} = (N = L / \sim_{L}, p_{\mathcal{L}})$ is said to \textbf{label} a unit graph $U = (V, p)$
-  if there exists a function $l: V \to N \sqcup \varepsilon$ such that, whenever $l(u) = l(v),$ $l(v) = \varepsilon$ or $p(u) = p(v), l(v) \neq \varepsilon$ imply $u = v.$ In this case, we call $\sim_{L}$ an \textbf{alias equivalence} and $l$ a \textbf{labeling.} In general, $L = \coprod_{1 \leq j \leq m}L_{j}$ for finitely many labels $j.$
+
+  Let $L = \{L_{i}\}_{i \in I}$ be a (possibly empty) family of finitely many unit graphs $L_{i}$ with nodes $V_{i} / \sim_{V_{i}}$ and parent map $p_{i}.$ Abusing notation, we will write $L_{i}$ for $V_{i} / \sim_{V_{i}}.$ The unit graph $L_{i}$ is said to \textbf{label} a unit graph $U = (V, p)$
+  if there exists a map $l_{i}: V \to L_{i} \sqcup \varepsilon$ such that
+  \begin{itemize}
+    \item $l$ is a forest isomorphism
+    \begin{itemize}
+      \item $p_{i}(v) = u$ iff $l(p(u)) = l(u),$
+      \item $l(v) \in V^{\top}_{i}$ iff $v \in V^{\top},$
+    \end{itemize}
+    \item whenever $l(u) = l(v),$ $l(v) = \varepsilon$ or $p(u) = p(v), l(v) \neq \varepsilon$ imply $u = v.$
+    \item $l$ is surjective.
+  \end{itemize}
+  In this case, we call $\sim_{V_{j}}$ an \textbf{alias equivalence} and $l_{j}$ a \textbf{labeling.} In general, we say that $L$ labels $U$ if each $L_{i} \in L$ labels $U$.
 
   % In other words, the restriction of $l$ to $\{(u, v) \;:\; p(u) = p(v)\} \cup l^{-1}(\varepsilon)$ is injective.
    % \footnote{In order to support anonymous graphs, it is necessary to add the empty set as a label. The special labeling condition ensures that vertices are uniquely determined by non-empty labels.}
 \end{definition}
 
+We assume that each $L_{i}$ is pairwise disjoint. In practice, it may be possible to obtain identical labelings of the same graph from different users, and while the disjoint union operation prevents duplicate items, there is still an underlying duplication present. This issue is addressed in Section ?.?
+
+The second component is a connection graph, which does not (in general) rely on the overarching unit graph.
+
 \begin{definition}
   A \textbf{connection graph} $G = (V, C)$ consists of
   \begin{itemize}
-    \item a set $V$ of \textbf{vertices,} and
+    \item a set $V$ of \textbf{vertices/nodes,} and
     \item a set $C \subseteq V^{2} \cup V^{3}$ of \textbf{connections.} % TODO: re-evaluate if V^2 \cup V^3 OR V \times (V \cup \varepsilon) \cup V should be used!
   \end{itemize}
-  Connections in $V^{2}$ are called \textbf{atomic connections} or \textbf{arcs.} A connection graph is \textbf{reflexive} if $(A, A, A) \in V$ for each $A \in V.$
+  Connections in $V^{2}$ are called \textbf{atomic connections} or \textbf{arcs.} A connection graph is \textbf{reflexive} if $(A, A), (A, A, A) \in C$ for each $A \in V.$ In this case, there are mappings $A \mapsto (A, A), (A, A, A)$ from $V$ into $C \cap V^{2}, C \cap V^{3},$ respectively. Abusing notation, we will write $A$ synonymously with $(A, A)$ and $(A, A, A).$
 
-  We frequently use the \textbf{component} functions of $C,$ given as follows.
+  We frequently use the \textbf{component} functions of $C$:
   \begin{itemize}
   \item The \textbf{source map} $s = \pi_{1} \sqcup \pi_{1}: C \to V$ returns the first entry in any connection,
   \item The \textbf{target map} $t = \pi_{2} \sqcup \pi_{2}: C \to V,$ returns the second entry in an arc, or the third element in a non-atomic connection, and
@@ -428,86 +491,82 @@ A \textbf{valid} base Welkin file consists satisfies a unique naming rule: in ev
 
 % We frequently use an auxilary notion known as a port, as used by \cite{milner}.
 
-% \begin{definition}
-% A \textbf
-
-% \end{definition}
-
-%Throughout this document, we will assume all connection graphs are simple.
-%\footnote{It is possible to allow loops, i.e., connections of the form $(A, A)$ or $(A, A, A).$ This property, however, is automatically part of a graph's structure: a morphism \ref{def:morphism}
-%maps vertices of one graph to another, while separately mapping connections to connections. Separating these maps ensures that a non-trivial graph cannot be embeded into a single point, avoiding structural collapse. }
-
 % In this case, there is a function $i: V \to C$ given by $i(A) = (A, A, A).$ Abusing notation, we will write $A$ and $(A, A, A)$ synonymously (with the notation being clear from context).
 
-Now we may present the core data structure of Welkin (modulo cryptomorphism).
+We may now present the core data structure of Welkin.
 
 \begin{definition} A \textbf{Welkin Information Graph (WIG)} $G = (V, p, C, L)$ consists of
   \begin{itemize}
-    \item a unit graph $(V, p),$ with labels $L,$
+    \item a unit graph $(V, p),$ with labels $L$ (we say $L$ labels $G$),
     \item a reflexive connection graph $(V, C).$
   \end{itemize}
+  Two WIGs are \textbf{structurally equal/identical} if they have the same unit and connection graphs.
 \end{definition}
+\label{def:wig}
 
-WIGs are a special case of a (lean) bigraph \cite{jensen-milner-bigraphs}, in which there is a ``site'' for each element in $V^{\bot},$ a ``root'' for each $v \in V^{\top},$ and there are no inner or outer faces. We add an independent labeling component that does not impact the overarching structure, but directly corresponds to a user's naming conventions.
+% TODO: add specific definitions!
+WIGs are a special case of a (lean) bigraph \cite{jensen-milner-bigraphs}, in which there is a site for each element in $V^{\bot},$ a root for each $v \in V^{\top},$ and there are no inner or outer faces. In their terminology, a unit graph is a place graph, and a connection graph is a link graph (\cite{jensen-milner-bigraphs}). Our definition excludes the notion of ports from link graphs, which are not needed in this standard. Additionally, labels are an independent component to a bigraph that do not alter its overarching structure, but directly corresponds to a user's naming conventions. To best preserve user created text, Welkin interpreters must store and maintain these labels, including aliases (see \label{req:labels} for more details).
 
-
-An important aspect of bigraph theory is Jensen and Milner's complete algebraic characterization \cite{jensen-milner-bigraphs}. This standard only requires one aspect of this theory.
+To fulfill one a major goal of Welkin (Section \label{section:conformance}), a key closure property is needed, which immediately follow by our definitions. \footnote{Bigraphs have been completely described algebraically by Jensen and Milner, Theorem ?.? \cite{jensen-milner-bigraphs}. }
 
 \begin{lemma}
-WIGs are closed under disjoint unions.
+  WIGs are closed under disjoint unions.
 \end{lemma}
 \label{lemma:closure}
 
-Lemma \ref{lemma:closure} ensures that WIGs may have an arbitrary size without special constraints. In fact, any new additions to the graph does not remove existing structure (see \ref{lemma:struct}). It is possible for existing structure to be repeated, in which case, the complexity of the connection graph does not increase (see \ref{tests:examples} for examples).
-
+Lemma \ref{lemma:closure} ensures that WIGs may have an arbitrary size without special constraints. In fact, any new additions to the graph do not remove existing structure (see \ref{lemma:struct}). It is possible for existing structure to be repeated, in which case, the complexity of the connection graph does not increase (see \ref{tests:examples} for examples). As an important case, if $G$ is structurally equal to $H,$ $G \sqcup H$ is structurally equal to both, possibly with a larger set of labels. This ensures that WIGs with an identical structure are always identified and can be distinctly labeled by different users. As a shorthand, we will write $G \sqcup L' = (V_{G}, p_{G} C_{G}, L_{G} \sqcup L'),$ where $L'$ labels $V_{G}.$
 % \begin{proof}
 % Trees and graphs are closed under each operation above, so it suffices to prove the lemma for the labels of a WIG. This follows by straightforward constructions.
 % \end{proof}
 
-% TODO: talk about whether edges can collapse into loops. This is not possible in an isomorphism, but it is worth mentioning
+% TODO: figure out if an equivalence needs to include an isomorphism of labels. This might get tricky, but the most important thing is that we can always add more labels, and that they form a unit graph
+% isomorphic to the original unit graph
 
-% \delta_
-
-
-To support the identification of equivalent structures, we introduce a WIG equivalence, a special case of lean support equivalence in \cite{jensen-milner-bigraph}.
+To best identify equivalent structures, we introduce a WIG equivalence, a special case of (lean) support equivalence in \cite{jensen-milner-bigraph}.
 \begin{definition}
-  Let $G = (V_{G}, p_{G}, C_{G}, \{L_{G, i}, l_{G, i}\}), H = (V_{H}, p_{H}, C_{H}, \{L_{H, i}, l_{H, i}\})$ be WIGs. A \textbf{morphism} $f: G \to H$ consists of functions $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H}, f_{L}: L_{G} \to L_{H})$ such that the folowing equalities hold:
+  Let $G = (V_{G}, p_{G}, C_{G}, L_{G}), H = (V_{H}, p_{H}, C_{H}, L_{H})$ be WIGs. A \textbf{morphism} $f: G \to H$ consists of maps $(f_{V}: V_{G} \to V_{H}, f_{C}: C_{G} \to C_{H})$ such that
   \begin{itemize}
-    \item $p_{H} \circ f_{V} = f_{V} \circ p_{G},$
+    \item Parent maps are preserved: $p_{H} \circ f_{V} = f_{V} \circ p_{G},$
     \item Connections are preserved:
     \begin{itemize}
-      \item $(A, B) \in C$ implies $(f(A), f(B)) \in C$
-      \item $(A, e, B) \in C,$ $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{v}(B)) \in C_{H}.$
+      \item $(A, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(B)) \in C_{H},$
+      \item $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{v}(B)) \in C_{H}.$
     \end{itemize}
-    Equivalently, the following equalities hold.
+    Equivalently, the following equalities hold:\footnote{Note that the first set of conditions ensures there is a map $f_{C}$ such that the second set of equalities hold, and the converse is easy to deduce. While  $f_{C}$ is not necessary, we include it for clarity.}
     \begin{itemize}
-      \item $s_{H} \circ f_{C} = f_{C} \circ s_{G},$
-      \item $t_{H} \circ f_{C} = f_{C} \circ t_{G},$
-      \item $c_{H} \circ f_{C} = f_{C} \circ c_{G}.$
+      \item $s_{H} \circ f_{C} = f_{V} \circ s_{G},$
+      \item $t_{H} \circ f_{C} = f_{V} \circ t_{G},$
+      \item $c_{H} \circ f_{C} = f_{V} \circ c_{G}.$
     \end{itemize}
-    % \item $f_{V}$ preserves edges: $f_{C}(A, e, B) = (f_{V}(A), f_{V}(e), f_{V}(B)) \in C$ for $A, e, B \in V_{G},$. Equivalently, $(A, e, B) \in C_{G}$ implies $(f_{V}(A), f_{V}(e), f_{V}(B)) \in C_{H}.$\footnote{Note that it is possible for loops to be sent to edges. In an isomorphism, however, this is not possible: all loops are mapped exactly to loops.}
-    \item Preservation of loops: for $D \in V_{H},$ $f_{C}^{-1}(D, D, D) \subseteq \{(A, A, A) \in V^{3}_{G}\},$
-    \item $l_{H, i} \circ f_{V} = f_{L} \circ l_{G,i}.$
+    % \item loops are preserved: for $D \in V_{H},$ $f_{C}^{-1}(D, D, D) \subseteq \{(A, A, A) \in V^{3}_{G}\}$
+    %\item $l_{H, i} \circ f_{V} = f_{L} \circ l_{G,i}.$
   \end{itemize}
-  An \textbf{equivalence} is bijective morphism. We write $G \cong H$ whenever two WIGs are equivalent.
+  An \textbf{equivalence} is bijective morphism. We write $G \simeq H$ whenever WIGs $G, H$ are equivalent.
 \end{definition}
-Our definition excludes the notion of ports, which are not needed in this standard. More information can be found in \cite{jensen-milner-bigraph}.
-
-
 
 % TODO: reword this. Graph isomorphism is getting repetitive here.
 % TODO: cite specific definition in paragraph below (for support equivalence)
-Note that support equivalence includes a bijective graph homomorphism which does not induce a bijection between edges, but it does induce an equivalence relation \cite[jensen-milner-bigraph].\footnote{In category theory, equivalences are formally defined using maps between maps, and typically arise through adjunctions of categories (see [?]).} Thus, while graph isomorphisms are support equivalences (using trivial tree like-structures), the converse is not true.\footnote{See \cite{iso-counterexample}, Figure ?.? for a counterexample. Each graph is equivalent to a bigraph where all the nodes are roots.} This fact is crucial for Welkin implementations: there is a polynomial time algorithm for bigraph equivalence\cite{canonical-string}, while no such algorithm is known for graph isomorphism \cite{babai}. Determining WIG isomorphism is a core component of Welkin (see \ref{sec:core}), and we address how users may work with general graph equivalences (refined or coarse) in \ref{sec:customization}.
+Note that support equivalence includes a bijective graph homomorphism between two connection graphs, which does not induce a bijection between edges.\cite[jensen-milner-bigraph].\footnote{However, support equivalences are a type of weak equivalence in category theory, in which there is an isomorphism between maps (see [?]).} Thus, while graph isomorphisms are support equivalences (using forests with no leaves), the converse is not true.\footnote{See \cite{iso-counterexample}, Figure ?.? for a counterexample. Each graph is equivalent to a bigraph where all the nodes are roots.} This fact is crucial for Welkin interpreters: there is a polynomial time algorithm to determine bigraph equivalence \cite{canonical-string}, while no such algorithm is known for graph isomorphism \cite{babai}. Determining WIG equivalence is another critical goal of Welkin (see \ref{sec:core}), and we address how users may work with general graph equivalences (strict or weak) in \ref{sec:customization}.
 
-% In \cite{milner}, the equivalence classes of bigraphs modulo support equivalence are called abstract bigraphs.
+A key property of WIG equivalence is that they are closed under labels for either equivalent WIG.
+
+\begin{lemma} Let $G, H$ be WIGs, and suppose $G \cong H.$ Then $G \sqcup L' \cong H \sqcup L''$ for any families $L', L''$ that label $G, H,$ respectively.
+\end{lemma}
+
+% \begin{theorem}
+
+% \end{theorem}
 
 In order to store WIGs for efficient retrieval, we define the associated canonical form, which is parameteric over the representation of nodes.
 
 % TODO: maybe we could generalize the set of vertices chosen? They are pretty arbitrary, but can always be represented by vertices
 % TODO: reword the canonical mapping on vertices. This is currently a bit messy.
 % TODO: look up storing topoi in a computer; they do use [n] for the representation of graphs!
+% What we want to do is assign each V an ordinal (i.e., an ordering of vertices  via natural numbers), and then send that to our desired representation. More generally, we could write it in terms of M, but then we are essentially referring to some reverse bijection
+
+
 \begin{definition}
-  Let $G$ be a WIG. The \textbf{Welkin Canonical Form (WCF) of} $G$ is the WIG $\can(G) = (\can(V), \can(p), \can(C), \{L_{i}, \can(l_{i})\}),$
+  Let $G$ be a WIG, and let $f: \mathbb{N} \to M,$ $g_{G}: V \to \mathbb{N},$ be bijections. The \textbf{Welkin Canonical Form (WCF) of} $G$ \textbf{under} $f$ is the WIG $\can(G) = (\can(V), \can(p), \can(C), \{L_{i}, \can(l_{i})\}),$
   where
   \begin{itemize}
     \item $\can(V) = [|V|],$
@@ -520,21 +579,20 @@ In case $f(n) = [n],$ we say that the canonical form is ``natural.''
 \end{definition}
 \label{def:iso}
 
-We summarize some key properties in the next lemma, which immediately follows by \label{def:iso} and \label{lemma:closure}
+We summarize some key properties in the next lemma, which immediately follows by \label{def:iso} and \label{lemma:closure}.
 
 \begin{lemma}
-  For any WIGs G, H, and fixed representation of nodes for $\can(G),$
+  For any WIGs G, H, and fixed representation $f$ of nodes,
   \begin{itemize}
-    \item $G \cong \can(G),$
-    \item $G \cong H$ iff $\can(G) = \can(H),$ and
-    \item for any labels $L'_{i}, L''_{i},$ $G \sqcup L'_{i} \cong H \cup L^{''}_{i}.$
+    \item $G \cong \can_{f}(G),$
+    \item $G \cong H$ iff $\can_{f, g}(G) = \can_{f, g''}(H)$ with $g, g'$ arbitrary.
   \end{itemize}
 \end{lemma}
 
-The next lemma defines the basis for the recorder. Every WIG must be put into a universal form that can be labeled in completely different ways. The underlying structure of the WIG is always preserved, no matter what labels are added.
+% In \cite{milner}, the equivalence classes of bigraphs modulo support equivalence are called abstract bigraphs.
+
+% The next lemma defines the basis for the recorder. Every WIG must be put into a universal form that can be labeled in completely different ways. The underlying structure of the WIG is always preserved, no matter what labels are added.
 % TODO: we do NOT want to make labels required in this definition. That's the whole point! So, our isomorphism should NOT be reliant to ANY set of labels. That may need to be a looser definition. It would be much easier to consider graphs MODULO these labels. And THEN we can apply WIG isos
-\begin{lemma} For any WIG $G,$ $G \cong \can(G).$
-\end{lemma}
 
 % % TODO: in the conversion, note that A - A - B -> B, equivalent to A --> B, is converted to A - { A - B } -> B. So both of them are equivalent on Welkin. Every other connection, however, will be parsed with full brackets, i.e.,
 % % A - {{ A --> B }} -> B will be parsed as it is.
@@ -548,36 +606,125 @@ The next lemma defines the basis for the recorder. Every WIG must be put into a 
 % \end{definition}
 % Based on this form, we have chosen a unique way to represent Welkin files. In particular, there is a representation under WIG (generalized) homotopies. We prove that there is a polynomial (or exponential?) algorithm to convert any WIG into WNF.
 
+
 \section{General Application Behavior}
 
-Note that all apparent structures may be adjusted under cryptomorphism.
+\subsubsection*{Abstract Models}
 
+Several concepts from operating systems are tantamount for Attribute and Binder Welkin. However, this standard only defines an abstract API, due to the difficulty in formally specifiying them. We emphasize the abstract approach taken here, and it is not the role of this standard to specify the full behavior of processes, shells, or other related concepts. The most suitable implementation, however, is formally specified and verified on essential collections of properties, including correctness, security, and performance.
+
+% TODO: make this more formal! Do we mainly say an operating system is equipped with an abstract process class? And a program is again an abstract object?
+
+In lieu of using a full specification, we abstractly define the minimum concepts needed for Attribute and Base Welkin.
+\begin{itemize}
+  \item A file is a text with requirements on its name. For full compatiblity with prevelant operating systems (including Windows), we assume the file name is case insensitive.
+  \item Operating systems create programs in their own process can, with special privlieges, can create subprocesses.
+  \begin{itemize}
+  \item Threads can be accessed via the \texttt{@bind} attribute with some FFI (such as the C standard library).
+  \end{itemize}
+\end{itemize}
 
 \subsubsection*{Directives}
-Each directive relies on the following components.
+Each directive relies on the Welkin pipeline.
+
+\begin{definition}[Pipeline]
+
+The Welkin \textbf{pipeline} consists of the following components.
+
 \begin{itemize}
-  \item Input: processes an input or set of inputs.
+  \item Input: processes a set of inputs.
+  \begin{itemize}
+    \item Directly processes input strings.
+    \item Validates input file names to see if they exist and can be accessed. The validation is carried out by the Vaildator.
+  \end{itemize}
   \item Parser: takes in a Welkin file and generates an AST,
-  \item Validator: ensures that the AST is valid, raising an error that directly points to a violation,
+  \item Validator: checks whether a given input is valid (either as a file name or Welkin file), raising an error that directly points to a violation.
+      \begin{itemize}
+\item Given via \textbf{validation cases,} conditions which the Validator checks.
+  \item Validation cases need not have specific error messages. In fact, it is encouraged that these error messages are themselves written entirely in Base Welkin % TODO: determine where to put these!
+\end{itemize}
   \item From here, an AST may be processed by three different means:
 		\begin{itemize}
-		  \item Recorder: takes the AST, converts it into a WIG in WCF, serializes the data,
-		  \item Printer: displays some information provided in a Welkin file to the user.
-		  \item Evaluator: evaluates, executes, or binds commands into Welkin units.
+		  \item Recorder (Base): takes the AST, converts it into a WIG in WCF, and serializes the data,
+		  \item Printer (Base): displays information provided in a Welkin file to the user.
+		  \item Evaluator (Binder): evaluates, executes, or binds commands into Welkin units.
 		\end{itemize}
 \end{itemize}
+Note that the Validator is used throughout the pipeline, but is most prevelant for syntacical and semantic validation
+\end{definition}
 
+\begin{definition}
+A \textbf{directive} consists of
+\begin{itemize}
+  \item A set of \textbf{parameters (precondition),}
+  \item A set of \textbf{outputs (postcondition),}
+  \item A \textbf{validation set} containing validation cases
+\end{itemize}
+that are all written in Hoare logic.
+\end{definition}
+We informally provide descriptions of each directive, but it is possible to formally state each directive using Hoare logic, with the prexisitng notions above. Directives are called using the syntax in Table ?.?, with parameters as nodes. Directives are also nodes via the bootstrap file (see \ref{sec:bootstrap}), and thus may be extended. Note, however, that parameters may not be directly removed (due to the functional nature of Welkin), but this behavior can be replicated by applying the validator in a custom grammar (see ?.?).
+
+Two validation cases are enforced for all directives with parameters.
+\begin{itemize}
+  \item Warning: undefined or unused parameters used,
+  \item Error: required parameters are not supplied.
+\end{itemize}
+
+We first define all builtin attributes, along with their parameters.
 
 \begin{itemize}
-  \item self
-  \item alias
-  \item extend
-  \item import
-  \item parse
-  \item validate
+  \item self: reference the parent in the current scope
+  \begin{itemize}
+    \item Parameters: None
+    \item Output: in the current scope (where self is called), returns the parent as $.P$. In case this is called at a top level scope, the name of the current file is used instead, or, if passed as a string, \texttt{.\_input}
+    \item Validation: None
+  \end{itemize}
+  \item extend: adds additional terms to a previously defined graph
+  \begin{itemize}
+    \item Parameters: \texttt{name} : name of graph.
+    \item Output: adds contents of name (in the extend attribute) to the existing graph.
+    \item Validation:
+      \begin{itemize}
+        \item Warning: determines if \texttt{name} is previously defined in the scope. Creates a new node for \texttt{name} instead.
+      \item Error: identical for Base Welkin text (see \ref{def:base-valid}).
+      \end{itemize}
+  \end{itemize}
+  \item import: commbines a previously defined text into the current text
+  \begin{itemize}
+    \item Parameters: file\_name (required): ident $|$ string
+    \begin{itemize}
+      \item If the file ends with .welkin, file\_name must exclude its suffix; else, a suffix is required.
+      \item Checks if relative import notation (see \ref{def:directory}) is used; else, uses file\_name as an absolute path.
+    \end{itemize}
+    \item Output: first parses the file, puts it into a new scope (whose label is the file name) and combines it with the existing file.
+    \item Validation: determines whether (required) file exists and can be accessed.
+  \end{itemize}
+  \item parse: configure how a text is parsed.
+  \begin{itemize}
+    \item Parameters: grammar: vertex, file\_name: ident | string
+    \item Output: Parses
+    \item Validation: determines whether (required):
+    \begin{itemize}
+    \item the file name exists and can be accessed,
+    \item the input grammar uses the notation defined in \ref{def:wbnf}.
+    \end{itemize}
+  \end{itemize}
+  \item validate: configures how the Validator checks an AST.
+  \begin{itemize}
+    \item Parameters (Optional): equal, equivalence, condition
+    \item Output: uses parameters as options for Validator in a given text, or checks given condition.
+    \item Validation:
+    \begin{itemize}
+    \item Error: determines if parameter is used correctly
+    \end{itemize}
+  \end{itemize}
   \item output
-  \item
+  \item attribute
 \end{itemize}
+
+Binder Welkin's directives are abstractly defined and solely defined in terms of the
+
+
 
 % All official implementations may implement
 % \begin{itemize}
@@ -661,22 +808,32 @@ All Welkin files are infinitely customizable via the welkin config file, which i
 
 \section{Core Algorithms}
 
+\subsection{Parser}
+
+% TODO: convert into readable pseudo-code
+% In every text, the following procedure
+
+At anytime, this may be interupted by the Validator (Section \label{sec:validator}).
+
+\subsection{Validator}
+\label{sec:validator}
+
+
 \subsection{Graph Encoding}
 
 \section{Conformance}
-A program may be conformant Welkin interpreter for some variant. A program conforms to Base Welkin if each of the conditions hold:
+A program may be conformant Welkin interpreter for some variant.
+
+A program conforms to Base Welkin if each of the conditions hold:
 \begin{itemize}
-  \item It provides the Base Welkin pipeline
+  \item It provides the Base Welkin pipeline.
   \item It can store and retrieve any WIG.
 \end{itemize}
-Note
 
 A program conforms Attribute Welkin if
 \begin{itemize}
   \item It conforms to Base Welkin,
-  \item It adds all
-  \item It implements all attributes , and
-  \item It bootstraps the last directive, \texttt{@attribute}, with the bootstrap folder.
+  \item It implements all attributes, including \texttt{@attribute} (via bootstrapping, Section \ref{sec:bootstrap})
 \end{itemize}
 
 

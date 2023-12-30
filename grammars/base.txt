@@ -2,16 +2,18 @@
 //SPDX-License-Identifier: CC-BY-4.0
 
 terms       = term*
-term        = connections | graph ","? | member ("," | _ )
+term        = connections | alias | graph | series | member
 connections = vertex (connector vertex)+
 connector   = "-" vertex? "-" -> edge
             | "-" vertex? "->" -> left_arrow
             | "<-" vertex? "-" -> right_arrow
+alias       = vertex ":=" vertex
 vertex      = graph | member _
 graph       = (member | "_".) "{" terms "}"
-member      = "."+ (ident | string | "#" number) element*
-            | unit element*
-element     = "." (ident | string) | "#" number
+series      = term "," (term ",")* term ","?
+member      = "."+.(ident | string | "#" number).element*
+            | unit.element*
+element     = ".".(ident | string) | "#".number
 unit        = ident | string | number
 ident       = CHAR*
 string      = STRING

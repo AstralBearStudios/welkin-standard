@@ -18,6 +18,7 @@
     "scope")
    (LaTeX-add-labels
     "sec:conformance"
+    "examples:encodings"
     "section:customization"
     "section:conformance"
     "section:syntax"

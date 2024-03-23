@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+#set text(font: "Stix Two")
 
 = The Welkin Standard
 

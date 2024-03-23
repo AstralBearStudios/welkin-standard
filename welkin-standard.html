@@ -1,8 +1,36 @@
 <h1>The Welkin Standard</h1>
 <h2>Syntax</h2>
+<p><strong>Terminals</strong></p>
+<ul>
+<li><p>Undefined notions:</p>
+<ul>
+<li><p>Successor <span class="math inline"><em>S</em></span></p></li>
+<li><p>Symbols: <span class="math inline">0, 1</span></p></li>
+<li><p>Implication <span class="math inline">⇒</span></p></li>
+</ul></li>
+<li><p>Table of US-ASCII:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td><p><strong>Symbol</strong></p></td>
+<td><p><strong>Encoding</strong></p></td>
+</tr>
+<tr class="even">
+<td><p><span class="math inline">{ ↦ 173</span></p></td>
+<td><p><span class="math inline">} ↦ 175</span></p></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>A <strong>word</strong> is recursively defined.</p>
+<ul>
+<li><p>Base case: the empty set is a word.</p></li>
+<li><p>Recursion: if <span class="math inline"><em>w</em></span> is a
+word, <span class="math inline"><em>w</em>0.1</span> is a word.</p></li>
+</ul></li>
+</ul>
 <p><strong>Atoms</strong></p>
 <ul>
-<li><p>Strings are sequences of characters.</p></li>
+<li><p>Strings are words with delimiters.</p></li>
 <li><p>Identifiers are strings without white space.</p></li>
 <li><p>Numbers are a subset of strings with an injective function <span
 class="math inline"><em>q</em> :  NUMBER  → ℚ.</span></p></li>
@@ -16,20 +44,22 @@ order.</p></li>
 class="math inline"><em>q</em>(<em>a</em>) = <em>q</em>(<em>b</em>).</span></p></li>
 </ul>
 <p>A <strong>Welkin Information Graph (WIG)</strong> is a structure
-<span class="math inline"><em>G</em> = (<em>T</em>,<em>H</em>)</span>
-with two components:</p>
+<span
+class="math inline"><em>G</em> = (<em>T</em>,<em>H</em>,<em>L</em>)</span>
+with:</p>
 <ul>
 <li><p>A tree <span class="math inline"><em>T</em>,</span></p></li>
 <li><p>A hypergraph <span
-class="math inline"><em>H</em>.</span></p></li>
+class="math inline"><em>H</em>,</span></p></li>
+<li><p>A tree <span class="math inline"><em>L</em></span> isomorphic to
+<span class="math inline"><em>T</em>.</span></p></li>
 </ul>
 <p>The <strong>encoding</strong> <span
-class="math inline"><em>E</em><sub><em>G</em></sub></span> of the WIG
-<span class="math inline"><em>G</em></span> is the unique string
-where</p>
+class="math inline"><em>E</em>(<em>G</em>)</span> of the WIG <span
+class="math inline"><em>G</em></span> is the unique string where</p>
 <ul>
 <li><p>All nodes are listed in breadth-first order</p></li>
-<li><p>Leaves are terms ending with #</p></li>
+<li><p>Leaves are terms ending with “#”</p></li>
 <li><p>Edges are enumerated, starting from 0. They are included in
 nodes:</p>
 <ul>

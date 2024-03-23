@@ -26,11 +26,13 @@ and can be directly embeded into a machine.
 - **[typst-subset.txt](typst-subset.txt)** includes **every** feature used for this standard. Any breaking changes are closely monitored.
 
 # Generating Documents
+Both of these commands are included in the [Makefile](Makefile).
 
 ## PDF
 You will need:
 - [typst](https://github.com/typst/typst)
 - [Stix Two Math](https://www.stixfonts.org/)
+
 Run
 ```bash
 typst compile welkin-standard.typst --format pdf

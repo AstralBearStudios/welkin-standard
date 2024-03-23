@@ -1,13 +1,26 @@
 <h1>The Welkin Standard</h1>
 <h2>Syntax</h2>
-<p><strong>Terminals</strong></p>
+<h3>Terminals</h3>
 <ul>
+<li><p>Logic</p>
+<ul>
+<li><p>Notation: <span
+class="math inline"><em>a</em>, <em>b</em><em>i</em><em>n</em><em>c</em></span>
+means <span
+class="math inline"><em>a</em><em>i</em><em>n</em><em>c</em></span> and
+<span
+class="math inline"><em>b</em><em>i</em><em>n</em><em>c</em>.</span></p></li>
+</ul></li>
 <li><p>Undefined notions:</p>
 <ul>
-<li><p>Successor <span class="math inline"><em>S</em></span></p></li>
 <li><p>Symbols: <span class="math inline">0, 1</span></p></li>
+</ul>
+<ul>
+<li><p>Successor <span class="math inline"><em>S</em></span></p></li>
 <li><p>Implication <span class="math inline">⇒</span></p></li>
 </ul></li>
+</ul>
+<ul>
 <li><p>Table of US-ASCII:</p>
 <table>
 <tbody>
@@ -16,27 +29,48 @@
 <td><p><strong>Encoding</strong></p></td>
 </tr>
 <tr class="even">
-<td><p><span class="math inline">{ ↦ 173</span></p></td>
-<td><p><span class="math inline">} ↦ 175</span></p></td>
+<td><p><span class="math inline">{</span></p></td>
+<td><p>173</p></td>
+</tr>
+<tr class="odd">
+<td><p><span class="math inline">}</span></p></td>
+<td><p>175</p></td>
 </tr>
 </tbody>
 </table></li>
+<li><p>Empty set: <span class="math inline"><em>ε</em></span> satisfies
+<span class="math inline">¬<em>S</em>(<em>ε</em>)</span></p></li>
 <li><p>A <strong>word</strong> is recursively defined.</p>
 <ul>
-<li><p>Base case: the empty set is a word.</p></li>
+<li><p>Base case: the empty set <span
+class="math inline"><em>ε</em></span> is a word.</p></li>
 <li><p>Recursion: if <span class="math inline"><em>w</em></span> is a
-word, <span class="math inline"><em>w</em>0.1</span> is a word.</p></li>
+word, <span class="math inline"><em>w</em>0.0</span> and <span
+class="math inline"><em>w</em>0.1</span> are words.</p></li>
+</ul></li>
+<li><p>Concatenation</p>
+<ul>
+<li><p>Base case: <span
+class="math inline"><em>w</em>.<em>ε</em> = <em>w</em>.</span></p></li>
+<li><p>Recursion:</p>
+<ul>
+<li><p><span
+class="math inline"><em>w</em>.(<em>u</em>0.0) = (<em>w</em>.<em>u</em>)0.0</span></p></li>
+<li><p><span
+class="math inline"><em>w</em>.(<em>u</em>0.1) = (<em>w</em>.<em>u</em>)0.1</span></p></li>
+</ul></li>
 </ul></li>
 </ul>
-<p><strong>Atoms</strong></p>
+<h3>Atoms</h3>
 <ul>
-<li><p>Strings are words with delimiters.</p></li>
+<li><p>Strings are words with delimiters: <span
+class="math inline"><em>d</em><sub>1</sub>.w.<em>d</em><sub>2</sub>,</span></p></li>
 <li><p>Identifiers are strings without white space.</p></li>
 <li><p>Numbers are a subset of strings with an injective function <span
 class="math inline"><em>q</em> :  NUMBER  → ℚ.</span></p></li>
 </ul>
 <h2>Semantics</h2>
-<p><strong>Equality on Terms</strong></p>
+<h3>Equality on Terms</h3>
 <ul>
 <li><p>Two strings are equal if they contain the same strings, in
 order.</p></li>

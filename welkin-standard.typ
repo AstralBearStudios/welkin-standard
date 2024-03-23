@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 // TODO: design official template
-#set text(font: "Stix Two", size: 12pt)
 
-#align(center, text(17pt)[*The Welkin Standard*])
-#align(center, text(15pt)[Oscar Bender-Stone])
+#import "template.typ": format
+#show: doc => format(title: [ The Welkin Standard ], doc)
 
-== Conventions
+= Conventions
 - Artifacts must be copied *identically.* They are listed below.
   - `boostrap.welkin` is located in Appendix A.
   - `derivation.welkin` is located in Appendix B.
@@ -13,7 +12,7 @@
 - Every definition is explicitly written. *Every definition MUST exclude Peano
   Arithmetic.*
 
-== Syntax
+= Syntax
 
 === Terminals
 - Logic

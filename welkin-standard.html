@@ -1,16 +1,10 @@
-<h1>The Welkin Standard</h1>
+<div data-align="center">
+<p><strong> The Welkin Standard</strong></p>
+</div>
 <h2>Syntax</h2>
 <h3>Terminals</h3>
 <ul>
-<li><p>Logic</p>
-<ul>
-<li><p>Notation: <span
-class="math inline"><em>a</em>, <em>b</em><em>i</em><em>n</em><em>c</em></span>
-means <span
-class="math inline"><em>a</em><em>i</em><em>n</em><em>c</em></span> and
-<span
-class="math inline"><em>b</em><em>i</em><em>n</em><em>c</em>.</span></p></li>
-</ul></li>
+<li><p>Logic</p></li>
 <li><p>Undefined notions:</p>
 <ul>
 <li><p>Symbols: <span class="math inline">0, 1</span></p></li>
@@ -44,9 +38,14 @@ class="math inline"><em>b</em><em>i</em><em>n</em><em>c</em>.</span></p></li>
 <ul>
 <li><p>Base case: the empty set <span
 class="math inline"><em>ε</em></span> is a word.</p></li>
-<li><p>Recursion: if <span class="math inline"><em>w</em></span> is a
-word, <span class="math inline"><em>w</em>0.0</span> and <span
-class="math inline"><em>w</em>0.1</span> are words.</p></li>
+<li><p>Recursion: let <span class="math inline"><em>w</em></span> be a
+word.</p>
+<ul>
+<li><p><span class="math inline"><em>w</em>0.0</span> is a
+word.</p></li>
+<li><p><span class="math inline"><em>w</em>0.1</span> is a
+word.</p></li>
+</ul></li>
 </ul></li>
 <li><p>Concatenation</p>
 <ul>
@@ -64,10 +63,21 @@ class="math inline"><em>w</em>.(<em>u</em>0.1) = (<em>w</em>.<em>u</em>)0.1<
 <h3>Atoms</h3>
 <ul>
 <li><p>Strings are words with delimiters: <span
-class="math inline"><em>d</em><sub>1</sub>.w.<em>d</em><sub>2</sub>,</span></p></li>
+class="math inline"><em>d</em><sub>1</sub>.w.<em>d</em><sub>2</sub>,</span>
+where <span
+class="math inline"><em>d</em><sub>1</sub> ⊄ <em>w</em></span> and <span
+class="math inline"><em>d</em><sub>2</sub> ⊄ <em>w</em>.</span></p></li>
 <li><p>Identifiers are strings without white space.</p></li>
 <li><p>Numbers are a subset of strings with an injective function <span
 class="math inline"><em>q</em> :  NUMBER  → ℚ.</span></p></li>
+</ul>
+<h3>Grammar</h3>
+<ul>
+<li><p>LALR</p>
+<ul>
+<li><p>Not ambiguous</p></li>
+</ul></li>
+<li><p>Welkin Grammar:</p></li>
 </ul>
 <h2>Semantics</h2>
 <h3>Equality on Terms</h3>
@@ -77,6 +87,7 @@ order.</p></li>
 <li><p>Two numbers are equal if <span
 class="math inline"><em>q</em>(<em>a</em>) = <em>q</em>(<em>b</em>).</span></p></li>
 </ul>
+<h3>Welkin Information Graphs</h3>
 <p>A <strong>Welkin Information Graph (WIG)</strong> is a structure
 <span
 class="math inline"><em>G</em> = (<em>T</em>,<em>H</em>,<em>L</em>)</span>
@@ -88,6 +99,16 @@ class="math inline"><em>H</em>,</span></p></li>
 <li><p>A tree <span class="math inline"><em>L</em></span> isomorphic to
 <span class="math inline"><em>T</em>.</span></p></li>
 </ul>
+<h3>AST (Recursive)</h3>
+<ul>
+<li><p>Units:</p></li>
+<li><p>Members are sequences of units</p></li>
+<li><p>Graphs are a WIG with</p>
+<ul>
+<li><p>Derived terms as children</p></li>
+</ul></li>
+</ul>
+<h3>Encoding</h3>
 <p>The <strong>encoding</strong> <span
 class="math inline"><em>E</em>(<em>G</em>)</span> of the WIG <span
 class="math inline"><em>G</em></span> is the unique string where</p>

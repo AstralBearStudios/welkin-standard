@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
-#set text(font: "Stix Two")
+// TODO: design official template
+#set text(font: "Stix Two", size: 12pt)
 
-= The Welkin Standard
+#align(center, text(17pt)[* The Welkin Standard* ])
 
 == Syntax
 
@@ -34,10 +35,12 @@
 === Atoms
 - Strings are words with delimiters: $d_1".w."d_2,$ where $d_1 subset.not w$ and $d_2 subset.not w.$
 - Identifiers are strings without white space.
-- Numbers are a subset of strings with an injective function $q: "NUMBER" -> QQ.$
+- Numbers are a subset of strings with an injective function $q: "NUMBER" -> Q.$
+  - Q is set of strings formed by scientific notation.
 
 === Grammar
 - LALR
+  - Not ambiguous
 - Welkin Grammar:
 
 == Semantics
@@ -45,11 +48,25 @@
 - Two strings are equal if they contain the same strings, in order.
 - Two numbers are equal if $q(a) = q(b).$
 
+=== Valid Strings
+- No relative members at toplevel (with length 2).
+- No duplicate members, graphs, or connections.
+
+=== Welkin Information Graphs
 A *Welkin Information Graph (WIG)* is a structure $G = (T, H, L)$ with:
 - A tree $T,$
 - A hypergraph $H,$
 - A tree $L$ isomorphic to $T.$
 
+=== AST (Recursive)
+- Units:
+- Members are words of units
+- Connections are WIGs with
+- Graphs are WIGs with
+  - Derived terms as children
+  - Ordered triples are arcs.
+
+=== Encoding
 The *encoding* $E(G)$ of the WIG $G$ is the unique string where
 - All nodes are listed in breadth-first order
 - Leaves are terms ending with "\#"

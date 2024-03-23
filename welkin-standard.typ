@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-// TODO: design official template
 
+#import "abstract.typ": abstract
 #import "template.typ": format
-#show: doc => format(title: [ The Welkin Standard ], doc)
+#show: doc => format(title: [ The Welkin Standard ], abstract: abstract, doc)
 
 = Conventions
 - Artifacts must be copied *identically.* They are listed below.

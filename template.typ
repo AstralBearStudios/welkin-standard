@@ -2,11 +2,21 @@
   set text(font: "Stix Two", size: 12pt)
 
   set align(center)
-  text(17pt, title)
+  text(22pt, title)
 
   set align(center)
-  text(15pt, [Oscar Bender-Stone])
+  text(17pt, [Oscar Bender-Stone])
+
+  set align(center)
+  text(17pt, "Abstract")
+
+  set align(center)
+  text(15pt, abstract)
+
+  // pagebreak()
 
   set align(left)
-  columns(1, doc)
+  text(doc)
 }
+
+#let header = []

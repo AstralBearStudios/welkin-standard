@@ -1,18 +1,18 @@
 <div data-align="center">
-<p><strong> The Welkin Standard</strong></p>
+<p><strong>The Welkin Standard</strong></p>
 </div>
 <h2>Syntax</h2>
 <h3>Terminals</h3>
 <ul>
 <li><p>Logic</p></li>
-<li><p>Undefined notions:</p>
+<li><p>Undefined notions:</p></li>
+</ul>
 <ul>
 <li><p>Symbols: <span class="math inline">0, 1</span></p></li>
 </ul>
 <ul>
 <li><p>Successor <span class="math inline"><em>S</em></span></p></li>
 <li><p>Implication <span class="math inline">⇒</span></p></li>
-</ul></li>
 </ul>
 <ul>
 <li><p>Table of US-ASCII:</p>
@@ -69,7 +69,10 @@ class="math inline"><em>d</em><sub>1</sub> ⊄ <em>w</em></span> and <span
 class="math inline"><em>d</em><sub>2</sub> ⊄ <em>w</em>.</span></p></li>
 <li><p>Identifiers are strings without white space.</p></li>
 <li><p>Numbers are a subset of strings with an injective function <span
-class="math inline"><em>q</em> :  NUMBER  → ℚ.</span></p></li>
+class="math inline"><em>q</em> :  NUMBER  → <em>Q</em>.</span></p>
+<ul>
+<li><p>Q is set of strings formed by scientific notation.</p></li>
+</ul></li>
 </ul>
 <h3>Grammar</h3>
 <ul>
@@ -87,6 +90,11 @@ order.</p></li>
 <li><p>Two numbers are equal if <span
 class="math inline"><em>q</em>(<em>a</em>) = <em>q</em>(<em>b</em>).</span></p></li>
 </ul>
+<h3>Valid Strings</h3>
+<ul>
+<li><p>No relative members at toplevel (with length 2).</p></li>
+<li><p>No duplicate members, graphs, or connections.</p></li>
+</ul>
 <h3>Welkin Information Graphs</h3>
 <p>A <strong>Welkin Information Graph (WIG)</strong> is a structure
 <span
@@ -102,10 +110,12 @@ class="math inline"><em>H</em>,</span></p></li>
 <h3>AST (Recursive)</h3>
 <ul>
 <li><p>Units:</p></li>
-<li><p>Members are sequences of units</p></li>
-<li><p>Graphs are a WIG with</p>
+<li><p>Members are words of units</p></li>
+<li><p>Connections are WIGs with</p></li>
+<li><p>Graphs are WIGs with</p>
 <ul>
 <li><p>Derived terms as children</p></li>
+<li><p>Ordered triples are arcs.</p></li>
 </ul></li>
 </ul>
 <h3>Encoding</h3>

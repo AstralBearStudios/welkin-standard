@@ -2,27 +2,34 @@
 // TODO: design official template
 #set text(font: "Stix Two", size: 12pt)
 
-#align(center, text(17pt)[* The Welkin Standard* ])
+#align(center, text(17pt)[*The Welkin Standard*])
+#align(center, text(15pt)[Oscar Bender-Stone])
+
+== Conventions
+- Each topic uses content from `bootstrap.welkin`. We write $(n)$ for the $n$-th
+  line in the bootstrap file.
 
 == Syntax
 
 === Terminals
 - Logic
-- Undefined notions:
-  - Symbols: $0, 1$
-  // TODO: this should be definable in a computational sense.
-  // This should mean that there isn't any 0 or 1 present.
-  // Maybe this is our starting point?
-  - Successor $S$
-  - Implication $=>$
+// TODO: decide whether to start with length 1 words. We don't need
+// to accept length 0 words in our grammar, so we don't really need them
+- Symbols (1): $0, 1$
+// TODO: this should be definable in a computational sense.
+// This should mean that there isn't any 0 or 1 present.
+// Maybe this is our starting point?
+- Successor $S$
+- Implication $=>$
 // TODO: use an unambiguous csv file to store this encoding
 - Table of US-ASCII:
   #table(
     columns: 2, [*Symbol*], [*Encoding*], [ ${$ ], [ 173 ], [ $}$ ], [ 175 ],
   )
-- Empty set: $epsilon$ satisfies $not S(epsilon)$
-- A *word* is recursively defined.
-  - Base case: the empty set $epsilon$ is a word.
+- A *word* is recursively defined (1).
+  - Base case:
+    - $0$ is a word.
+    - $1$ is a word.
   - Recursion: let $w$ be a word.
     - $w.0$ is a word.
     - $w.1$ is a word.

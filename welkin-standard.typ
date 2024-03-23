@@ -6,10 +6,12 @@
 #align(center, text(15pt)[Oscar Bender-Stone])
 
 == Conventions
-- Each topic uses content from `bootstrap.welkin`. This text is available Appendix
-  A.
+- Artifacts must be copied *identically.* They are listed below.
+  - `boostrap.welkin` is located in Appendix A.
+  - `derivation.welkin` is located in Appendix B.
 - We write $(n)$ for the $n$-th line in the bootstrap file.
-- Every definition is explicitly written.
+- Every definition is explicitly written. *Every definition MUST exclude Peano
+  Arithmetic.*
 
 == Syntax
 
@@ -21,25 +23,20 @@
 // TODO: this should be definable in a computational sense.
 // This should mean that there isn't any 0 or 1 present.
 // Maybe this is our starting point?
-- Successor $S$
+- Concatenation $dot.$
 - Implication $=>$
 // TODO: use an unambiguous csv file to store this encoding
 - Table of US-ASCII:
   #table(
     columns: 2, [*Symbol*], [*Encoding*], [ ${$ ], [ 173 ], [ $}$ ], [ 175 ],
   )
-- A *word* is recursively defined (1).
-  - Base case:
+- A *word* is recursively defined.
+  - Base case (5):
     - $0$ is a word.
     - $1$ is a word.
-  - Recursion: let $w$ be a word.
-    - $w.0$ is a word.
-    - $w.1$ is a word.
-- Concatenation
-  - Base case: $w.epsilon = w.$
-  - Recursion:
-    - $w.(u.0) = (w.u).0$
-    - $w.(u.1) = (w.u).1$
+  - Recursion (6): let $w$ be a word.
+    - $w dot 0$ is a word.
+    - $w dot 1$ is a word.
 
 === Atoms
 - Strings are words with delimiters: $d_1".w."d_2,$ where $d_1 subset.not w$ and $d_2 subset.not w.$
@@ -62,10 +59,11 @@
 - No duplicate members, graphs, or connections.
 
 === Welkin Information Graphs
+// TODO: to be self contained, define trees, hypergraphs, and the label tree as strings accepted by certain grammars
 A *Welkin Information Graph (WIG)* is a structure $G = (T, H, L)$ with:
 - A tree $T,$
 - A hypergraph $H,$
-- A tree $L$ isomorphic to $T.$
+- A tree $L$ isomorphic to $T$ called the *label tree.*
 
 === AST ()
 - Units:

@@ -6,12 +6,17 @@
 </div>
 <h2>Conventions</h2>
 <ul>
-<li><p>Each topic uses content from <code>bootstrap.welkin</code>. This
-text is available Appendix A.</p></li>
+<li><p>Artifacts must be copied <strong>identically.</strong> They are
+listed below.</p>
+<ul>
+<li><p><code>boostrap.welkin</code> is located in Appendix A.</p></li>
+<li><p><code>derivation.welkin</code> is located in Appendix B.</p></li>
+</ul></li>
 <li><p>We write <span class="math inline">(<em>n</em>)</span> for the
 <span class="math inline"><em>n</em></span>-th line in the bootstrap
 file.</p></li>
-<li><p>Every definition is explicitly written.</p></li>
+<li><p>Every definition is explicitly written. <strong>Every definition
+MUST exclude Peano Arithmetic.</strong></p></li>
 </ul>
 <h2>Syntax</h2>
 <h3>Terminals</h3>
@@ -22,7 +27,7 @@ file.</p></li>
 <li><p>Symbols (1): <span class="math inline">0, 1</span></p></li>
 </ul>
 <ul>
-<li><p>Successor <span class="math inline"><em>S</em></span></p></li>
+<li><p>Concatenation <span class="math inline"> ⋅ .</span></p></li>
 <li><p>Implication <span class="math inline">⇒</span></p></li>
 </ul>
 <ul>
@@ -43,32 +48,20 @@ file.</p></li>
 </tr>
 </tbody>
 </table></li>
-<li><p>A <strong>word</strong> is recursively defined (1).</p>
+<li><p>A <strong>word</strong> is recursively defined.</p>
 <ul>
-<li><p>Base case:</p>
+<li><p>Base case (5):</p>
 <ul>
 <li><p><span class="math inline">0</span> is a word.</p></li>
 <li><p><span class="math inline">1</span> is a word.</p></li>
 </ul></li>
-<li><p>Recursion: let <span class="math inline"><em>w</em></span> be a
-word.</p>
+<li><p>Recursion (6): let <span class="math inline"><em>w</em></span> be
+a word.</p>
 <ul>
-<li><p><span class="math inline"><em>w</em>0.0</span> is a
+<li><p><span class="math inline"><em>w</em> ⋅ 0</span> is a
 word.</p></li>
-<li><p><span class="math inline"><em>w</em>0.1</span> is a
+<li><p><span class="math inline"><em>w</em> ⋅ 1</span> is a
 word.</p></li>
-</ul></li>
-</ul></li>
-<li><p>Concatenation</p>
-<ul>
-<li><p>Base case: <span
-class="math inline"><em>w</em>.<em>ε</em> = <em>w</em>.</span></p></li>
-<li><p>Recursion:</p>
-<ul>
-<li><p><span
-class="math inline"><em>w</em>.(<em>u</em>0.0) = (<em>w</em>.<em>u</em>)0.0</span></p></li>
-<li><p><span
-class="math inline"><em>w</em>.(<em>u</em>0.1) = (<em>w</em>.<em>u</em>)0.1</span></p></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -117,7 +110,8 @@ with:</p>
 <li><p>A hypergraph <span
 class="math inline"><em>H</em>,</span></p></li>
 <li><p>A tree <span class="math inline"><em>L</em></span> isomorphic to
-<span class="math inline"><em>T</em>.</span></p></li>
+<span class="math inline"><em>T</em></span> called the <strong>label
+tree.</strong></p></li>
 </ul>
 <h3>AST ()</h3>
 <ul>

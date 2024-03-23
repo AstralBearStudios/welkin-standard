@@ -1,7 +1,0 @@
-#import attribute.txt
-#override directives
-
-directives = attributes | binders
-binders = "eval".tuple[unit] -> eval
-          | "exec".tuple[string] -> exec
-          | "binding".graph[empty, term] -> binding // TODO: develop semantics for this (with eval and exec)

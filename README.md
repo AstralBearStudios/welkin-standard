@@ -23,6 +23,7 @@ and can be directly embeded into a machine.
 
 ## Source code
 - **[welkin-standard.typst](welkin-standard.typst)** is the main typst file.
+- **[typst-subset.txt](typst-subset.txt)** includes **every** feature used for this standard. Any breaking changes are closely monitored.
 
 # Generating Documents
 
@@ -42,7 +43,7 @@ You will need:
 
 Run
 ```bash
-pandoc --from typst --to html5 --no-highlight welkin-standard.pdf
+pandoc --from typst --to html5 --no-highlight welkin-standard.pdf --output welkin-standard.html
 ```
 
 # Copyright and License

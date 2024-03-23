@@ -38,7 +38,7 @@ typst compile welkin-standard.typst --format pdf
 ## HTML
 You will need:
 - [pandoc](https://github.com/jgm/pandoc)
-- welkin-standard.pdf
+- [Stix Two Math](https://www.stixfonts.org/)
 
 Run
 ```bash

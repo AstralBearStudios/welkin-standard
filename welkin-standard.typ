@@ -6,8 +6,10 @@
 #align(center, text(15pt)[Oscar Bender-Stone])
 
 == Conventions
-- Each topic uses content from `bootstrap.welkin`. We write $(n)$ for the $n$-th
-  line in the bootstrap file.
+- Each topic uses content from `bootstrap.welkin`. This text is available Appendix
+  A.
+- We write $(n)$ for the $n$-th line in the bootstrap file.
+- Every definition is explicitly written.
 
 == Syntax
 
@@ -65,7 +67,7 @@ A *Welkin Information Graph (WIG)* is a structure $G = (T, H, L)$ with:
 - A hypergraph $H,$
 - A tree $L$ isomorphic to $T.$
 
-=== AST (Recursive)
+=== AST ()
 - Units:
 - Members are words of units
 - Connections are WIGs with
@@ -81,3 +83,18 @@ The *encoding* $E(G)$ of the WIG $G$ is the unique string where
   - $s$ means source,
   - $c$ means connector,
   - $t$ means target.
+
+== Bootstrap
+
+*Theorem.* The Bootstrap File (Appendix A) has the encoding
+
+$ .$
+
+We prove this in the following calculations:
+// TODO: import this from a text file.
+
+$ (1) 0, 1 => {0, 1} $
+$ (3) "start" - { 0, 1} -> "word" => ("start", {0, 1}, "word") $
+
+== Appendix A: Boostrap File
+

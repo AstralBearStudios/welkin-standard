@@ -1,14 +1,25 @@
 <div data-align="center">
 <p><strong>The Welkin Standard</strong></p>
 </div>
+<div data-align="center">
+<p>Oscar Bender-Stone</p>
+</div>
+<h2>Conventions</h2>
+<ul>
+<li><p>Each topic uses content from <code>bootstrap.welkin</code>. This
+text is available Appendix A.</p></li>
+<li><p>We write <span class="math inline">(<em>n</em>)</span> for the
+<span class="math inline"><em>n</em></span>-th line in the bootstrap
+file.</p></li>
+<li><p>Every definition is explicitly written.</p></li>
+</ul>
 <h2>Syntax</h2>
 <h3>Terminals</h3>
 <ul>
 <li><p>Logic</p></li>
-<li><p>Undefined notions:</p></li>
 </ul>
 <ul>
-<li><p>Symbols: <span class="math inline">0, 1</span></p></li>
+<li><p>Symbols (1): <span class="math inline">0, 1</span></p></li>
 </ul>
 <ul>
 <li><p>Successor <span class="math inline"><em>S</em></span></p></li>
@@ -32,12 +43,13 @@
 </tr>
 </tbody>
 </table></li>
-<li><p>Empty set: <span class="math inline"><em>ε</em></span> satisfies
-<span class="math inline">¬<em>S</em>(<em>ε</em>)</span></p></li>
-<li><p>A <strong>word</strong> is recursively defined.</p>
+<li><p>A <strong>word</strong> is recursively defined (1).</p>
 <ul>
-<li><p>Base case: the empty set <span
-class="math inline"><em>ε</em></span> is a word.</p></li>
+<li><p>Base case:</p>
+<ul>
+<li><p><span class="math inline">0</span> is a word.</p></li>
+<li><p><span class="math inline">1</span> is a word.</p></li>
+</ul></li>
 <li><p>Recursion: let <span class="math inline"><em>w</em></span> be a
 word.</p>
 <ul>
@@ -107,7 +119,7 @@ class="math inline"><em>H</em>,</span></p></li>
 <li><p>A tree <span class="math inline"><em>L</em></span> isomorphic to
 <span class="math inline"><em>T</em>.</span></p></li>
 </ul>
-<h3>AST (Recursive)</h3>
+<h3>AST ()</h3>
 <ul>
 <li><p>Units:</p></li>
 <li><p>Members are words of units</p></li>
@@ -136,3 +148,12 @@ connector,</p></li>
 target.</p></li>
 </ul></li>
 </ul>
+<h2>Bootstrap</h2>
+<p><strong>Theorem.</strong> The Bootstrap File (Appendix A) has the
+encoding</p>
+<p><span class="math display">.</span></p>
+<p>We prove this in the following calculations: <span
+class="math display">(1)0, 1 ⇒ {0,1}</span> <span
+class="math display">(3) start  − {0,1} →  word  ⇒ (start,{0,1},
+word)</span></p>
+<h2>Appendix A: Boostrap File</h2>

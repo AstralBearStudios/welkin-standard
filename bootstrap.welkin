@@ -1,6 +1,7 @@
 0, 1,
 
-{0, 1} --> {0, 1},
+start - {0, 1} -> word
 
+string --> \' word \'
 
-
+string --> \" word \"

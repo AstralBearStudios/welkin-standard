@@ -4,13 +4,7 @@
 #import "template.typ": format
 #show: doc => format(title: [ The Welkin Standard ], abstract: abstract, doc)
 
-= Conventions
-- Artifacts must be copied *identically.* They are listed below.
-  - `boostrap.welkin` is located in Appendix A.
-  - `derivation.welkin` is located in Appendix B.
-- We write $(n)$ for the $n$-th line in the bootstrap file.
-- Every definition is explicitly written. *Every definition MUST exclude Peano
-  Arithmetic.*
+#include "introduction.typ"
 
 = Syntax
 

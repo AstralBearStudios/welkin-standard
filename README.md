@@ -6,7 +6,7 @@
 Development on the Welkin Book will be postponed indefinitely.
 - Official documents will be written in two formats: Plain Text and [Typst](https://github.com/typst/typst). This was carefully decided for one major reason: the standard needs to have small source files to be self-contained. Every word needs to be tracked and be easily inspected. To satisfy this goal, formats are divided into two groups. 
     - `welkin-bootstrap` (Text): this will be a self-contained file that contains the entire specification with only US-ASCII. Artifacts will be available in separate files as a reference. The majority of this file will include Welkin (WIP).
-    - Typset Standard (PDF, HTML): typst will generate these formats. The standard will create a carefully chosen subset for Typst and maximize backwards compatiblity. Any artifacts will be copied identically. For now, HTML documents will be produced using pandoc, but typst will be used alone once [HTML exports](https://github.com/typst/typst/issues/721) are supported.
+    - Typeset Standard (PDF, HTML): Typst will generate these formats. The standard will create a carefully chosen subset for Typst and maximize backwards compatiblity. Any artifacts will be copied identically. For now, HTML documents will be produced using pandoc, but Typst will be used alone once [HTML exports](https://github.com/typst/typst/issues/721) are supported.
 
 This repository stores the **Welkin Standard.** It formally specifies the syntax and semantics of Welkin. *A high-level specification is provided for parsers, but machine specific details are beyond the scope of this standard. For these details, see Stratus (TBD).* 
 
@@ -52,7 +52,6 @@ pandoc --from typst --to html5 --no-highlight welkin-standard.pdf --output welki
 
 ## Source Files
 
-welkin-standard.typst
 (c) 2023 Oscar Bender-Stone.
 
 The Typst source files are licensed under the MIT license, located in the directory LICENSES.
@@ -79,7 +78,7 @@ Most importantly, this means that there may be more authors; this will **not** b
 author = {Oscar E. Bender-Stone},
 title = {The Welkin Standard}
 year = {2023},
-url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-book.pdf},
+url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.pdf},
 }
 ```
 

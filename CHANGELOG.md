@@ -17,7 +17,7 @@ This document will eventually be superseded by a new file, which will compile in
 Development on the Welkin Book will be postponed indefinitely.
 - Official documents will be written in two formats: Plain Text and [Typst](https://github.com/typst/typst). This was carefully decided for one major reason: the standard needs to have small source files to be self-contained. Every word needs to be tracked and be easily inspected. To satisfy this goal, formats are divided into two groups. 
     - `welkin-bootstrap` (Text): this will be a self-contained file that contains the entire specification with only US-ASCII. Artifacts will be available in separate files as a reference. The majority of this file will be Welkin (WIP).
-    - Typeset Standard (PDF, HTML): typst will generate these formats. The standard will create a carefully chosen subset for Typst and maximize backwards compatiblity. Any artifacts will be copied identically. For now, HTML documents will be produced using pandoc, but typst will be used alone once [HTML exports](https://github.com/typst/typst/issues/721) are supported.
+    - Typeset Standard (PDF, HTML): Typst will generate these formats. The standard will create a carefully chosen subset for Typst and maximize backwards compatiblity. Any artifacts will be copied identically. For now, HTML documents will be produced using pandoc, but typst will be used alone once [HTML exports](https://github.com/typst/typst/issues/721) are supported.
 
 ## 2023-15-12
 

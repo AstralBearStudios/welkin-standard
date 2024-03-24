@@ -4,8 +4,8 @@
 #import "template.typ": format
 #show: doc => format(title: [ The Welkin Standard ], abstract: abstract, doc)
 
-#include "introduction.typ"
-#include "syntax.typ"
+#import "introduction.typ"
+#import "syntax.typ"
 
 == Semantics
 === Equality on Terms

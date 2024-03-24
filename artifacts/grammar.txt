@@ -1,21 +1,18 @@
-//SPDX-FileCopyrightText: 2023 Oscar Bender-Stone <oscarbenderstone@gmail.com>
 //SPDX-License-Identifier: CC-BY-4.0
 
 terms       = term*
-term        = connections | alias | graph | series | member
+term        = series | connections | graph | member
+series      = term "," (term ",")* term ","?
 connections = vertex (connector vertex)+
 connector   = "-" vertex? "-" -> edge
             | "-" vertex? "->" -> left_arrow
             | "<-" vertex? "-" -> right_arrow
-alias       = vertex ":=" vertex
-vertex      = graph | member _
-graph       = (member | "_".) "{" terms "}"
-series      = term "," (term ",")* term ","?
+vertex      = graph | member
+graph       = member? "{" series? "}"
 member      = "."+.(ident | string | "#" number).element*
             | unit.element*
 element     = ".".(ident | string) | "#".number
 unit        = ident | string | number
-// TODO: fix ident! Must exclude whitespace!
-ident       = CHAR*
+ident       = IDENT
 string      = STRING
 number      = NUMBER

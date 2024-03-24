@@ -6,17 +6,17 @@
 
 #set align(center)
 #text(22pt, "The Welkin Standard")
-
+//
 #set align(center)
 #text(17pt, [Oscar Bender-Stone])
-
+//
 #set align(center)
 #text(17pt, "Abstract")
 
 #set align(center)
 #text(15pt, abstract)
 
-#pagebreak()
+// #pagebreak()
 
 #include "introduction.typ"
 #include "syntax.typ"

@@ -1,9 +1,146 @@
-<p>The Welkin Standard</p>
-<p>Oscar Bender-Stone</p>
-<p>Abstract</p>
+<p>The Welkin Standard Oscar Bender-Stone Abstract</p>
 <p>Welkin is an information language. Welkin stores three independent
 structures: a tree of nodes, a hypergraph between nodes, and a tree of
 node labels. An Information Graph has a unique encoding. Using this
 encoding, the original Information Graph may be recovered. This document
 “bootstraps” Welkin to provide a finitistic basis for all
 information.</p>
+<h1>Introduction</h1>
+<p>This document specifies the Welkin information language.</p>
+<p>Welkin describes information as the combination of a tree,
+hypergraph, and labels. Together, these form the basis for storing
+information in a universal format.</p>
+<h2>Conventions</h2>
+<ul>
+<li><p>Artifacts must be copied <strong>identically.</strong> They are
+listed below.</p>
+<ul>
+<li><p><code>boostrap.welkin</code> is located in Appendix A.</p></li>
+<li><p><code>derivation.welkin</code> is located in Appendix B.</p></li>
+</ul></li>
+<li><p>We write <span class="math inline">(<em>n</em>)</span> for the
+<span class="math inline"><em>n</em></span>-th line in the bootstrap
+file.</p></li>
+<li><p>Every definition is explicitly written. <strong>Every definition
+MUST exclude Peano Arithmetic.</strong></p></li>
+</ul>
+<h1>Syntax</h1>
+<h3>Terminals</h3>
+<ul>
+<li><p>Logic</p></li>
+</ul>
+<ul>
+<li><p>Symbols (1): <span class="math inline">0, 1</span></p></li>
+</ul>
+<ul>
+<li><p>Concatenation <span class="math inline"> ⋅ .</span></p></li>
+<li><p>Implication <span class="math inline">⇒</span></p></li>
+</ul>
+<ul>
+<li><p>Table of US-ASCII:</p></li>
+<li><p>A <strong>word</strong> is recursively defined.</p>
+<ul>
+<li><p>Base case (5):</p>
+<ul>
+<li><p><span class="math inline">0</span> is a word.</p></li>
+<li><p><span class="math inline">1</span> is a word.</p></li>
+</ul></li>
+<li><p>Recursion (6): let <span class="math inline"><em>w</em></span> be
+a word.</p>
+<ul>
+<li><p><span class="math inline"><em>w</em> ⋅ 0</span> is a
+word.</p></li>
+<li><p><span class="math inline"><em>w</em> ⋅ 1</span> is a
+word.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<h3>Atoms</h3>
+<ul>
+<li><p>Strings are words with delimiters: <span
+class="math inline"><em>d</em><sub>1</sub>.w.<em>d</em><sub>2</sub>,</span>
+where <span
+class="math inline"><em>d</em><sub>1</sub> ⊄ <em>w</em></span> and <span
+class="math inline"><em>d</em><sub>2</sub> ⊄ <em>w</em>.</span></p></li>
+<li><p>Identifiers are strings without white space.</p></li>
+<li><p>Numbers are a subset of strings with an injective function <span
+class="math inline"><em>q</em> :  NUMBER  → <em>Q</em>.</span></p>
+<ul>
+<li><p>Q is set of strings <span
+class="math display">$$\frac{p}{q}$$</span></p></li>
+</ul>
+<p>where <span class="math inline"><em>p</em>, <em>q</em></span> are in
+scientific notation.</p></li>
+</ul>
+<h3>Grammar</h3>
+<ul>
+<li><p>LALR</p>
+<ul>
+<li><p>Not ambiguous</p></li>
+</ul></li>
+<li><p>Welkin Grammar:</p></li>
+</ul>
+<h2>Semantics</h2>
+<h3>Equality on Terms</h3>
+<ul>
+<li><p>Two strings are equal if they contain the same strings, in
+order.</p></li>
+<li><p>Two numbers are equal if <span
+class="math inline"><em>q</em>(<em>a</em>) = <em>q</em>(<em>b</em>).</span></p></li>
+</ul>
+<h3>Valid Strings</h3>
+<ul>
+<li><p>No relative members at toplevel (with length 2).</p></li>
+<li><p>No duplicate members, graphs, or connections.</p></li>
+</ul>
+<h3>Welkin Information Graphs</h3>
+<p>A <strong>Welkin Information Graph (WIG)</strong> is a structure
+<span
+class="math inline"><em>G</em> = (<em>T</em>,<em>H</em>,<em>L</em>)</span>
+with:</p>
+<ul>
+<li><p>A tree <span class="math inline"><em>T</em>,</span></p></li>
+<li><p>A hypergraph <span
+class="math inline"><em>H</em>,</span></p></li>
+<li><p>A tree <span class="math inline"><em>L</em></span> isomorphic to
+<span class="math inline"><em>T</em></span> called the <strong>label
+tree.</strong></p></li>
+</ul>
+<h3>AST ()</h3>
+<ul>
+<li><p>Units:</p></li>
+<li><p>Members are words of units</p></li>
+<li><p>Connections are WIGs with</p></li>
+<li><p>Graphs are WIGs with</p>
+<ul>
+<li><p>Derived terms as children</p></li>
+<li><p>Ordered triples are arcs.</p></li>
+</ul></li>
+</ul>
+<h3>Encoding</h3>
+<p>The <strong>encoding</strong> <span
+class="math inline"><em>E</em>(<em>G</em>)</span> of the WIG <span
+class="math inline"><em>G</em></span> is the unique string where</p>
+<ul>
+<li><p>All nodes are listed in breadth-first order</p></li>
+<li><p>Leaves are terms ending with “#”</p></li>
+<li><p>Edges are enumerated, starting from 0. They are included in
+nodes:</p>
+<ul>
+<li><p><span class="math inline"><em>s</em></span> means
+source,</p></li>
+<li><p><span class="math inline"><em>c</em></span> means
+connector,</p></li>
+<li><p><span class="math inline"><em>t</em></span> means
+target.</p></li>
+</ul></li>
+</ul>
+<h2>Bootstrap</h2>
+<p><strong>Theorem.</strong> The Bootstrap File (Appendix A) has the
+encoding</p>
+<p><span class="math display">.</span></p>
+<p>We prove this in the following calculations: <span
+class="math display">(1)0, 1 ⇒ {0,1}</span> <span
+class="math display">(3) start  − {0,1} →  word  ⇒ (start,{0,1},
+word)</span></p>
+<h2>Appendix A: Boostrap File</h2>

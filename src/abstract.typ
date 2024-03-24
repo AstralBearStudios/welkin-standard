@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #let abstract = [
   Welkin is an information language. Welkin stores three independent structures: a
   tree of nodes, a hypergraph between nodes, and a tree of node labels. An

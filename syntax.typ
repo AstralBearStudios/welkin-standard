@@ -14,9 +14,6 @@
 - Implication $=>$
 // TODO: use an unambiguous csv file to store this encoding
 - Table of US-ASCII:
-  #table(
-    columns: 2, [*Symbol*], [*Encoding*], [ ${$ ], [ 173 ], [ $}$ ], [ 175 ],
-  )
 - A *word* is recursively defined.
   - Base case (5):
     - $0$ is a word.
@@ -29,7 +26,9 @@
 - Strings are words with delimiters: $d_1".w."d_2,$ where $d_1 subset.not w$ and $d_2 subset.not w.$
 - Identifiers are strings without white space.
 - Numbers are a subset of strings with an injective function $q: "NUMBER" -> Q.$
-  - Q is set of strings formed by scientific notation.
+  - Q is set of strings
+    $ p / q $
+  where $p, q$ are in scientific notation.
 
 === Grammar
 - LALR

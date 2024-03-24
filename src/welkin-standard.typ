@@ -1,11 +1,25 @@
 // SPDX-License-Identifier: MIT
 
 #import "abstract.typ": abstract
-#import "template.typ": format
-#show: doc => format(title: [ The Welkin Standard ], abstract: abstract, doc)
 
-#import "introduction.typ"
-#import "syntax.typ"
+#set text(font: "Stix Two", size: 12pt)
+
+#set align(center)
+#text(22pt, "The Welkin Standard")
+
+#set align(center)
+#text(17pt, [Oscar Bender-Stone])
+
+#set align(center)
+#text(17pt, "Abstract")
+
+#set align(center)
+#text(15pt, abstract)
+
+pagebreak()
+
+#include "introduction.typ"
+#include "syntax.typ"
 
 == Semantics
 === Equality on Terms

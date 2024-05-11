@@ -1,0 +1,28 @@
+= Introduction
+This document specifies the Welkin information language.
+
+Welkin describes information as the combination of a tree, hypergraph, and
+set of labels. Together, these form the basis for storing information
+in a universal format.
+
+== Design Goals
+
+The design goals of Welkin are the following.
+
+# Provide an arbitrarily extensible structure.
+# Be able to compare structures.
+
+== Scope
+
+This document completely describes the Welkin language, in both syntax and semantics.
+
+This document **does not** cover extensions of the Welkin grammar. In particular, Welkin only depends on ASCII, and //no other character set is defined//. (See "Syntax" for more details).
+
+== Conventions
+
+* Artifacts must be copied **identically.** They are listed below.
+** `boostrap.welkin` is located in Appendix A.
+** `derivation.welkin` is located in Appendix B.
+* We write (n) for the n-th line in the bootstrap file.
+* Every definition is explicitly written.
+

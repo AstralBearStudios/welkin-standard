@@ -1,0 +1,18 @@
+*Version:* 0.1
+
+
+= Abstract =
+
+Welkin is an information language. Welkin stores three independent structures: a
+tree of nodes, a hypergraph between nodes, and a tree of node labels.
+These structures can be recovered using a unique encoding.
+Structures can be compared by comparing their encodings.
+This document aims to be self-contained,
+bootstraping Welkin to provide
+a finitistic basis for all information.
+
+= Status of this document =
+
+This document was produced by Astral Bear Studios.
+As of Version 0.1, sources and artifacts are available on GitHub
+[[https://github.com/AstralBearStudios/welkin-standard|here]]

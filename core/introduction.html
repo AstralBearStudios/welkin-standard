@@ -1,0 +1,51 @@
+<h1>Introduction</h1>
+<p>This document specifies the Welkin information language.</p>
+<p>Welkin describes information as the combination of a tree,
+hypergraph, and set of labels. Together, these form the basis for
+storing information in a universal format.</p>
+<h2>Design Goals</h2>
+<p>The design goals of Welkin are the following.</p>
+<ul>
+<li>Self-Contained
+<ul>
+<li>Provide unambiguous, complete instructions to interpret its
+specification.</li>
+<li>Rely on few undefined notions.</li>
+<li>Have an unambiguous grammar, semantics, and universal encoding.</li>
+</ul></li>
+<li>Expressive
+<ul>
+<li>Express any relational structure with a sufficient amount of
+space.</li>
+</ul></li>
+<li>Arbitrarily Extensible
+<ul>
+<li>Enable any additions to Welkin texts and encodings.</li>
+</ul></li>
+<li>Universal Identification
+<ul>
+<li>Provide a universal encoding to compare structures.</li>
+<li>Make it possible to completely recover a text through its encoding
+(excluding whitespaces).</li>
+</ul></li>
+</ul>
+<h2>Scope</h2>
+<p>This document completely describes the Welkin language, in both
+syntax and semantics. Welkin allows binary extension of US-ASCII. This
+enables arbitrary extensions to different character sets.</p>
+<p>This document <strong>does not</strong> cover extensions of the
+Welkin grammar. In particular, this document only defines ASCII, and no
+other character set is mentioned. (See "Syntax" for more details). This
+enables Welkin to be fully self-contained.</p>
+<h2>Organization</h2>
+<h2>Conventions</h2>
+<ul>
+<li>Artifacts must be copied <strong>identically.</strong> They are
+listed below.
+<ul>
+<li>`boostrap.welkin` is located in Appendix A.</li>
+<li>`derivation.welkin` is located in Appendix B.</li>
+</ul></li>
+<li>We write (n) for the n-th line in the bootstrap file.</li>
+<li>Every definition is explicitly written.</li>
+</ul>

@@ -1,0 +1,176 @@
+<ul>
+<li>Version:* 0.1</li>
+</ul>
+<h1>Abstract</h1>
+<p>Welkin is an information language. Welkin stores three independent
+structures: a tree of nodes, a hypergraph between nodes, and a tree of
+node labels. These structures can be recovered using a unique encoding.
+Structures can be compared by comparing their encodings. This document
+aims to be self-contained, bootstraping Welkin to provide a finitistic
+basis for all information.</p>
+<h1>Status of this document</h1>
+<p>This document was produced by Astral Bear Studios. As of Version 0.1,
+sources and artifacts are available on GitHub <a
+href="https://github.com/AstralBearStudios/welkin-standard">here</a></p>
+<h2>Appendix A: Boostrap File</h2>
+<h1>Bootstrap</h1>
+<p><strong>Theorem.</strong> The Bootstrap File (Appendix A) has the
+encoding</p>
+<p>We prove this in the following calculations: <em> TODO: import this
+from a text file. </em></p>
+<p><em> In Creole, maybe put this into a block? </em></p>
+<p>(1) 0, 1 =&gt; {0, 1} (3) "start" - { 0, 1} -&gt; "word" =&gt;
+("start", {0, 1}, "word")</p>
+<h1>Introduction</h1>
+<p>This document specifies the Welkin information language.</p>
+<p>Welkin describes information as the combination of a tree,
+hypergraph, and set of labels. Together, these form the basis for
+storing information in a universal format.</p>
+<h2>Design Goals</h2>
+<p>The design goals of Welkin are the following.</p>
+<ul>
+<li>Self-Contained
+<ul>
+<li>Provide unambiguous, complete instructions to interpret its
+specification.</li>
+<li>Rely on few undefined notions.</li>
+<li>Have an unambiguous grammar, semantics, and universal encoding.</li>
+</ul></li>
+<li>Expressive
+<ul>
+<li>Express any relational structure with a sufficient amount of
+space.</li>
+</ul></li>
+<li>Arbitrarily Extensible
+<ul>
+<li>Enable any additions to Welkin texts and encodings.</li>
+</ul></li>
+<li>Universal Identification
+<ul>
+<li>Provide a universal encoding to compare structures.</li>
+<li>Make it possible to completely recover a text through its encoding
+(excluding whitespaces).</li>
+</ul></li>
+</ul>
+<h2>Scope</h2>
+<p>This document completely describes the Welkin language, in both
+syntax and semantics. Welkin allows binary extension of US-ASCII. This
+enables arbitrary extensions to different character sets.</p>
+<p>This document <strong>does not</strong> cover extensions of the
+Welkin grammar. In particular, this document only defines ASCII, and no
+other character set is mentioned. (See "Syntax" for more details). This
+enables Welkin to be fully self-contained.</p>
+<h2>Organization</h2>
+<h2>Conventions</h2>
+<ul>
+<li>Artifacts must be copied <strong>identically.</strong> They are
+listed below.
+<ul>
+<li>`boostrap.welkin` is located in Appendix A.</li>
+<li>`derivation.welkin` is located in Appendix B.</li>
+</ul></li>
+<li>We write (n) for the n-th line in the bootstrap file.</li>
+<li>Every definition is explicitly written.</li>
+</ul>
+<h1>Semantics</h1>
+<h2>Equality on Terms</h2>
+<ul>
+<li>Two strings are equal if they contain the same strings, in
+order.</li>
+<li>Two numbers are equal if $q(a) q(b).$</li>
+</ul>
+<h2>Valid Strings</h2>
+<ul>
+<li>No relative members at toplevel (with length 2).</li>
+<li>No duplicate members, graphs, or connections.</li>
+</ul>
+<h2>Welkin Information Graphs</h2>
+<p><em> TODO: to be self contained, define trees, hypergraphs, and the
+label tree as strings accepted by certain grammars</em> A <strong>Welkin
+Information Graph (WIG)</strong> is a structure $G (T, H, L)$ with:</p>
+<ul>
+<li>A tree --T--,</li>
+<li>A hypergraph --H--,</li>
+<li>A tree --H-- isomorphic to --T-- called the *label tree.*</li>
+</ul>
+<h2>AST ()</h2>
+<ul>
+<li>Units:</li>
+<li>Members are words of units</li>
+<li>Connections are WIGs with</li>
+<li>Graphs are WIGs with
+<ul>
+<li>Derived terms as children</li>
+<li>Ordered triples are arcs.</li>
+</ul></li>
+</ul>
+<h2>Encoding</h2>
+<p>The *encoding* $E(G)$ of the WIG $G$ is the unique string where</p>
+<ul>
+<li>All nodes are listed in breadth-first order</li>
+<li>Leaves are terms ending with "\#"</li>
+<li>Edges are enumerated, starting from 0. They are included in nodes:
+<ul>
+<li>s means source,</li>
+<li>c means connector,</li>
+<li>$t$ means target.</li>
+</ul></li>
+</ul>
+<p><em> SPDX-License-Identifier: MIT</em></p>
+<h1>Syntax</h1>
+<h3>Regular Expressions</h3>
+<ul>
+<li>Logic <em> TODO: decide whether to start with length 1 words. We
+don't need </em> to accept length 0 words in our grammar, so we don't
+really need them</li>
+<li>Symbols (1): $0, 1$ <em> TODO: this should be definable in a
+computational sense. </em> This should mean that there isn't any 0 or 1
+present. <em> Maybe this is our starting point?</em></li>
+<li>Concatenation $dot.$</li>
+<li>Implication $=&gt;$</li>
+</ul>
+<h3>Terminals</h3>
+<ul>
+<li>Table of US-ASCII:</li>
+<li>A *word* is recursively defined.
+<ul>
+<li>Basis (5):
+<ul>
+<li>$0$ is a word.</li>
+<li>$1$ is a word.</li>
+</ul></li>
+<li>Recursion (6): let $w$ be a word.
+<ul>
+<li>$w dot 0$ is a word.</li>
+</ul></li>
+<li>$w dot 1$ is a word.</li>
+</ul></li>
+<li>LAYOUT is any subset of $(0, 1)*$. Its elements are <strong>white
+space characters.</strong></li>
+</ul>
+<h3>Atoms</h3>
+<ul>
+<li>Strings are words delimited with either single quotes `'` or double
+quotes `"`. More precisely, if $w$ is a word without quotes, then:
+<ul>
+<li>'w' is a string.</li>
+<li>"w" is a stirng. $w$ is the *contents* of the string.</li>
+</ul></li>
+<li>Escaped characters ():
+<ul>
+<li>Every instance of \' in $w$ is replaced as '.</li>
+<li>Every instance of \" in $w$ is replaced as ".</li>
+<li>Every instance of<br />
+in $w$ is replaced by<br />
+.</li>
+</ul></li>
+<li>Identifiers are strings without white space.</li>
+</ul>
+<h3>Grammar</h3>
+<ul>
+<li>LL
+<ul>
+<li>Unambiguous</li>
+</ul></li>
+<li>Welkin Grammar:</li>
+</ul>

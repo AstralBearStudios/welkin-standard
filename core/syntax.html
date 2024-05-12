@@ -1,0 +1,58 @@
+<p><em> SPDX-License-Identifier: MIT</em></p>
+<h1>Syntax</h1>
+<h3>Regular Expressions</h3>
+<ul>
+<li>Logic <em> TODO: decide whether to start with length 1 words. We
+don't need </em> to accept length 0 words in our grammar, so we don't
+really need them</li>
+<li>Symbols (1): $0, 1$ <em> TODO: this should be definable in a
+computational sense. </em> This should mean that there isn't any 0 or 1
+present. <em> Maybe this is our starting point?</em></li>
+<li>Concatenation $dot.$</li>
+<li>Implication $=&gt;$</li>
+</ul>
+<h3>Terminals</h3>
+<ul>
+<li>Table of US-ASCII:</li>
+<li>A *word* is recursively defined.
+<ul>
+<li>Basis (5):
+<ul>
+<li>$0$ is a word.</li>
+<li>$1$ is a word.</li>
+</ul></li>
+<li>Recursion (6): let $w$ be a word.
+<ul>
+<li>$w dot 0$ is a word.</li>
+</ul></li>
+<li>$w dot 1$ is a word.</li>
+</ul></li>
+<li>LAYOUT is any subset of $(0, 1)*$. Its elements are <strong>white
+space characters.</strong></li>
+</ul>
+<h3>Atoms</h3>
+<ul>
+<li>Strings are words delimited with either single quotes `'` or double
+quotes `"`. More precisely, if $w$ is a word without quotes, then:
+<ul>
+<li>'w' is a string.</li>
+<li>"w" is a stirng. $w$ is the *contents* of the string.</li>
+</ul></li>
+<li>Escaped characters ():
+<ul>
+<li>Every instance of \' in $w$ is replaced as '.</li>
+<li>Every instance of \" in $w$ is replaced as ".</li>
+<li>Every instance of<br />
+in $w$ is replaced by<br />
+.</li>
+</ul></li>
+<li>Identifiers are strings without white space.</li>
+</ul>
+<h3>Grammar</h3>
+<ul>
+<li>LL
+<ul>
+<li>Unambiguous</li>
+</ul></li>
+<li>Welkin Grammar:</li>
+</ul>

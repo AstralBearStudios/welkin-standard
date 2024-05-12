@@ -16,7 +16,12 @@ Welkin is a customizable language to store information from any subject matter. 
 
 # Generating Documents
 
-**WIP**
+You will need the program `make`. Installing it is platform dependent. 
+- Windows: see [this question](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows)
+- MacOS: this may already be installed on your system.
+    - If not, open the 'Terminal' application. Then, install [Homebrew](https://docs.brew.sh/Installation)
+    and run `brew install make`.
+- Linux/BSD/Other: this shoud be provided in your distribution (or, if not, consult their documentation).
 
 # Copyright and License
 
@@ -24,7 +29,7 @@ Welkin is a customizable language to store information from any subject matter. 
 
 (c) 2023 Oscar Bender-Stone.
 
-The Creole source files are licensed under the CC-BY-4.0 license.
+All files under `src` and `core` are licensed under the CC-BY-4.0 license.
 
 ## The Welkin Standard
 
@@ -47,8 +52,8 @@ Most importantly, this means that there may be more authors; this will **not** b
 @Article{
 author = {Oscar E. Bender-Stone},
 title = {The Welkin Standard}
-year = {2023},
-url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.pdf},
+year = {2024},
+url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.html},
 }
 ```
 

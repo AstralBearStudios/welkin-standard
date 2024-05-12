@@ -1,19 +1,22 @@
 SOURCE = source
-OUTPUT = core
+HTML = core
 
+# SOURCE_NAMES = index abstract introduction syntax semantics bootstrap
 SOURCE_FILES = $(wildcard $(SOURCE)/*.creole)
 
-HTML_FILES = $(patsubst %.creole,%.html,$(subst $(SOURCE), $(OUTPUT), $(SOURCE_FILES)))
+HTML_FILES = $(patsubst %.creole,%.html,$(subst $(SOURCE), $(HTML), $(SOURCE_FILES)))
 
 all: multi-page single-page
 
 multi-page: $(HTML_FILES)
 
-$(OUTPUT)/%.html: $(SOURCE)/%.creole
+$(HTML)/%.html: $(SOURCE)/%.creole
 	@pandoc --from creole $< --to html --output $@
 
 single-page: multi-page
 	cat $(HTML_FILES) > welkin-standard.html 
 
-# clean:
-# 	rm -r $(HTML)/*.html
+.PHONY: clean
+clean:
+	rm -r $(HTML)/*.html
+	rm welkin-standard.html

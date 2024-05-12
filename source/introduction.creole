@@ -24,8 +24,8 @@ instructions to interpret its specification.
 * Universal Identification
 ** Provide a universal encoding to compare
 structures.
-** Make it possible to completely recover a 
-text through its encoding (excluding whitespaces).
+** Make it possible to completely recover an
+Information Graph through its encoding.
 
 == Scope ==
 

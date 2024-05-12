@@ -11,17 +11,18 @@ There are three places you can read the Standard.
     - single page: [welkin-standard.html](welkin-standard.html)
     - original Creole text files: [source](source)
 The first option is hosted online (TBD). You can read any of these
-through GitHub, or you may download them. The rendered HTML
-files provided the best accessibilty support, but all three
-contain the same **core** content. (In particular, no
-special characters or symbols are lost in the source files;
-the entire standard is plain text).
+through GitHub, or you may download them. **We recommend
+downloading this repository to have access to all documents.**
+
+**Warning:** the Creole files **may not** render correctly on GitHub. The 
+[tool GitHub uses](https://github.com/larsch/creole?tab=readme-ov-file)
+has not been updated in 10 years and has pending issues.
 
 # Contents 
 
 **WIP**
 
-## Documents
+## Artifacts
 
 - **grammar(grammar.txt)** contains the Welkin grammar.
 

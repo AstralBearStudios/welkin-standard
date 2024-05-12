@@ -1,18 +1,22 @@
-*Version:* 0.1
+**Version:** 0.1
+
+By: Oscar Bender-Stone
+Astral Bear Studios
+
 
 
 = Abstract =
 
 Welkin is an information language. Welkin stores three independent structures: a
 tree of nodes, a hypergraph between nodes, and a tree of node labels.
-These structures can be recovered using a unique encoding.
-Structures can be compared by comparing their encodings.
+These structures can be recovered and compared using a unique encoding.
 This document aims to be self-contained,
 bootstraping Welkin to provide
 a finitistic basis for all information.
 
 = Status of this document =
 
-This document was produced by Astral Bear Studios.
+This document was produced by Oscar Bender-Stone under
+Astral Bear Studios.
 As of Version 0.1, sources and artifacts are available on GitHub
 [[https://github.com/AstralBearStudios/welkin-standard|here]]

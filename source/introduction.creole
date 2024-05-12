@@ -1,19 +1,23 @@
-= Introduction
+= Introduction =
 
 This document specifies the Welkin information language.
 
-Welkin describes information as the combination of a tree, hypergraph, and
-set of labels. Together, these form the basis for storing information
-in a universal format.
+Welkin stores information in an Information Graph. 
+An Information Graph consists of a tree, hypergraph, and
+set of labels. Together, these components make Information Graphs
+a universal information format, enabling structures to be identified
+and compared.
 
-== Design Goals
+The rest of this section serves as an **informal guide**
+to this document. The minimal specification of Welkin 
+is provided in [[source/bootstrap.creole|Bootstrap]].
 
-The design goals of Welkin are the following.
+== Design Goals ==
 
 * Self-Contained
+** Rely on few undefined notions.
 ** Provide unambiguous, complete
 instructions to interpret its specification.
-** Rely on few undefined notions.
 ** Have an unambiguous grammar, semantics, and 
    universal encoding.
 * Expressive
@@ -34,9 +38,26 @@ in both syntax and semantics. Welkin allows binary
 extension of US-ASCII. This enables arbitrary extensions
 to different character sets.
 
-This document **does not** cover extensions of the Welkin grammar. In particular, this document only defines ASCII, and no other character set is mentioned. (See "Syntax" for more details). This enables Welkin to be fully self-contained.
+This document **does not** cover extensions of the Welkin grammar.
+In particular, this document only defines ASCII, 
+and no other character set is mentioned. 
+(See "Syntax" for more details). 
+This enables Welkin to be fully self-contained.
 
 == Organization ==
+
+**Note:** each section should be read **in order**.
+For the minimal specification, read the first section in Syntax,
+followed by the Bootstrap.
+
+We first introduce the syntax for Welkin.
+
+We then provide the semantics for Welkin.
+
+We conclude with the bootstrap. This section
+derives each line in the bootstrap. Each derivation
+can be independently checked, but the entire proof
+is provided **once and for all**.
 
 == Conventions ==
 

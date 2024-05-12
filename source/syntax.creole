@@ -6,8 +6,11 @@ introduce regular expressions. We then write down
 the grammars for Welkin texts and encodings
 solely with regular expressions,
 ensuring that these grammars are
-completely specified. We work directly with the bootstrap
-to avoid ambiguities.
+completely specified.
+
+We define proofs separately for each definition.
+We then show these combine into a
+broader definition.
 
 == Regular Expressions ==
 
@@ -15,11 +18,27 @@ We leave several notions undefined. These notions
 must follow the rules described in this document.
 
 * There are two symbols called **bits**: `0` and `1`.
+** (FIX) A bit is denoted by `(0|1)`.
 * There is an operation called **concatenation**, denoted by `.`.
 
-We introduce two symbols: `0` and `1`. 
+A **byte** is `(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
 
-A **bit** is either a `0` or a `1`.
+A **character in US-ASCII** is a byte starting with `0`:
+
+`0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
+
+Each character **encodes** (assigns to a) unique symbol. Table ?.?
+provides the US-ASCII encoding. For an unambiguous interpretation,
+see [[source/bootstrap.creole|Bootstrap]].
+
+|=symbol|=character|
+|    a  |          |
+
+
+**Lemma.** '-->' is a byte.
+
+
+== Terminals == 
 
 A **word** is recursively defined.
 
@@ -30,24 +49,26 @@ A **word** is recursively defined.
 ** `w.0` (written w0) is a word.
 ** `w.1` (written w1) is a word.
 
-== Terminals ==
-* Table of US-ASCII:
+
+** Lemma.** A byte is a word.
+// Proof. // 
+
 
 * A **layout** character is
 
 == Atoms ==
 * Strings are words delimited with either single quotes `'` or double quotes `"`.
-  More precisely, if $w$ is a word without quotes, then:
-** 'w' is a string.
-** "w" is a stirng.
-  $w$ is the *contents* of the string.
+  More precisely, if `w` is a word without quotes, then:
+** `'w'` is a string.
+** `"w"` is a stirng.
+  We say `w` is the **contents** of the string.
 * Escaped characters ():
-** Every instance of \' in $w$ is replaced by '.
-** Every instance of \" in $w$ is replaced by ".
-** Every instance of \\ in $w$ is replaced by \\.
+** Every instance of \' in `w` is replaced by '.
+** Every instance of \" in `w` is replaced by ".
+** Every instance of \\ in `w` is replaced by \\.
 * Identifiers are strings without white space.
 
-=== Grammar
+== Grammar ==
 * LL
 ** Unambiguous
 * Welkin Grammar:

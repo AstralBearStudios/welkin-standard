@@ -14,12 +14,15 @@ broader definition.
 
 == Regular Expressions ==
 
-We leave several notions undefined. These notions
-must follow the rules described in this document.
+We leave symbols undefined.
 
 * There are two symbols called **bits**: `0` and `1`.
 ** (FIX) A bit is denoted by `(0|1)`.
-* There is an operation called **concatenation**, denoted by `.`.
+* There is a symbol called **concatenation**, denoted by `.`.
+
+These symbols must obey the following rules:
+* Symbols can be combined.
+* (FIX) Proofs.
 
 A **byte** is `(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
 
@@ -28,14 +31,16 @@ A **character in US-ASCII** is a byte starting with `0`:
 `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
 
 Each character **encodes** (assigns to a) unique symbol. Table ?.?
-provides the US-ASCII encoding. For an unambiguous interpretation,
-see [[source/bootstrap.creole|Bootstrap]].
+provides the US-ASCII encoding. Separate rows show that the
+characters listed are indeed bytes.
 
-|=symbol|=character|
-|    a  |          |
+|=symbol|=character                                      |
+|  `\0` | `0.0.0.0.0.0.0.0`                              |
+|       | `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`. |
 
 
-**Lemma.** '-->' is a byte.
+**Lemma.** `0.0.0.0.0.0.0.0` is a byte.
+//Proof.// 
 
 
 == Terminals == 

@@ -4,6 +4,19 @@ This repository stores the **Welkin Standard.** It formally specifies the syntax
 
 Welkin is a customizable language to store information from any subject matter. All Welkin files are compiled into the same data structure, with the aim to *determine the underlying structure of any subject.* To do so, Welkin compares the structure of different notes with this data structure. For instance, a musician could encode their musical development and compositions into a Welkin file and compare their results to a mathematician's theory. In this regard, Welkin's ultimate goal is to provide a Universal Information Format for *all* information, including annotations, notes, and entire blueprints.
 
+# Accessing the Standard
+
+There are three places you can read the Standard.
+    - multiple pages: [core (multiple pages)](core)
+    - single page: [welkin-standard.html](welkin-standard.html)
+    - original Creole text files: [source](source)
+The first option is hosted online (TBD). You can read any of these
+through GitHub, or you may download them. The rendered HTML
+files provided the best accessibilty support, but all three
+contain the same **core** content. (In particular, no
+special characters or symbols are lost in the source files;
+the entire standard is plain text).
+
 # Contents 
 
 **WIP**
@@ -16,12 +29,23 @@ Welkin is a customizable language to store information from any subject matter. 
 
 # Generating Documents
 
+## Dependencies
 You will need the program `make`. Installing it is platform dependent. 
 - Windows: see [this question](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows)
 - MacOS: this may already be installed on your system.
     - If not, open the 'Terminal' application. Then, install [Homebrew](https://docs.brew.sh/Installation)
     and run `brew install make`.
 - Linux/BSD/Other: this shoud be provided in your distribution (or, if not, consult their documentation).
+
+## Options
+- Generate all pages (found in [core](core)): 
+    ```
+    make multi-page
+    ```
+- Generate a single document ([welkin-standard.hml](welkin-standard.html)):
+    ```
+    make single-page 
+    ```
 
 # Copyright and License
 

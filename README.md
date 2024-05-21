@@ -1,22 +1,22 @@
 ⚠ **Warning: This repository is a WIP. This standard is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
 
-This repository stores the **Welkin Standard.** It formally specifies the syntax and semantics of Welkin. *A high-level specification is provided for parsers, but machine specific details are beyond the scope of this standard. For these details, see Stratus (TBD).* 
+This repository stores the **Welkin Standard.** This document formally specifies the syntax and semantics of Welkin.
 
-Welkin is a customizable language to store information from any subject matter. All Welkin files are compiled into the same data structure, with the aim to *determine the underlying structure of any subject.* To do so, Welkin compares the structure of different notes with this data structure. For instance, a musician could encode their musical development and compositions into a Welkin file and compare their results to a mathematician's theory. In this regard, Welkin's ultimate goal is to provide a Universal Information Format for *all* information, including annotations, notes, and entire blueprints.
+Welkin is a customizable language to store information from any subject matter. All Welkin files are compiled into the same data structure, called an Information Graph. The aim of this structure, to *determine the underlying structure of any subject.* To do so, Welkin compares the structure of different notes through special encodings. For instance, a musician could encode their musical development and compositions into a Welkin file and compare their results to a mathematician's theory. In this regard, Welkin's ultimate goal is to provide a Universal Information Format for *all* information, including annotations, notes, and entire blueprints.
 
 # Accessing the Standard
 
 There are three places you can read the Standard.
-    - multiple pages: [core (multiple pages)](core)
-    - single page: [welkin-standard.html](welkin-standard.html)
-    - original Creole text files: [source](source)
+- multiple pages: [core (multiple pages)](core)
+- single page: [welkin-standard.html](welkin-standard.html)
+- original Creole text files: [source](source)
 The first option is hosted online (TBD). You can read any of these
 through GitHub, or you may download them. **We recommend
 downloading this repository to have access to all documents.**
 
 **Warning:** the Creole files **may not** render correctly on GitHub. The 
 [tool GitHub uses](https://github.com/larsch/creole?tab=readme-ov-file)
-has not been updated in 10 years and has pending issues.
+has not been updated in 10 years and has pending issues. Additionally, while we use back ticks (\`) for monospaced text, these are not in the original Creole grammar and **will NOT** render correctly on GITHUB. 
 
 # Contents 
 

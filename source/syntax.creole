@@ -10,25 +10,31 @@ completely specified.
 
 We define proofs separately for each definition.
 We then show these combine into a
-broader definition.
+broader definition. Note that we define proofs (words)
+via proof steps (respectively, nodes).
 
 == Regular Expressions ==
 
-We leave symbols undefined.
+We leave four symbols undefined.
 
 * There are two symbols called **bits**: `0` and `1`.
-** (FIX) A bit is denoted by `(0|1)`.
-* There is a symbol called **concatenation**, denoted by `.`.
+* There are two symbols called **variables**: `b` and `S`. 
+** `b` stands for bit
+** `S` is the **start symbol**
+** (FIX) This is not to be confused with the letters b and S, respectively.
 
 These symbols must obey the following rules:
 * Symbols can be combined.
-* (FIX) Proofs.
+* (FIX) Symbols can be substitued as follows:
+** `b` can be substituted with either `0` or `1`
+** `Sb` can be substituted by `b`
+* (FIX) `S` is always the first node.
 
-A **byte** is `(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
+A **byte** is `bbbbbbbb`.
 
 A **character in US-ASCII** is a byte starting with `0`:
 
-`0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`.
+`0bbbbbbb`
 
 Each character **encodes** (assigns to a) unique symbol. Table ?.?
 provides the US-ASCII encoding. Separate rows show that the
@@ -38,34 +44,14 @@ characters listed are indeed bytes.
 |  `\0` | `0.0.0.0.0.0.0.0`                              |
 |       | `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`. |
 
-
-**Lemma.** `0.0.0.0.0.0.0.0` is a byte.
-//Proof.// 
-
-
 == Terminals == 
-
-A **word** is recursively defined.
-
-* Basis (5):
-** `0` is a word.
-** `1` is a word.
-* Recursion (6): let `w` be a word.
-** `w.0` (written w0) is a word.
-** `w.1` (written w1) is a word.
-
-
-** Lemma.** A byte is a word.
-// Proof. // 
-
-
 * A **layout** character is
 
 == Atoms ==
-* Strings are words delimited with either single quotes `'` or double quotes `"`.
-  More precisely, if `w` is a word without quotes, then:
-** `'w'` is a string.
-** `"w"` is a stirng.
+* A **string node** is delimited with either single quotes `'` or double quotes `"`.
+  More precisely, these are the following regular expressions:
+**  
+** 
   We say `w` is the **contents** of the string.
 * Escaped characters ():
 ** Every instance of \' in `w` is replaced by '.

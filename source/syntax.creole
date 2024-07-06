@@ -4,7 +4,7 @@ This section introduces the Welkin grammar.
 
 * First, we introduce regular expressions in a self-contained way. This ensures no amgiguities arise in the rest of this document.
 ** Regular expressions are defined using nodes. In particular, **any combinations of symbols needed for this document are explicity defined**.
-* Next, we define terminals and context free grammars.
+* Next, we define terminals and LR grammars.
 * Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
 == Regular Expressions ==
@@ -12,8 +12,9 @@ This section introduces the Welkin grammar.
 We leave five symbols undefined. Each symbol is written in typewriter font.
 
 * There are two symbols called **bits**: `0` and `1`.
-* There are two symbols called **variables**: `b` and `S`. 
-** `b` is the **bit node**
+* There are three symbols called **variables**: `b`, `b*`, and `S`. 
+** `b` is a **bit**
+** `b*` is the **bit node**
 ** `S` is the **successor symbol**
 * There is one symbol called the **derivation operator**: `->`
 
@@ -24,11 +25,9 @@ These symbols obey the following rules.
 
 A **byte** is `bbbbbbbb`.
 
-A **character in US-ASCII** is a byte starting with `0`:
+A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`.
 
-`0bbbbbbb`
-
-Each character **encodes** a unique symbol. Table ?.?
+Each character **encodes** a unique symbol. Table 1.1
 provides the US-ASCII encoding. Separate rows show that the
 characters listed are bytes.
 
@@ -38,20 +37,23 @@ characters listed are bytes.
 |       | `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`. |
 
 == Terminals == 
-* A **layout** character is
-* A **string node** is delimited with either single quotes `'` or double quotes `"`.
-  More precisely, these are the following regular expressions:
-**  
-** 
-  We say `w` is the **contents** of the string.
-* Escaped characters ():
+* A **layout** character is a byte where the fifth bit is `1`: `bbbb1bbb`
+* The **string node** `s` is `b` delimited with either single quotes `'` or double quotes `"`. More precisely:
 ** Every instance of \' in `w` is replaced by '.
 ** Every instance of \" in `w` is replaced by ".
 ** Every instance of \\ in `w` is replaced by \\.
-* Identifiers are strings without white space.
+* A string is either 's' or "s"
+* Identifiers are strings without layout:
 
 == Grammar ==
 * LL
-** Unambiguous
-* Welkin Grammar:
+
+The Welkin Grammar is presented in Figure 1.2.
+
+``
+Figure 1.2
+
+
+
+
 

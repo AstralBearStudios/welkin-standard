@@ -1,32 +1,26 @@
 = Syntax =
 
-This section introduces the Welkin grammar. In order
-to avoid ambiguities in this document, we first
-introduce regular expressions. We then write down
-the grammars for Welkin texts and encodings
-solely with regular expressions,
-ensuring that these grammars are
-completely specified.
+This section introduces the Welkin grammar.
 
-We define words and proofs via nodes.
-Proofs are defined in smaller definitions
-and combined together.
+* First, we introduce regular expressions in a self-contained way. This ensures no amgiguities arise in the rest of this document.
+** Regular expressions are defined using nodes. In particular, **any combinations of symbols needed for this document are explicity defined**.
+* Next, we define terminals and context free grammars.
+* Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
 == Regular Expressions ==
 
-We leave four symbols undefined. For clarity, we put each symbol in quotes.
+We leave five symbols undefined. Each symbol is written in typewriter font.
 
 * There are two symbols called **bits**: `0` and `1`.
 * There are two symbols called **variables**: `b` and `S`. 
-** `b` stands for bit
-** `S` is the **start symbol**
+** `b` is the **bit node**
+** `S` is the **successor symbol**
+* There is one symbol called the **derivation operator**: `->`
 
-These symbols must obey the following rules:
-* Symbols can be combined.
-* (FIX) Symbols can be substitued as follows:
-** `b` can be substituted with either `0` or `1`
-** `Sb` can be substituted by `b`
-* (FIX) `S` is always the first node.
+These symbols obey the following rules.
+* (R0) `b -> 0` 
+* (R1) `b -> 1`
+* (RS) `Sb -> b` 
 
 A **byte** is `bbbbbbbb`.
 
@@ -38,14 +32,13 @@ Each character **encodes** a unique symbol. Table ?.?
 provides the US-ASCII encoding. Separate rows show that the
 characters listed are bytes.
 
+**Table 1.1**
 |=symbol|=character                                      |
 |  `\0` | `0.0.0.0.0.0.0.0`                              |
 |       | `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`. |
 
 == Terminals == 
 * A **layout** character is
-
-== Atoms ==
 * A **string node** is delimited with either single quotes `'` or double quotes `"`.
   More precisely, these are the following regular expressions:
 **  

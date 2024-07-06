@@ -1,0 +1,69 @@
+= Recursion Definability Paradox =
+
+We have agreed on one thing: the base case:
+    b is a word.
+
+What we want to do is justify this phrase:
+    if w is a word, then w.b is a word.
+
+How do we follow this rule? As a DFA, we do know
+how to follow a direction: at a *given* starting point,
+go somewhere else. But, what does it mean for something
+to be *given*? Seems to go back to needing a variable
+of quantification...
+
+IF we could encode that w is a variable, in a finitary
+way, then we would be good. Sure, we can do *every* possible
+substitution, but this does cover everything we want. We
+don't want *any* edge cases. (This is an even foundation
+to *analyze* more uneven ones).
+    - This actually analyzes to the way quantification is defined.
+    Using naive set theory, we can define for all as follows:
+        for all x. phi(x) iff for every x in A, phi(x) holds
+    BUT, we want to ignore set theory. If we allow a simple variable
+    instead, this will work! This will basically store our string.
+    With enough power, it's the tape on a Turing machine. But we only
+    need it for the simple, DFA definition of a word.
+    - Oh wait: EVEN if we can define a variable, we certainly need
+    *substitution*. THAT seems to be harder to do...
+
+There is an interesting route I just found: David Hilbert's epsilon calculus.
+If we could find a nice way to talk about it here, then I will use it!
+
+On the other hand, there let's consider our new approach: add a symbol '.' and only state
+    - b.b is a word
+IF we state the direction (almost stating what the DFA looks like), we should be able
+to do that with ANY 0.
+    - The problem is, we still acknowledge different *instances* of symbols. That seems to require
+    quantification, in of itself... Yes, we DO need to recognize that b in one place is b in another,
+    BUT this doesn't tell us which b we can apply this rule to
+    - We almost need 3 b's, because how do we get b.b.b from b.b?
+    - This gets back to the pointer idea: add a left and a right.
+
+Let's examine the pointer method more in depth:
+    - We *can* talk about direction, but we ultimately want to say:
+        - (1) L(b) -> b,
+        - (2) R(b) -> b
+    - This does require having an end point, BUT this acts as our mechanism
+    to encode variables! (Without coming up with a more crazy defintiion, which
+    probalby defeats the whole purpose of this standard)
+    - Now, we may want to indicate a starting position. This would mean L(b) -> e, with
+    e denoting the empty string. The dual idea, to have an end, is R(b) -> e
+The main problem with pointers, as well as any approach, is getting to proofs. We want to use
+two test cases (these could be as big as we could write down):
+    - bb is a word
+    - bbb is a word
+Now, maybe we ignore *what* a word is? OOOH, that might of been what I said before. We focus
+on how we ACT on symbols, not WHAT a collection is.
+    - Still, we do need this idea to generate a proof. So, what is a proof?
+        - Base case: axioms are a proof. We write these down explicitly. These will be few,
+          as we are dealing with words
+        - Recursion: traditionally, we would say a combination of rules. BUT, we have to be
+        more careful. We need to think about this as a proof chain
+            - Only inductive rules are (1) and (2). This means we could say
+                - PL(L(b) -> b) -> PL(L(b) -> b)
+                    - Note: as with (1) and (2), we can list out all the possibilites for b. BUT, I think we can justify
+                    using b as a variable instead. (This might need to be challenged. Once we get this accross,
+                    we should be good on the base case!)
+            - This suggests a new concept: we focus on a *proof chain*. This does go nicely (and is inspired by)
+            the a -> b approach, *removing modus ponens completely*. (More precisely, baking it in)

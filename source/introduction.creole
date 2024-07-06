@@ -4,13 +4,13 @@ This document specifies the Welkin information language.
 
 Welkin stores information in an Information Graph. 
 An Information Graph consists of a tree, hypergraph, and
-set of labels. Together, these components make Information Graphs
+set of labels. These components make Information Graphs
 a universal information format, enabling structures to be identified
 and compared.
 
 The rest of this section serves as an **informal guide**
-to this document. The minimal specification of Welkin 
-is provided in [[source/bootstrap.creole|Bootstrap]].
+to this document. See "Organization" for the mimimal
+specification.
 
 == Design Goals ==
 
@@ -36,28 +36,27 @@ Information Graph through its encoding.
 This document completely describes the Welkin language,
 in both syntax and semantics. Welkin allows binary
 extension of US-ASCII. This enables arbitrary extensions
-to different character sets.
-
-This document **does not** cover extensions of the Welkin grammar.
-In particular, this document only defines ASCII, 
-and no other character set is mentioned. 
+to different character sets. However, this document 
+**does not** cover these extensions. 
 (See "Syntax" for more details). 
-This enables Welkin to be fully self-contained.
+This is needed to keep Welkin fully self-contained.
 
 == Organization ==
 
-**Note:** each section should be read **in order**.
-For the minimal specification, read the first section in Syntax,
+Each section should be read **in order**. For the minimal specification, read the first section in Syntax,
 followed by the Bootstrap.
 
-We first introduce the syntax for Welkin.
-
-We then provide the semantics for Welkin.
+* Syntax
+** Provides the basis for Welkin and all other sections
+* Semantics
+** Explains how Welkin nodes are encoded. 
+* Bootstrap
+** Derives each line in the bootstrap file. 
+** Each derivation can be independently checked, but the entire proof
+is provided **once and for all**.
 
 We conclude with the bootstrap. This section
-derives each line in the bootstrap. Each derivation
-can be independently checked, but the entire proof
-is provided **once and for all**.
+
 
 == Conventions ==
 
@@ -65,5 +64,3 @@ is provided **once and for all**.
 ** `boostrap.welkin` is located in Appendix A.
 ** `derivation.welkin` is located in Appendix B.
 * We write (n) for the n-th line in the bootstrap file.
-* Every definition is explicitly written.
-

@@ -24,17 +24,19 @@ from a text file. </em></p>
 <h1>Table of Contents</h1>
 <h1>Introduction</h1>
 <p>This document specifies the Welkin information language.</p>
-<p>Welkin describes information as the combination of a tree,
-hypergraph, and set of labels. Together, these form the basis for
-storing information in a universal format.</p>
+<p>Welkin stores information in a bigraph. A bigraph consists of a tree,
+hypergraph, and set of labels. Together, these components make bigraphs
+a universal information format. This enables structures to be identified
+and compared.</p>
+<p>The rest of this section serves as an <strong>informal guide</strong>
+to this document. See "Organization" for the mimimal specification.</p>
 <h2>Design Goals</h2>
-<p>The design goals of Welkin are the following.</p>
 <ul>
 <li>Self-Contained
 <ul>
+<li>Rely on few undefined notions.</li>
 <li>Provide unambiguous, complete instructions to interpret its
 specification.</li>
-<li>Rely on few undefined notions.</li>
 <li>Have an unambiguous grammar, semantics, and universal encoding.</li>
 </ul></li>
 <li>Expressive
@@ -49,19 +51,37 @@ space.</li>
 <li>Universal Identification
 <ul>
 <li>Provide a universal encoding to compare structures.</li>
-<li>Make it possible to completely recover an Information Graph through
-its encoding.</li>
+<li>Make it possible to completely recover a bigraph through its
+encoding.</li>
 </ul></li>
 </ul>
 <h2>Scope</h2>
-<p>This document completely describes the Welkin language, in both
-syntax and semantics. Welkin allows binary extension of US-ASCII. This
-enables arbitrary extensions to different character sets.</p>
-<p>This document <strong>does not</strong> cover extensions of the
-Welkin grammar. In particular, this document only defines ASCII, and no
-other character set is mentioned. (See "Syntax" for more details). This
-enables Welkin to be fully self-contained.</p>
+<p>This document completely describes the Welkin language,
+&gt;&gt;&gt;&gt; 9f41ba4 (Started adding encodings and informal proof of
+unambiguity) (See "Syntax" for more details). This allows Welkin to be
+fully self-contained.</p>
 <h2>Organization</h2>
+<p><strong>Note:</strong> each section should be read <strong>in
+order</strong>. For the minimal specification, read <strong>Regular
+Expressions</strong> in <strong>Syntax</strong>, followed by the
+Bootstrap.</p>
+<ul>
+<li>Syntax
+<ul>
+<li>Provides the basis for Welkin and all other sections</li>
+</ul></li>
+<li>Semantics
+<ul>
+<li>Explains how Welkin nodes are encoded.</li>
+</ul></li>
+<li>Bootstrap
+<ul>
+<li>Derives each line in the bootstrap file.</li>
+<li>Each derivation can be independently checked, but the entire proof
+is provided <strong>once and for all</strong>.</li>
+</ul></li>
+</ul>
+<p>We conclude with the bootstrap. This section</p>
 <h2>Conventions</h2>
 <ul>
 <li>Artifacts must be copied <strong>identically.</strong> They are
@@ -71,7 +91,6 @@ listed below.
 <li>`derivation.welkin` is located in Appendix B.</li>
 </ul></li>
 <li>We write (n) for the n-th line in the bootstrap file.</li>
-<li>Every definition is explicitly written.</li>
 </ul>
 <h1>Semantics</h1>
 <h2>Equality on Terms</h2>
@@ -117,61 +136,119 @@ Information Graph (WIG)</strong> is a structure $G (T, H, L)$ with:</p>
 <li>$t$ means target.</li>
 </ul></li>
 </ul>
-<p><em> SPDX-License-Identifier: MIT</em></p>
 <h1>Syntax</h1>
-<h3>Regular Expressions</h3>
+<p>This section introduces the Welkin grammar.</p>
 <ul>
-<li>Logic <em> TODO: decide whether to start with length 1 words. We
-don't need </em> to accept length 0 words in our grammar, so we don't
-really need them</li>
-<li>Symbols (1): $0, 1$ <em> TODO: this should be definable in a
-computational sense. </em> This should mean that there isn't any 0 or 1
-present. <em> Maybe this is our starting point?</em></li>
-<li>Concatenation $dot.$</li>
-<li>Implication $=&gt;$</li>
+<li>First, we introduce regular expressions in a self-contained way.
+This ensures no amgiguities arise in the rest of this document.
+<ul>
+<li>Regular expressions are defined using nodes. In particular,
+<strong>any combinations of symbols needed for this document are
+explicity defined</strong>.</li>
+</ul></li>
+<li>Next, we define terminals and LR grammars.</li>
+<li>Finally, we present the grammars for Welkin texts and encodings
+solely with regular expressions, ensuring that these grammars are
+completely specified.</li>
 </ul>
-<h3>Terminals</h3>
+<h2>Regular Expressions</h2>
+<p>We leave five symbols undefined. Each symbol is written in typewriter
+font.</p>
 <ul>
-<li>Table of US-ASCII:</li>
-<li>A *word* is recursively defined.
+<li>There are two symbols called <strong>bits</strong>: `0` and
+`1`.</li>
+<li>There are three symbols called <strong>variables</strong>: `b`,
+`b*`, and `S`.
 <ul>
-<li>Basis (5):
-<ul>
-<li>$0$ is a word.</li>
-<li>$1$ is a word.</li>
+<li>`b` is a <strong>bit</strong></li>
+<li>`b*` is the <strong>bit node</strong></li>
+<li>`S` is the <strong>successor symbol</strong></li>
 </ul></li>
-<li>Recursion (6): let $w$ be a word.
-<ul>
-<li>$w dot 0$ is a word.</li>
-</ul></li>
-<li>$w dot 1$ is a word.</li>
-</ul></li>
-<li>LAYOUT is any subset of $(0, 1)*$. Its elements are <strong>white
-space characters.</strong></li>
+<li>There is one symbol called the <strong>derivation operator</strong>:
+`-&gt;`</li>
 </ul>
-<h3>Atoms</h3>
+<p>These symbols obey the following rules.</p>
 <ul>
-<li>Strings are words delimited with either single quotes `'` or double
-quotes `"`. More precisely, if $w$ is a word without quotes, then:
-<ul>
-<li>'w' is a string.</li>
-<li>"w" is a stirng. $w$ is the *contents* of the string.</li>
-</ul></li>
-<li>Escaped characters ():
-<ul>
-<li>Every instance of \' in $w$ is replaced as '.</li>
-<li>Every instance of \" in $w$ is replaced as ".</li>
-<li>Every instance of<br />
-in $w$ is replaced by<br />
-.</li>
-</ul></li>
-<li>Identifiers are strings without white space.</li>
+<li>(R0) `b -&gt; 0`</li>
+<li>(R1) `b -&gt; 1`</li>
+<li>(RS) `Sb -&gt; b`</li>
 </ul>
-<h3>Grammar</h3>
+<p>A <strong>byte</strong> is `bbbbbbbb`.</p>
+<h2>Encodings</h2>
+<p>A <strong>character in US-ASCII</strong> is a byte starting with
+`0`:</p>
+<p>`0bbbbbbb`.</p>
+<p>An <strong>encoding</strong> `E` is a sequence of bytes separated by
+a new character `c`:</p>
+<p>`(b+ c)+`.</p>
+<p>For US-ASCII, the encoding is displayed in Table ?.?. Characters up
+to `00011111`, as well as `01111111`, were historically used as control
+characters. For the purpose of this Standard, we exclude them. However,
+any extensions of US-ASCII can be accepted; see Section ?.?.</p>
+<p>|=symbol|=character |=symbol|=character |=symbol|=character |</p>
+<p>We write any US-ASCII character in double quotes.</p>
+<h2>Terminals</h2>
 <ul>
-<li>LL
-<ul>
-<li>Unambiguous</li>
-</ul></li>
-<li>Welkin Grammar:</li>
+<li>A <strong>layout</strong> character is US-ASCII whitespace: [</li>
+<li>A <strong>digit</strong> is (0|1|2|3|4|5|6|7|8|9).</li>
 </ul>
+<h2>Atoms</h2>
+<ul>
+<li>A <strong>string node</strong> is delimited with either single
+quotes `'` or double quotes `"`. More precisely, these are the following
+regular expressions: <strong> </strong> We say `w` is the
+<strong>contents</strong> of the string.</li>
+<li>Identifiers are strings without layout:</li>
+</ul>
+<h2>Grammar</h2>
+<p>=======</p>
+<ul>
+<li>Identifiers are words without layout characters.</li>
+</ul>
+<h2>Grammar</h2>
+<p>This section provides an informal overview of the Welkin grammar.
+Although each term in our EBNF is carefully defined, EBNF is a separate,
+intricate language. To avoid any possible confusion, this grammar is
+embedded into the Bootstrap.</p>
+<p>We use the following notation:</p>
+<ul>
+<li>Productions include lower-case characters and can end with "?".</li>
+<li>Spacing:
+<ul>
+<li>Two nonterminals separated by a space can have any number of
+whitespace characters.</li>
+<li>Two nonterminals combined with "." have no characters inbetween
+them.</li>
+</ul></li>
+</ul>
+<p>The Welkin grammar is given in Table ?.?.</p>
+<hr />
+<p>start: term "," start end | empty term: graph chain chain: "-" graph?
+"-&gt;"</p>
+<table>
+<tbody>
+<tr class="odd">
+<td>"&lt;-" graph? "-"</td>
+</tr>
+<tr class="even">
+<td>"-" graph? "-"</td>
+</tr>
+<tr class="odd">
+<td>empty.</td>
+</tr>
+</tbody>
+</table>
+<p>graph?: graph | empty graph: name contents? | contents name?: name |
+empty name: dots unit.path path: ".".unit.path unit: string | identifier
+string: identifier: C end: "," | empty</p>
+<hr />
+<h3>Unambiguity</h3>
+<p>This section informally demonstrates that the Welkin grammar is
+unambiguous. We rely on external results that are beyond the scope of
+this Standard. For epistemological concerns, see Section
+`Bootstrap`.</p>
+<p>Following (), we calculate the first and follow sets for the grammar.
+As there are no first and follow set collisions, this grammar is LL(1),
+and hence is unambiguous. (The regular expressions used in unit can be
+expressed in LL(1) grammars, and hence, concatenated with the rest of
+the grammar.)</p>

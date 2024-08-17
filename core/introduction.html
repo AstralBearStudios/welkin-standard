@@ -1,16 +1,18 @@
 <h1>Introduction</h1>
 <p>This document specifies the Welkin information language.</p>
-<p>Welkin describes information as the combination of a tree,
-hypergraph, and set of labels. Together, these form the basis for
-storing information in a universal format.</p>
+<p>Welkin stores information in a bigraph. A bigraph consists of a tree,
+hypergraph, and set of labels. Together, these components make bigraphs
+a universal information format. This enables structures to be identified
+and compared.</p>
+<p>The rest of this section serves as an <strong>informal guide</strong>
+to this document. See "Organization" for the mimimal specification.</p>
 <h2>Design Goals</h2>
-<p>The design goals of Welkin are the following.</p>
 <ul>
 <li>Self-Contained
 <ul>
+<li>Rely on few undefined notions.</li>
 <li>Provide unambiguous, complete instructions to interpret its
 specification.</li>
-<li>Rely on few undefined notions.</li>
 <li>Have an unambiguous grammar, semantics, and universal encoding.</li>
 </ul></li>
 <li>Expressive
@@ -25,19 +27,37 @@ space.</li>
 <li>Universal Identification
 <ul>
 <li>Provide a universal encoding to compare structures.</li>
-<li>Make it possible to completely recover an Information Graph through
-its encoding.</li>
+<li>Make it possible to completely recover a bigraph through its
+encoding.</li>
 </ul></li>
 </ul>
 <h2>Scope</h2>
-<p>This document completely describes the Welkin language, in both
-syntax and semantics. Welkin allows binary extension of US-ASCII. This
-enables arbitrary extensions to different character sets.</p>
-<p>This document <strong>does not</strong> cover extensions of the
-Welkin grammar. In particular, this document only defines ASCII, and no
-other character set is mentioned. (See "Syntax" for more details). This
-enables Welkin to be fully self-contained.</p>
+<p>This document completely describes the Welkin language,
+&gt;&gt;&gt;&gt; 9f41ba4 (Started adding encodings and informal proof of
+unambiguity) (See "Syntax" for more details). This allows Welkin to be
+fully self-contained.</p>
 <h2>Organization</h2>
+<p><strong>Note:</strong> each section should be read <strong>in
+order</strong>. For the minimal specification, read <strong>Regular
+Expressions</strong> in <strong>Syntax</strong>, followed by the
+Bootstrap.</p>
+<ul>
+<li>Syntax
+<ul>
+<li>Provides the basis for Welkin and all other sections</li>
+</ul></li>
+<li>Semantics
+<ul>
+<li>Explains how Welkin nodes are encoded.</li>
+</ul></li>
+<li>Bootstrap
+<ul>
+<li>Derives each line in the bootstrap file.</li>
+<li>Each derivation can be independently checked, but the entire proof
+is provided <strong>once and for all</strong>.</li>
+</ul></li>
+</ul>
+<p>We conclude with the bootstrap. This section</p>
 <h2>Conventions</h2>
 <ul>
 <li>Artifacts must be copied <strong>identically.</strong> They are
@@ -47,5 +67,4 @@ listed below.
 <li>`derivation.welkin` is located in Appendix B.</li>
 </ul></li>
 <li>We write (n) for the n-th line in the bootstrap file.</li>
-<li>Every definition is explicitly written.</li>
 </ul>

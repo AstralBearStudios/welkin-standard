@@ -1,16 +1,17 @@
-terms       = term*
-term        = series | connections | graph | member
-series      = term "," (term ",")* term ","?
-connections = vertex (connector vertex)+
-connector   = "-" vertex? "-" -> edge
-            | "-" vertex? "->" -> left_arrow
-            | "<-" vertex? "-" -> right_arrow
-vertex      = graph | member
-graph       = member? "{" series? "}"
-member      = "."+.(ident | string | "#" number).element*
-            | unit.element*
-element     = ".".(ident | string) | "#".number
-unit        = ident | string | number
-ident       = IDENT
-string      = STRING
-number      = NUMBER
+start: term "," start end | empty
+term: graph chain
+chain: "-" graph? "->"
+    | "<-" graph? "-"
+    | "-" graph? "-"
+    | empty
+graph?: graph | empty
+graph: name contents? | contents
+name?: name | empty
+name: import.unit.path
+import: ".".dots
+dots: "." dots | empty
+path: ".".unit.path
+unit: string | identifier
+string: STRING
+identifier: IDENT 
+end: "," | empty

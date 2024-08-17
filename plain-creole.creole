@@ -1,14 +1,14 @@
 = Plain Creole Specification =
 
 **Warning: WIP. Also, a versioning scheme has not been
-proposed, and the name may be changed. Please wait to use this grammar in production!**
+proposed, the name may change, and brackets may be added back in. Please wait to use this grammar in production!**
 
 **License:** This document is licensed under the [[https://creativecommons.org/publicdomain/zero/1.0/ | Creative Commons CC0 License]]. A copy is provided [[LICENSES/CC0.md|here]].
 
 == Introduction ==
 
 The Welkin Standard aims to be **completely unambiguous**,
-in both artifacts and writing. To support this goal,
+in both artifacts and bootstrap. To support this goal,
 we use a modification of Wiki Creole 1.0 called Plain Creole. 
 Note that this document is primarily for writers of the Standard.
 You **do not** need to read this document to understand the Standard.
@@ -18,9 +18,8 @@ You **do not** need to read this document to understand the Standard.
 Although Creole has a [[https://dirkriehle.com/wp-content/uploads/2008/07/ws2008-wiki-creole-grammar-final-for-web.pdf | EBNF grammar]], 
 it has **not** been shown to
 be unambiguous. However, we can show that a
-small subset of Creole is accepted by a regular expression, 
-regular expression. This subset is nearly suitable for the
-Standard: we replace the monospace brackets with ticks
+small subset of Creole is accepted by a regular expression. This subset is nearly suitable for the
+Standard: we replace brackets with ticks
 as a simpler syntax.
 
 We present our modification below, along with the corresponding
@@ -28,14 +27,16 @@ regular expressions.
 
 == Definition == 
 
-Plain Creole is defined as follows.
-* It uses a subset of Creole, specifically:
+* Plain Creole includes the following subset of Creole:
 ** Headers, up to three levels:
 *** {{{* ([\w])* * | ** ([\w])* ** | *** ([\w])* ***}}}
-** Emphasis (bold, italics, and underline)
+** Emphasis
+*** {{**bold**}}
+*** {{__italics__}}
+*** {{{___underline}}}}
 ** Monospace (using {{{ {{{}}} }}})
 ** Hyperlinks
-* It replaces monospace brackets with ticks (`).
+* Brackets are replaced with ticks (`).
 ** Example: {{{ x = 1 }}} -> `x = 1`
 
 Using the expressions above, Plain Creole can be defined by one regular expression:

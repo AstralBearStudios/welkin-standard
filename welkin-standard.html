@@ -222,26 +222,23 @@ them.</li>
 </ul></li>
 </ul>
 <p>The Welkin grammar is given in Table ?.?.</p>
-<hr />
-<p>start: term "," start end | empty term: graph chain chain: "-" graph?
-"-&gt;"</p>
-<table>
-<tbody>
-<tr class="odd">
-<td>"&lt;-" graph? "-"</td>
-</tr>
-<tr class="even">
-<td>"-" graph? "-"</td>
-</tr>
-<tr class="odd">
-<td>empty.</td>
-</tr>
-</tbody>
-</table>
-<p>graph?: graph | empty graph: name contents? | contents name?: name |
-empty name: dots unit.path path: ".".unit.path unit: string | identifier
-string: identifier: C end: "," | empty</p>
-<hr />
+<pre><code>    start: term &quot;,&quot; start end | empty
+    term: graph chain
+    chain: &quot;-&quot; graph? &quot;-&gt;&quot;
+        | &quot;&lt;-&quot; graph? &quot;-&quot;
+        | &quot;-&quot; graph? &quot;-&quot;
+        | empty
+    graph?: graph | empty
+    graph: name contents? | contents
+    name?: name | empty
+    name: import.unit.path
+    import: &quot;.&quot;.dots
+    dots: &quot;.&quot; dots | empty
+    path: &quot;.&quot;.unit.path
+    unit: string | identifier
+    string: STRING
+    identifier: IDENT 
+    end: &quot;,&quot; | empty</code></pre>
 <h3>Unambiguity</h3>
 <p>This section informally demonstrates that the Welkin grammar is
 unambiguous. We rely on external results that are beyond the scope of

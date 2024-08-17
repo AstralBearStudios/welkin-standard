@@ -40,12 +40,16 @@ were historically used as control characters. For the purpose of this Standard, 
 any extensions of US-ASCII can be accepted; see Section ?.?.
 
 |=symbol|=character  |=symbol|=character  |=symbol|=character  |
+|       |            |       |            |       |            |
 
 We write any US-ASCII character in double quotes.
 
 == Terminals == 
 * A **layout** character is US-ASCII whitespace: [
 * A **digit** is (0|1|2|3|4|5|6|7|8|9).
+* Letters consist of:
+** Upper case:
+** Lower case:
 
 == Atoms ==
 * A **string node** is delimited with either single quotes `'` or double quotes `"`.

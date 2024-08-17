@@ -4,8 +4,8 @@ This document specifies the Welkin information language.
 
 Welkin stores information in an Information Graph. 
 An Information Graph consists of a tree, hypergraph, and
-set of labels. These components make Information Graphs
-a universal information format, enabling structures to be identified
+set of labels. Together, these components make Information Graphs
+a universal information format. This enables structures to be identified
 and compared.
 
 The rest of this section serves as an **informal guide**
@@ -34,16 +34,18 @@ Information Graph through its encoding.
 == Scope ==
 
 This document completely describes the Welkin language,
+<<<<<<< HEAD
 in both syntax and semantics. Welkin allows binary
 extension of US-ASCII. This enables arbitrary extensions
 to different character sets. However, this document 
 **does not** cover these extensions. 
 (See "Syntax" for more details). 
-This is needed to keep Welkin fully self-contained.
+This allows Welkin to be fully self-contained.
 
 == Organization ==
 
-Each section should be read **in order**. For the minimal specification, read the first section in Syntax,
+**Note:** each section should be read **in order**.
+For the minimal specification, read **Regular Expressions** in **Syntax**,
 followed by the Bootstrap.
 
 * Syntax

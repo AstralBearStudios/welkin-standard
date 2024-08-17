@@ -27,14 +27,18 @@ A **byte** is `bbbbbbbb`.
 
 A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`.
 
-Each character **encodes** a unique symbol. Table 1.1
-provides the US-ASCII encoding. Separate rows show that the
-characters listed are bytes.
+Each character **encodes** (assigns to a) unique symbol. Table ?.?
+provides the US-ASCII encoding.
 
-**Table 1.1**
-|=symbol|=character                                      |
-|  `\0` | `0.0.0.0.0.0.0.0`                              |
-|       | `0.(0|1).(0|1).(0|1).(0|1).(0|1).(0|1).(0|1)`. |
+|=symbol|=character  |
+|  `\0` | `00000000` |
+|  `\a` | `00000111` |
+|  `\b` | `00001000` |
+|  `\t` | `00001001` |
+|  `\n` | `00001010` |
+|  `\v` | `00001011` |
+|  `\f` | `00001100` |
+|  `\r` | `00001101` |
 
 == Terminals == 
 * A **layout** character is a byte where the fifth bit is `1`: `bbbb1bbb`

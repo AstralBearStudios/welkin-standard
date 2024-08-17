@@ -25,23 +25,27 @@ These symbols obey the following rules.
 
 A **byte** is `bbbbbbbb`.
 
-A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`.
+== Encodings ==
 
-Each character **encodes** (assigns to a) unique symbol. Table ?.?
-provides the US-ASCII encoding.
+A **character in US-ASCII** is a byte starting with `0`:
 
-|=symbol|=character  |=symbol|=character  |
-|  `\0` | `00000000` |  ``   | `00010000` |
-|  `\a` | `00000111` |
-|  `\b` | `00001000` |
-|  `\t` | `00001001` |
-|  `\n` | `00001010` |
-|  `\v` | `00001011` |
-|  `\f` | `00001100` |
-|  `\r` | `00001101` |
+`0bbbbbbb`.
+
+An **encoding** `E` is a sequence of bytes separated by a new character `c`:
+
+`(b+ c)+`.
+
+For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
+were historically used as control characters. For the purpose of this Standard, we exclude them. However,
+any extensions of US-ASCII can be accepted; see Section ?.?.
+
+|=symbol|=character  |=symbol|=character  |=symbol|=character  |
+
+We write any US-ASCII character in double quotes.
 
 == Terminals == 
-* A **layout** character is ASCII whitespace: [
+* A **layout** character is US-ASCII whitespace: [
+* A **digit** is (0|1|2|3|4|5|6|7|8|9).
 
 == Atoms ==
 * A **string node** is delimited with either single quotes `'` or double quotes `"`.
@@ -49,16 +53,36 @@ provides the US-ASCII encoding.
 **  
 ** 
   We say `w` is the **contents** of the string.
-* A string is either 's' or "s"
 * Identifiers are strings without layout:
 
 == Grammar ==
+=======
+* Identifiers are words without layout characters. 
+
+== Grammar ==
+
+This section provides an informal overview of the Welkin grammar.
+Although each term in our EBNF is carefully defined, EBNF
+is a separate, intricate language. To avoid any possible confusion,
+this grammar is embedded into the Bootstrap.
+
+We use the following notation:
+* Productions include lower-case characters and can
+end with "?".
+* Spacing:
+** Two nonterminals separated by a space can have any number of whitespace characters.
+** Two nonterminals combined with "." have no characters inbetween them.
+
+
+The Welkin grammar is given in Table ?.?.
+
 ----
 start: term "," start end | empty
 term: graph chain
-chain: link graph? link
+chain: "-" graph? "->"
+    | "<-" graph? "-"
+    | "-" graph? "-"
     | empty.
-link: "->" | "<-" | "-"
 graph?: graph | empty
 graph: name contents? | contents
 name?: name | empty
@@ -69,3 +93,13 @@ string:
 identifier: C
 end: "," | empty
 ----
+
+=== Unambiguity ===
+
+This section informally demonstrates that the Welkin grammar is unambiguous.
+We rely on external results that are beyond the scope of this Standard.
+For epistemological concerns, see Section `Bootstrap`.
+
+Following (), we calculate the first and follow sets for the grammar.
+As there are no first and follow set collisions, this grammar is LL(1), 
+and hence is unambiguous. (The regular expressions used in unit can be expressed in LL(1) grammars, and hence, concatenated with the rest of the grammar.)

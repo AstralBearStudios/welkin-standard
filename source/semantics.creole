@@ -12,30 +12,29 @@ We proceed in a bottom-up fashion.
 A word `w` is a Welkin text if:
 * `w` is accepted by the Welkin Grammar, and
 * `w` is valid:
-** No relative paths at toplevel (with length 2).
-** No duplicate members, graphs, or links.
+** No relative paths at top-level (i.e., with length 2).
+** No duplicate links, graphs, or units.
 
 == Welkin Information Graphs
-// TODO: to be self contained, define trees, hypergraphs, and the label tree as strings accepted by certain grammars//
 A **Welkin Information Graph (WIG)** is a structure $G  (T, H, L)$ with:
 
-* A tree --T--,
-* A hypergraph --H--,
+* A tree --T--, accepted by the regular expression `(IDENTIFIER link IDENTIFER)*`.
+* A hypergraph --H--, accepted by the regular expression `(IDENTIFIER link IDENTIFER)*`.
 * A tree --H-- isomorphic to --T-- called the *label tree.*
 
-== AST () ==
+== AST ==
 * Units:
 * Members are words of units
-* Connections are WIGs with
+* Links are WIGs with
 * Graphs are WIGs with
 ** Derived terms as children
 ** Ordered triples are arcs.
 
 == Encoding ==
-The *encoding* $E(G)$ of the WIG $G$ is the unique string where
+The *encoding* `E(G)` of the WIG `G` is the unique string where
 * All nodes are listed in breadth-first order
-* Leaves are terms ending with "\#"
+* Leaves are terms ending with "#"
 * Edges are enumerated, starting from 0. They are included in nodes:
 ** s means source,
 ** c means connector,
-** $t$ means target.
+** t means target.

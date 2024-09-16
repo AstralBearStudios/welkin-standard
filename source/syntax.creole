@@ -27,13 +27,9 @@ A **byte** is `bbbbbbbb`.
 
 == Character Encodings ==
 
-A **character in US-ASCII** is a byte starting with `0`:
+A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`.
 
-`0bbbbbbb`.
-
-A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`:
-
-`(b+ c)+`.
+A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`.
 
 For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
 were historically used as control characters. For the purpose of this Standard, we exclude them. However,
@@ -42,7 +38,7 @@ any extensions of US-ASCII can be accepted; see Section ?.?.
 |=symbol|=character  |=symbol|=character  |=symbol|=character  |
 |       |            |       |            |       |            |
 
-We write any US-ASCII character in double quotes.
+In this Standard, we write any sequence of US-ASCII characters in double quotes.
 
 == Terminals == 
 Tables 2.?-2.? include key character classes.
@@ -52,26 +48,24 @@ Tables 2.?-2.? include key character classes.
 * Letters consist of
 ** Upper case: `(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`
 ** Lower case: `(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`
-
-== Atoms ==
-* A **string node** is delimited with either single quotes `'` or double quotes `"`.
-  More precisely, these are the following regular expressions:
-**  
+* We use both single and double quotes. For convience, we introduce notation for non-quote characters.
+** The class of all characters excluding single quotes: 
+** The class of all characters excluding double quotes: 
+* A **string node** is an expression delimited by single and double quotes, with potential escape characters. More precisely, this is one of the following:
+** `('')` 
 ** 
   We say `w` is the **contents** of the string.
-* Identifiers are strings without layout:
-
-== Grammar ==
-* Identifiers are words without layout characters. 
+* Identifiers are sequences of characters without layout: `(()|())*`
 
 == Grammar ==
 
 This section provides an informal overview of the Welkin grammar.
 Although each term in our EBNF is carefully defined, EBNF
-is a separate, intricate language. To avoid any possible confusion,
-this grammar is embedded into the Bootstrap.
+is a separate, independent language that, if not done carefully,
+may introduce ambiguities. To avoid any possible confusion,
+the full grammar and its notation is embedded into the Bootstrap.
 
-We use the following notation:
+We use the following notation.
 * Productions include lower-case characters and can
 end with "?".
 * Spacing:
@@ -100,6 +94,8 @@ The Welkin grammar is given in Table ?.?.
     identifier: IDENTIFIER
     end: "," | empty
 }}}
+
+For the encoding, see the regular expression in Section 3.?.
 
 === Unambiguity ===
 

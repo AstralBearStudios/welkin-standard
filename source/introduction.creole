@@ -33,13 +33,10 @@ structures.
 == Scope ==
 
 This document completely describes the Welkin language,
-<<<<<<< HEAD
-<<<<<<< HEAD
 in both syntax and semantics. Welkin allows binary
 extension of US-ASCII. This enables arbitrary extensions
 to different character sets. However, this document 
 **does not** cover these extensions. 
-=======
 in both syntax and semantics. Welkin is defined
 for binary extensions of US-ASCII. This enables arbitrary extensions
 to different character sets.
@@ -47,7 +44,6 @@ to different character sets.
 This document **does not** cover extensions of the Welkin grammar.
 In particular, this document only defines US-ASCII, 
 and no other character set is mentioned. 
->>>>>>> 9f41ba4 (Started adding encodings and informal proof of unambiguity)
 (See "Syntax" for more details). 
 This allows Welkin to be fully self-contained.
 

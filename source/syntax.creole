@@ -2,9 +2,9 @@
 
 This section introduces the Welkin grammar.
 
-* First, we introduce regular expressions in a self-contained way. This ensures no amgiguities arise in the rest of this document.
+* First, we introduce regular expressions in a self-contained way. This ensures no ambiguities arise in the rest of this document.
 ** Regular expressions are defined using nodes. In particular, **any combinations of symbols needed for this document are explicity defined**.
-* Next, we define terminals and LR grammars.
+* Next, we define terminals and present our conventions on grammars.
 * Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
 == Regular Expressions ==
@@ -25,13 +25,13 @@ These symbols obey the following rules.
 
 A **byte** is `bbbbbbbb`.
 
-== Encodings ==
+== Character Encodings ==
 
 A **character in US-ASCII** is a byte starting with `0`:
 
 `0bbbbbbb`.
 
-An **encoding** `E` is a sequence of bytes separated by a new character `c`:
+A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`:
 
 `(b+ c)+`.
 
@@ -45,11 +45,13 @@ any extensions of US-ASCII can be accepted; see Section ?.?.
 We write any US-ASCII character in double quotes.
 
 == Terminals == 
+Tables 2.?-2.? include key character classes.
+
 * A **layout** character is US-ASCII whitespace: [
-* A **digit** is (0|1|2|3|4|5|6|7|8|9).
-* Letters consist of:
-** Upper case:
-** Lower case:
+* A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.
+* Letters consist of
+** Upper case: `(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`
+** Lower case: `(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`
 
 == Atoms ==
 * A **string node** is delimited with either single quotes `'` or double quotes `"`.
@@ -60,7 +62,6 @@ We write any US-ASCII character in double quotes.
 * Identifiers are strings without layout:
 
 == Grammar ==
-=======
 * Identifiers are words without layout characters. 
 
 == Grammar ==
@@ -83,20 +84,20 @@ The Welkin grammar is given in Table ?.?.
 {{{
     start: term "," start end | empty
     term: graph chain
-    chain: "-" graph? "->"
-        | "<-" graph? "-"
-        | "-" graph? "-"
-        | empty
+    chain: link graph? link | empty
+    link: ""<-" | "->" | "-"
     graph?: graph | empty
     graph: name contents? | contents
     name?: name | empty
     name: import.unit.path
-    import: ".".dots
-    dots: "." dots | empty
+    contents?: contents | empty
+    contents: "{" term "}"
+    import: ".".dots | empty
+    dots: ".".dots | empty
     path: ".".unit.path
     unit: string | identifier
     string: STRING
-    identifier: IDENT 
+    identifier: IDENTIFIER
     end: "," | empty
 }}}
 
@@ -108,4 +109,4 @@ For epistemological concerns, see Section `Bootstrap`.
 
 Following (), we calculate the first and follow sets for the grammar.
 As there are no first and follow set collisions, this grammar is LL(1), 
-and hence is unambiguous. (The regular expressions used in unit can be expressed in LL(1) grammars, and hence, concatenated with the rest of the grammar.)
+and hence is unambiguous. (The regular expressions used in unit can be expressed in LL(1) grammars, and can thus be concatenated with the rest of the grammar.)

@@ -1,7 +1,17 @@
 #!/bin/sh
 
-cd source
-for file in *.creole;
-    do cat "$file" | sed "s/\`\`/{{{}}}/" | pandoc --from creole --to html "../document/$file.html";
+files=(
+    "index"
+    "abstract"
+    "introduction"
+    "syntax"
+    "semantics"
+    "bootstrap"
+)
+
+rm -f welkin-standard.html
+
+for file in ${files[@]};
+    do cat "source/$file.creole" | sed "s/\`\`/{{{}}}/" | pandoc --from creole --to html --output "document/$file.html";
+    cat "document/$file.html" >> welkin-standard.html
 done
-cat ../document/* > "welkin-standard.html"

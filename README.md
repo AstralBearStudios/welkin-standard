@@ -7,16 +7,15 @@ Welkin is a customizable language to store information from any subject matter. 
 # Accessing the Standard
 
 There are three places you can read the Standard.
-- multiple pages: [core (multiple pages)](core)
+- multiple pages: [index.html](document)
 - single page: [welkin-standard.html](welkin-standard.html)
 - original Creole text files: [source](source)
-The first option is hosted online (TBD). You can read any of these
-through GitHub, or you may download them. **We recommend
+All of these options are hosted online (TBD). You can read any of these through GitHub, or you may download them. **We recommend
 downloading this repository to have access to all documents.**
 
 **Warning:** the Creole files **may not** render correctly on GitHub. The 
 [tool GitHub uses](https://github.com/larsch/creole?tab=readme-ov-file)
-has not been updated in 10 years and has pending issues. Additionally, while we use back ticks (\`) for monospaced text, these are not in the original Creole grammar and **will NOT** render correctly on GITHUB. 
+has not been updated in 10 years and has pending issues. Additionally, while we use back ticks (\`) for monospaced text, these are not in the original Creole grammar and will **NOT** render correctly on GitHub. 
 
 # Contents 
 
@@ -31,34 +30,26 @@ has not been updated in 10 years and has pending issues. Additionally, while we 
 # Generating Documents
 
 ## Dependencies
-You will need the program `make`. Installing it is platform dependent. 
-- Windows: see [this question](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows)
-- MacOS: this may already be installed on your system.
-    - If not, open the 'Terminal' application. Then, install [Homebrew](https://docs.brew.sh/Installation)
-    and run `brew install make`.
-- Linux/BSD/Other: this shoud be provided in your distribution (or, if not, consult their documentation).
+You will need:
+* `bash`
+* [`pandoc`](https://pandoc.org/installing.html). 
 
-## Options
-- Generate all pages (found in [core](core)): 
-    ```
-    make multi-page
-    ```
-- Generate a single document ([welkin-standard.hml](welkin-standard.html)):
-    ```
-    make single-page 
-    ```
-
+## Build 
+In `bash`, run:
+```
+    build.sh
+```
 # Copyright and License
 
 ## Source Files
 
 (c) 2023 Oscar Bender-Stone.
 
-All files under `src` and `core` are licensed under the CC-BY-4.0 license.
+All files under `src` and `document` are licensed under the CC-BY-4.0 license.
 
 ## The Welkin Standard
 
-*The Welkin Standard* (c) 2023 by Oscar Bender-Stone.
+*The Welkin Standard* (c) 2023-2024 by Oscar Bender-Stone.
 
 *The Welkin Standard* is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
@@ -74,12 +65,12 @@ Most importantly, this means that there may be more authors; this will **not** b
 ## Welkin Standard
 
 ``` bibtex
-@Article{
-author = {Oscar E. Bender-Stone},
-title = {The Welkin Standard}
-year = {2024},
-url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.html},
-}
+    @Article{
+    author = {Oscar E. Bender-Stone},
+    title = {The Welkin Standard}
+    year = {2024},
+    url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.html},
+    }
 ```
 
 

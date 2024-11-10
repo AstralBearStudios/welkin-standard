@@ -1,4 +1,4 @@
-⚠ **Warning: This repository is a WIP. This standard is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
+**Warning: This repository is a WIP. This standard is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
 
 This repository stores the **Welkin Standard.** This document formally specifies the syntax and semantics of Welkin.
 
@@ -19,13 +19,18 @@ has not been updated in 10 years and has pending issues. Additionally, while we 
 
 # Contents 
 
-**WIP**
-
 ## Artifacts
 
-- **grammar(grammar.txt)** contains the Welkin grammar.
+- **[grammar](grammar.txt)** contains the Welkin grammar.
+- **[bootstrap](bootstrap.welkin)** contains the bootstrap.
 
 ## Source
+- **[index](source/index.creole):**
+- **[abstract](source/abstract.creole):**
+- **[introduction](source/introduction.creole):**
+- **[syntax](source/syntax.creole):**
+- **[semantics](source/semantics.creole):**
+- **[bootstrap](source/bootstrap.creole):**
 
 # Generating Documents
 
@@ -35,9 +40,8 @@ You will need:
 * [`pandoc`](https://pandoc.org/installing.html). 
 
 ## Build 
-In `bash`, run:
 ```
-    build.sh
+    ./build.sh
 ```
 # Copyright and License
 
@@ -45,7 +49,7 @@ In `bash`, run:
 
 (c) 2023 Oscar Bender-Stone.
 
-All files under `src` and `document` are licensed under the CC-BY-4.0 license.
+All files under `source` and `document` are licensed under the CC-BY-4.0 license.
 
 ## The Welkin Standard
 

@@ -1,10 +1,12 @@
+= The Welkin Standard
+
 **Warning: This repository is a WIP. This standard is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
 
 This repository stores the **Welkin Standard.** This document formally specifies the syntax and semantics of Welkin.
 
 Welkin is a customizable language to store information from any subject matter. All Welkin files are compiled into the same data structure, called an Information Graph. The aim of this structure, to *determine the underlying structure of any subject.* To do so, Welkin compares the structure of different notes through special encodings. For instance, a musician could encode their musical development and compositions into a Welkin file and compare their results to a mathematician's theory. In this regard, Welkin's ultimate goal is to provide a Universal Information Format for *all* information, including annotations, notes, and entire blueprints.
 
-# Accessing the Standard
+== Accessing the Standard
 
 There are three places you can read the Standard.
 - multiple pages: [index.html](document)
@@ -14,69 +16,65 @@ All of these options are hosted online (TBD). You can read any of these through 
 downloading this repository to have access to all documents.**
 
 **Warning:** the Creole files **may not** render correctly on GitHub. The 
-[tool GitHub uses](https://github.com/larsch/creole?tab=readme-ov-file)
+[[https://github.com/larsch/creole?tab=readme-ov-file|tool GitHub uses]]
 has not been updated in 10 years and has pending issues. Additionally, while we use back ticks (\`) for monospaced text, these are not in the original Creole grammar and will **NOT** render correctly on GitHub. 
 
-# Contents 
+== Contents
 
-## Artifacts
+=== Artifacts
 
-- **[grammar](grammar.txt)** contains the Welkin grammar.
-- **[bootstrap](bootstrap.welkin)** contains the bootstrap.
+* **[[./artifacts/grammar]]** contains the Welkin grammar.
+* **[[./artifacts/bootstrap.welkin]]** contains the bootstrap.
 
-## Source
-- **[index](source/index.creole):**
-- **[abstract](source/abstract.creole):**
-- **[introduction](source/introduction.creole):**
-- **[syntax](source/syntax.creole):**
-- **[semantics](source/semantics.creole):**
-- **[bootstrap](source/bootstrap.creole):**
+=== Source
+* [[./source/index.creole|index.creole]]
+* [[./source/abstract.creole|abstract.creole]]
+* [[./source/introduction.creole|introduction.creole]]
+* [[./source/syntax.creole|syntax.creole]]
+* [[./source/semantics.creole|semantics.creole]]
+* [[./source/bootstrap.creole|bootstrap.creole]]
 
-# Generating Documents
+== Generating Documents
 
-## Dependencies
+=== Dependencies
 You will need:
-* `bash`
-* [`pandoc`](https://pandoc.org/installing.html). 
+* bash
+* [[https://pandoc.org/installing.html|pandoc]]. 
 
-## Build 
-```
+== Build
+{{{
     ./build.sh
-```
-# Copyright and License
+}}}
 
-## Source Files
+== Copyright and License
+
+=== Source Files
 
 (c) 2023 Oscar Bender-Stone.
 
-All files under `source` and `document` are licensed under the CC-BY-4.0 license.
+All files under [[./source]] and [[./document]] are licensed under the CC-BY-4.0 license.
 
-## The Welkin Standard
+=== The Welkin Standard
 
 *The Welkin Standard* (c) 2023-2024 by Oscar Bender-Stone.
 
-*The Welkin Standard* is licensed under the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+Licensed under the [Creative Commons Attribution 4.0 International License|http://creativecommons.org/licenses/by/4.0/].
 
-[![img](http://i.creativecommons.org/l/by/3.0/80x15.png)](http://creativecommons.org/licenses/by/3.0/deed)
+[[http://creativecommons.org/licenses/by/3.0/deed|http://i.creativecommons.org/l/by/3.0/80x15.png]]
 
 You should have received a copy of the license along with this
-work. If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+work. If not, see [[http://creativecommons.org/licenses/by-sa/4.0/]].
 
-# Citation
-Please note that this book is still a work in progress! No official versioning scheme has been used because this project is heavily in development.
-Most importantly, this means that there may be more authors; this will **not** be the finalized citation.
+== Citation
 
-## Welkin Standard
-
-``` bibtex
-    @Article{
+{{{
+@article{welkin_standard,
     author = {Oscar E. Bender-Stone},
-    title = {The Welkin Standard}
+    title = {The Welkin Standard},
     year = {2024},
-    url = {https://github.com/AstralBearStudios/welkin-book/main/tree/welkin-standard.html},
-    }
-```
-
+    url = {https://github.com/AstralBearStudios/welkin-standard/main/tree/welkin-standard.html},
+}
+}}}
 
 
 

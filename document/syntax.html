@@ -1,0 +1,113 @@
+<h1>Syntax</h1>
+<p>This section introduces the Welkin grammar.</p>
+<ul>
+<li>First, we introduce regular expressions in a self-contained way.
+This ensures no amgiguities arise in the rest of this document.
+<ul>
+<li>Regular expressions are defined using nodes. In particular,
+<strong>any combinations of symbols needed for this document are
+explicity defined</strong>.</li>
+</ul></li>
+<li>Next, we define terminals and LR grammars.</li>
+<li>Finally, we present the grammars for Welkin texts and encodings
+solely with regular expressions, ensuring that these grammars are
+completely specified.</li>
+</ul>
+<h2>Regular Expressions</h2>
+<p>We leave five symbols undefined. Each symbol is written in typewriter
+font.</p>
+<ul>
+<li>There are two symbols called <strong>bits</strong>: `0` and
+`1`.</li>
+<li>There are three symbols called <strong>variables</strong>: `b`,
+`b*`, and `S`.
+<ul>
+<li>`b` is a <strong>bit</strong></li>
+<li>`b*` is the <strong>bit node</strong></li>
+<li>`S` is the <strong>successor symbol</strong></li>
+</ul></li>
+<li>There is one symbol called the <strong>derivation operator</strong>:
+`-&gt;`</li>
+</ul>
+<p>These symbols obey the following rules.</p>
+<ul>
+<li>(R0) `b -&gt; 0`</li>
+<li>(R1) `b -&gt; 1`</li>
+<li>(RS) `Sb -&gt; b`</li>
+</ul>
+<p>A <strong>byte</strong> is `bbbbbbbb`.</p>
+<h2>Encodings</h2>
+<p>A <strong>character in US-ASCII</strong> is a byte starting with
+`0`:</p>
+<p>`0bbbbbbb`.</p>
+<p>An <strong>encoding</strong> `E` is a sequence of bytes separated by
+a new character `c`:</p>
+<p>`(b+ c)+`.</p>
+<p>For US-ASCII, the encoding is displayed in Table ?.?. Characters up
+to `00011111`, as well as `01111111`, were historically used as control
+characters. For the purpose of this Standard, we exclude them. However,
+any extensions of US-ASCII can be accepted; see Section ?.?.</p>
+<p>|=symbol|=character |=symbol|=character |=symbol|=character |</p>
+<p>We write any US-ASCII character in double quotes.</p>
+<h2>Terminals</h2>
+<ul>
+<li>A <strong>layout</strong> character is US-ASCII whitespace: [</li>
+<li>A <strong>digit</strong> is (0|1|2|3|4|5|6|7|8|9).</li>
+</ul>
+<h2>Atoms</h2>
+<ul>
+<li>A <strong>string node</strong> is delimited with either single
+quotes `'` or double quotes `"`. More precisely, these are the following
+regular expressions: <strong> </strong> We say `w` is the
+<strong>contents</strong> of the string.</li>
+<li>Identifiers are strings without layout:</li>
+</ul>
+<h2>Grammar</h2>
+<p>=======</p>
+<ul>
+<li>Identifiers are words without layout characters.</li>
+</ul>
+<h2>Grammar</h2>
+<p>This section provides an informal overview of the Welkin grammar.
+Although each term in our EBNF is carefully defined, EBNF is a separate,
+intricate language. To avoid any possible confusion, this grammar is
+embedded into the Bootstrap.</p>
+<p>We use the following notation:</p>
+<ul>
+<li>Productions include lower-case characters and can end with "?".</li>
+<li>Spacing:
+<ul>
+<li>Two nonterminals separated by a space can have any number of
+whitespace characters.</li>
+<li>Two nonterminals combined with "." have no characters inbetween
+them.</li>
+</ul></li>
+</ul>
+<p>The Welkin grammar is given in Table ?.?.</p>
+<pre><code>    start: term &quot;,&quot; start end | empty
+    term: graph chain
+    chain: &quot;-&quot; graph? &quot;-&gt;&quot;
+        | &quot;&lt;-&quot; graph? &quot;-&quot;
+        | &quot;-&quot; graph? &quot;-&quot;
+        | empty
+    graph?: graph | empty
+    graph: name contents? | contents
+    name?: name | empty
+    name: import.unit.path
+    import: &quot;.&quot;.dots
+    dots: &quot;.&quot; dots | empty
+    path: &quot;.&quot;.unit.path
+    unit: string | identifier
+    string: STRING
+    identifier: IDENT 
+    end: &quot;,&quot; | empty</code></pre>
+<h3>Unambiguity</h3>
+<p>This section informally demonstrates that the Welkin grammar is
+unambiguous. We rely on external results that are beyond the scope of
+this Standard. For epistemological concerns, see Section
+`Bootstrap`.</p>
+<p>Following (), we calculate the first and follow sets for the grammar.
+As there are no first and follow set collisions, this grammar is LL(1),
+and hence is unambiguous. (The regular expressions used in unit can be
+expressed in LL(1) grammars, and hence, concatenated with the rest of
+the grammar.)</p>

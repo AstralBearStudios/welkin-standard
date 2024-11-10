@@ -1,0 +1,44 @@
+<h1>Semantics</h1>
+<h2>Equality on Terms</h2>
+<ul>
+<li>Two strings are equal if they contain the same strings, in
+order.</li>
+<li>Two numbers are equal if $q(a) q(b).$</li>
+</ul>
+<h2>Valid Strings</h2>
+<ul>
+<li>No relative members at toplevel (with length 2).</li>
+<li>No duplicate members, graphs, or connections.</li>
+</ul>
+<h2>Welkin Information Graphs</h2>
+<p><em> TODO: to be self contained, define trees, hypergraphs, and the
+label tree as strings accepted by certain grammars</em> A <strong>Welkin
+Information Graph (WIG)</strong> is a structure $G (T, H, L)$ with:</p>
+<ul>
+<li>A tree --T--,</li>
+<li>A hypergraph --H--,</li>
+<li>A tree --H-- isomorphic to --T-- called the *label tree.*</li>
+</ul>
+<h2>AST ()</h2>
+<ul>
+<li>Units:</li>
+<li>Members are words of units</li>
+<li>Connections are WIGs with</li>
+<li>Graphs are WIGs with
+<ul>
+<li>Derived terms as children</li>
+<li>Ordered triples are arcs.</li>
+</ul></li>
+</ul>
+<h2>Encoding</h2>
+<p>The *encoding* $E(G)$ of the WIG $G$ is the unique string where</p>
+<ul>
+<li>All nodes are listed in breadth-first order</li>
+<li>Leaves are terms ending with "\#"</li>
+<li>Edges are enumerated, starting from 0. They are included in nodes:
+<ul>
+<li>s means source,</li>
+<li>c means connector,</li>
+<li>$t$ means target.</li>
+</ul></li>
+</ul>

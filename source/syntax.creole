@@ -23,25 +23,35 @@ These symbols obey the following rules.
 * (R1) `b -> 1`
 * (RS) `Sb -> b` 
 
-A **byte** is `bbbbbbbb`.
+There are two special sequences we frequently use.
 
 == Character Encodings ==
+A **byte** is a sequence `bbbbbbb`. A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
 
-A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`.
+|=Name              |=Definition |
+| Byte              | `bbbbbbbb` |
+| US-ASCII Character| `0bbbbbbb` |
 
-A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`.
+A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`. Notationally, we signify each character using a unique symbol called a **glyph**. Glyphs are outside the scope of this standard.
 
 For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
 were historically used as control characters. For the purpose of this Standard, we exclude them. However,
 any extensions of US-ASCII can be accepted; see Section ?.?.
 
-|=symbol|=character  |=symbol|=character  |=symbol|=character  |
-|       |            |       |            |       |            |
+|=Glyph|=Character|=Glyph|=Character|=Glyph|=Character|
+|      |          |      |          |      |          |
 
 In this Standard, we write any sequence of US-ASCII characters in double quotes.
 
 == Terminals == 
 Tables 2.?-2.? include key character classes.
+
+
+We will refer to US-ASCII characters by their index.
+
+* A **layout** character is US-ASCII whitespace: [
+* A **digit** is (0|1|2|3|4|5|6|7|8|9).
+
 
 * A **layout** character is US-ASCII whitespace: [
 * A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.
@@ -55,7 +65,6 @@ Tables 2.?-2.? include key character classes.
 ** `('')` 
 ** 
   We say `w` is the **contents** of the string.
-* Identifiers are sequences of characters without layout: `(()|())*`
 
 == Grammar ==
 
@@ -99,9 +108,8 @@ For the encoding, see the regular expression in Section 3.?.
 
 === Unambiguity ===
 
-This section informally demonstrates that the Welkin grammar is unambiguous.
-We rely on external results that are beyond the scope of this Standard.
-For epistemological concerns, see Section `Bootstrap`.
+This section informally demonstrates that the Welkin grammar is unambiguous. For proofs of all claims made here, 
+see Section `Bootstrap`. We present an informal proof here.
 
 Following (), we calculate the first and follow sets for the grammar.
 As there are no first and follow set collisions, this grammar is LL(1), 

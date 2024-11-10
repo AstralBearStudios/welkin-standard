@@ -41,17 +41,10 @@ any extensions of US-ASCII can be accepted; see Section ?.?.
 |=Glyph|=Character|=Glyph|=Character|=Glyph|=Character|
 |      |          |      |          |      |          |
 
-In this Standard, we write any sequence of US-ASCII characters in double quotes.
+In this Standard, we write any sequence of US-ASCII characters in double quotes. Every ASCII character is manually converted in Section `Bootstrap` as necessary.
 
 == Terminals == 
 Tables 2.?-2.? include key character classes.
-
-
-We will refer to US-ASCII characters by their index.
-
-* A **layout** character is US-ASCII whitespace: [
-* A **digit** is (0|1|2|3|4|5|6|7|8|9).
-
 
 * A **layout** character is US-ASCII whitespace: [
 * A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.

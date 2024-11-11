@@ -1,6 +1,8 @@
 = The Welkin Standard
 
-**Warning: This repository is a WIP. This standard is in its early stages and does not have substantial text. Please wait to submit any issues, and stay tuned for updates.**
+**Warning: This repository is a WIP. This standard is in its early stages and does not have 
+substantial text. All claims and proofs are still in development.
+Please wait to submit any issues, and stay tuned for updates.**
 
 This repository stores the **Welkin Standard.** This document formally specifies the syntax and semantics of Welkin.
 
@@ -17,7 +19,10 @@ downloading this repository to have access to all documents.**
 
 **Warning:** the Creole files **may not** render correctly on GitHub. The 
 [[https://github.com/larsch/creole?tab=readme-ov-file|tool GitHub uses]]
-has not been updated in 10 years and has pending issues. Additionally, while we use back ticks (\`) for monospaced text, these are not in the original Creole grammar and will **NOT** render correctly on GitHub. 
+has not been updated in 10 years and has pending issues. 
+Additionally, we use back ticks (\`) for monospaced text in all other documents.
+Back ticks are not used in the original Creole grammar and 
+will **NOT** render correctly on GitHub. 
 
 == Contents
 
@@ -26,6 +31,23 @@ has not been updated in 10 years and has pending issues. Additionally, while we 
 * **[[./artifacts/grammar]]** contains the Welkin grammar.
 * **[[./artifacts/bootstrap.welkin]]** contains the bootstrap.
 
+=== Checks 
+To have high confidence that the Standard is correct **once and for all**,
+we employ two methods.
+* At a high level, we use the [[https://coq.inra.fr|Rocq proof assistant]]
+to (1) verify all the claims made in the Standard and (2)
+provide a template for proofs in the Bootstrap. In particular,
+we prove:
+** Unambiguity in:
+*** LL(1) grammars
+*** The Welkin grammar, by showing it is LL(1).
+** Validity of the bootstrap, namely:
+*** All regular expressions used only accept strings from the Welkin language.
+* At a low level, we construct a small Verifier script
+to check that the Bootstrap is correct. We heavily use regular expressions
+to complete this task.
+See more details in [[./checks|checks]].
+
 === Source
 * [[./source/index.creole|index.creole]]
 * [[./source/abstract.creole|abstract.creole]]
@@ -33,6 +55,7 @@ has not been updated in 10 years and has pending issues. Additionally, while we 
 * [[./source/syntax.creole|syntax.creole]]
 * [[./source/semantics.creole|semantics.creole]]
 * [[./source/bootstrap.creole|bootstrap.creole]]
+
 
 == Generating Documents
 

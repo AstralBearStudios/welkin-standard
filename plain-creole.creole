@@ -18,10 +18,9 @@ You **do not** need to read this document to understand the Standard.
 Although Creole has a [[https://dirkriehle.com/wp-content/uploads/2008/07/ws2008-wiki-creole-grammar-final-for-web.pdf | EBNF grammar]], 
 it has **not** been shown to
 be unambiguous. However, we can show that a
-small subset of Creole is accepted by a regular expression. We make two modifications for the Standard:
-* We write links with the description first, followed by the URL (see {{Hyperlinks}} below).
-* We replace brackets with ticks
-as a simpler syntax.
+small subset of Creole is accepted by a regular expression. 
+We make one modification for the Standard: 
+we replace brackets with ticks (as a simpler syntax).
 
 We present our modification below, along with the corresponding
 regular expressions.
@@ -35,9 +34,8 @@ regular expressions.
 *** {{**bold**}}
 *** {{__italics__}}
 ** Monospace (using {{{ {{{}}} }}})
-** Hyperlinks
-*** For some reason, modern Creole parsers use the format {{{[description|URL]}}} and not {{{[URL|description]}}} in the original grammar. This is a problem in both GitHub and Pandoc! To ensure that links are rendered correctly accross websites, we keep this reversed order:
-{{{[[(\w\d:\.\\)*\|\w*]]}}}
+** Hyperlinks, containd in brackets with the URL followed by an optional description:
+{{{[[(\w\d:\.\\)*][\w*]?]}}}
 * Ticks are converted into brackets. 
 ** Example: {{{ x = 1 }}} -> `x = 1`.
 ** Ticks can be escaped using a backslash {{{ \ }}}.

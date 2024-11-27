@@ -12,18 +12,15 @@ This section introduces the Welkin grammar.
 We leave five symbols undefined. Each symbol is written in typewriter font.
 
 * There are two symbols called **bits**: `0` and `1`.
-* There are three symbols called **variables**: `b`, `b*`, and `S`. 
-** `b` is a **bit**
-** `b*` is the **bit node**
-** `S` is the **successor symbol**
-* There is one symbol called the **derivation operator**: `->`
+* There are two symbols called **variables**: `b` and `b+`.
+** `b` is a **bit**.
+** `b+` is a **bit node**.
+* There is one symbol called the **derivation operator**: `->`.
 
 These symbols obey the following rules.
-* (R0) `b -> 0` 
+* (R0) `b -> 0`
 * (R1) `b -> 1`
-* (RS) `Sb -> b` 
-
-There are two special sequences we frequently use.
+* (R+) `b+ -> bb+`
 
 == Character Encodings ==
 A **byte** is a sequence `bbbbbbb`. A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
@@ -32,7 +29,7 @@ A **byte** is a sequence `bbbbbbb`. A **character in US-ASCII** is a byte starti
 | Byte              | `bbbbbbbb` |
 | US-ASCII Character| `0bbbbbbb` |
 
-A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`. Notationally, we signify each character using a unique symbol called a **glyph**. Glyphs are outside the scope of this standard.
+A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`. Notationally, we signify each character using a unique symbol called a **glyph**.
 
 For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
 were historically used as control characters. For the purpose of this Standard, we exclude them. However,
@@ -46,6 +43,8 @@ In this Standard, we write any sequence of US-ASCII characters in double quotes.
 == Terminals == 
 Tables 2.?-2.? include key character classes.
 
+
+ 
 * A **layout** character is US-ASCII whitespace: [
 * A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.
 * Letters consist of

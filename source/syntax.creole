@@ -7,29 +7,55 @@ This section introduces the Welkin grammar.
 * Next, we define terminals and present our conventions on grammars.
 * Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
-== Regular Expressions ==
+All symbols within this theory are written in typewriter font.
 
-We leave five symbols undefined. Each symbol is written in typewriter font.
+== Derivation ==
+
+We introduce three symbols:
+* Two **variables**: `A` and `S`.
+** `R` is the **rule symbol**.
+** `S` is the **start symbol**.
+* The **derivation operator** `->`.
+
+Derivation is recursively defined by two rules:
+
+* (DB) Replace `S` with `R`.
+* (DI) Replace `S` With `R -> S`.
+
+== Bits ==
+
+Along with derivation, we introduce five symbols.
 
 * There are two symbols called **bits**: `0` and `1`.
 * There are two symbols called **variables**: `b` and `b+`.
 ** `b` is a **bit**.
 ** `b+` is a **bit node**.
-* There is one symbol called the **derivation operator**: `->`.
 
-These symbols obey the following rules.
-* (R0) `b -> 0`
-* (R1) `b -> 1`
-* (R+) `b+ -> bb+`
+We concatenate symbols together arbitrarily. For the
+purposes of this Standard, we fix the amount of
+concatenation into a finite space, precisely bounded
+by the size of this document.
+
+Regular expressions for bits have the following four rules:
+* (B0) `b -> 0`
+* (B1) `b -> 1`
+* (B+A) `A -> b+`
+* (B+B) `b+ -> b`
+* (B+I) `b+ -> bb+`
 
 == Character Encodings ==
-A **byte** is a sequence `bbbbbbb`. A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
+A **byte** consists of eight bits: `bbbbbbbb`. A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
 
 |=Name              |=Definition |
 | Byte              | `bbbbbbbb` |
 | US-ASCII Character| `0bbbbbbb` |
 
-A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+ c)+`. Notationally, we signify each character using a unique symbol called a **glyph**.
+A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+c)+`. In other words, encodings
+are defined by two rules:
+* (E+B) `(b+c)+ -> b+c`
+* (E+I) `(b+c)+ -> b+c(b+c)+`
+
+Notationally, we represent each character using a unique symbol called a **glyph**.
 
 For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
 were historically used as control characters. For the purpose of this Standard, we exclude them. However,

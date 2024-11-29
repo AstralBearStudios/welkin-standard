@@ -56,22 +56,34 @@ the proofs that can be verified with 100 bits.
 
 == ASCII ==
 
+ASCII (American Standard Code for Information Interchange) consists of 256 characters. Historically, the first 32 characters were used for printing. For the purposes of this standard, we define the ASCII character set to include only the usual printable US-ASCII characters, along with four control characters to support text files. However, this set of characters may be extended using character encodings; see Section ?.?.
 
-ASCII (American Standard Code for Information Interchange) consists of 256 characters. Historically, the first 32 characters were used for printing. For the purposes of this standard, we define the ASCII character set to include only the usual printable US-ASCII characters, along with the newline (LF) character. However, this set of characters may be extended using character encodings; see Section ?.?.
+**Definition.** A **character in ASCII** is either:
+* A byte `001bbbbb`
+* A byte `01bbbbb0`
+* One of four control characters:
+** `00001001` (TAB)
+** `00001010` (LF)
+** `00001011` (VT) 
+** `00001101` (CR)
 
-A **character in ASCII** is either:
-* The byte `00001010`, or
-* A byte `001bbbbb`, or
-* A byte `01bbbbbb`.
+We divide ASCII characters into five different groups, displayed in Tables ?.?-?.?. We write each printable character using a symbol called a **glyph**, as well the representation of all symbols used in this Standard. 
 
-
-We write each character using a symbol called a **glyph**. We
-divide ASCII characters into five different groups, displayed in Tables ?.?-?.?.
+**Definition (Character Groups)**
+* A **layout** character is a space or one of the control characters. (Table ?.1)
+* A **digit** is one of `0 1 2 3 4 5 6 7 8 9`. (Table ?.2)
+* **Letters** consist of
+** Upper case: `A B C D E F G H I J K L M N O P Q R S T U V W X Y Z` (Table ?.3)
+** Lower case: `a b c d e f g h i j k l m n o p q r s t u v w x y z` (Table ?.4)
+* **Punctuation** is one of . (Table ?.5)
 
 ** Table ?.1: Layout Characters **
-|=Binary   |=Glyph  |=Description|
-| 00100000 |        |            |
+|=Binary   |=Glyph  | =Representation |=Description|
+| 00100000 |        |            | |
+| 00100000 |        |            | 
 | 00100001 |        |            |
+
+
 | 00100010 |        |            |
 | 00100011 |        |            |
 | 00100100 |        |            |
@@ -79,16 +91,10 @@ divide ASCII characters into five different groups, displayed in Tables ?.?-?.?.
 | 00100110 |        |            |
 | 00100111 |        |            |
 
-In this Standard, we write any sequence of US-ASCII characters in double quotes `""`. Every ASCII character is manually converted to its binary representation in Section `Bootstrap`. 
+
+We write any sequence of ASCII characters in double quotes `""`. Every ASCII character is manually converted to binary in Section Bootstrap. 
 
 == Terminals == 
-Tables 2.?-2.? include key character classes.
-
-* A **layout** character is US-ASCII whitespace: [
-* A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.
-* Letters consist of
-** Upper case: `(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`
-** Lower case: `(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`
 * Strings use either single or double quotes. We separate both definitions for clarity.
 
 == Character Encodings ==

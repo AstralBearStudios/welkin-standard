@@ -4,6 +4,7 @@ files=(
     "index"
     "abstract"
     "introduction"
+    "basis"
     "syntax"
     "semantics"
     "bootstrap"

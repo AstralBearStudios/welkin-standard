@@ -1,0 +1,169 @@
+= Basis =
+
+This section introduces the base theory for Welkin.
+
+* First, we recursively define regular expressions. We proceed to define finite proofs.
+* Next, .
+* Finally, we introduce the subset of ASCII used for this standard.
+
+All symbols in this theory are written in `typewriter` font.
+
+== Derivation ==
+
+We introduce three symbols:
+* Two **variables**: `A` and `S`.
+** `R` is the **rule symbol**.
+** `S` is the **start symbol**.
+* The **derivation operator** `->`.
+
+We concatenate symbols in each rule and proof of this document. 
+
+Derivation is recursively defined by two rules:
+
+* (DB) `R` is a derivation.
+* (DR) If `S` is a derivation, then `R -> S` is a derivation.
+
+We return to practical restrictions of (DR) in Section ?.?.
+
+== Bits ==
+
+Along with derivation, we introduce five symbols.
+
+* There are two symbols called **bits**: `0` and `1`.
+* There are two symbols called **variables**: `b` and `b+`.
+** `b` is a **bit**.
+** `b+` is a **word**.
+
+Regular expressions for bits have the following four rules:
+* (B0) `b.0`
+* (B1) `b.1`
+* (B+A) `A.b+`
+* (B+B) `b+ -> b`
+* (B+I) `b.b+`
+
+A **byte** consists of eight bits: `bbbbbbbb`.
+
+=== Hash Certificates ===
+
+To faciliiate finding proofs, we intentionally allow
+rule (DR) to be unbounded. However, to verify a proof in a fixed, finite time,
+we introduce a hash function as follows: 
+
+Practically, we set our parameter to include **100 bits**. Choosing a specific
+number is important for standardization. However,
+this value can easily be adjusted to be larger, extending
+the proofs that can be verified with 100 bits.
+
+== ASCII ==
+
+ASCII (American Standard Code for Information Interchange) consists of 256 characters. Historically, the first 32 characters were used for printing. For the purposes of this standard, we define the ASCII character set to include only the usual printable US-ASCII characters, along with four control characters to support text files. However, this set of characters may be extended using character encodings; see Section ?.?.
+
+**Definition.** A **character in ASCII** is either:
+* A byte `001bbbbb`
+* A byte `01bbbbb0`
+* One of four control characters:
+** `00001001` (Tab)
+** `00001010` (New Line)
+** `00001011` (Vertical Tab) 
+** `00001101` (Carriage Return)
+
+We divide ASCII characters into five different groups, displayed in Tables ?.?-?.?. We write each printable character using a symbol called a **glyph**, as well the representation of special characters in this Standard. 
+
+**Definition (Character Groups).**
+* A **digit** is a byte `00110bbb` or `0011000b`. Glyphs: `0 1 2 3 4 5 6 7 8 9` (Table 2.1).
+* **Letters** consist of (Table 2.2):
+** Upper case: ``. Glyphs: `A B C D E F G H I J K L M N O P Q R S T U V W X Y Z`.
+** Lower case: ``. Glyphs: `a b c d e f g h i j k l m n o p q r s t u v w x y z`
+* A **layout** character is a space or one of the control characters (Table 2.3).
+* **Punctuation** is one of {{{ ! \" # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _ ` { | ~ } }}} (Table 2.4). In terms of bytes, these are:
+**
+**
+**
+
+
+** Table 2.1. Digits **
+|=Binary   |=Glyph     | =Description |
+| 00100000 |   0       |  Zero        |
+| 00100000 |   1       |  One         |
+| 00100000 |   2       |  Two         |
+| 00100000 |   3       |  Three       |
+| 00100000 |   4       |  Four        |
+| 00100000 |   5       |  Five        |
+| 00100000 |   6       |  Six         |
+| 00100000 |   7       |  Seven       |
+| 00100000 |   8       |  Eight       |
+| 00100000 |   9       |  Nine        |
+
+** Table 2.1. Characters **
+|=Binary   |=Glyph     | =Description |
+| 00100000 |   a       |  Zero        |
+| 00100000 |   b       |  One         |
+| 00100000 |   c       |  Two         |
+| 00100000 |   d       |  Three       |
+| 00100000 |   e       |  Four        |
+| 00100000 |   f       |  Five        |
+| 00100000 |   g       |  Six         |
+| 00100000 |   h       |  Seven       |
+| 00100000 |   i       |  Eight       |
+| 00100000 |   j       |  Nine        |
+| 00100000 |   k       |  Zero        |
+| 00100000 |   l       |  One         |
+| 00100000 |   m       |  Two         |
+| 00100000 |   n       |  Three       |
+| 00100000 |   o       |  Four        |
+| 00100000 |   p       |  Five        |
+| 00100000 |   q       |  Six         |
+| 00100000 |   r       |  Seven       |
+| 00100000 |   s       |  Eight       |
+| 00100000 |   t       |  Nine        |
+| 00100000 |   u       |  Four        |
+| 00100000 |   v       |  Five        |
+| 00100000 |   w       |  Six         |
+| 00100000 |   x       |  Seven       |
+| 00100000 |   y       |  Eight       |
+| 00100000 |   z       |  Nine        |
+| 00100000 |   A       |  Zero        |
+| 00100000 |   B       |  One         |
+| 00100000 |   C       |  Two         |
+| 00100000 |   D       |  Three       |
+| 00100000 |   E       |  Four        |
+| 00100000 |   F       |  Five        |
+| 00100000 |   G       |  Six         |
+| 00100000 |   H       |  Seven       |
+| 00100000 |   I       |  Eight       |
+| 00100000 |   J       |  Nine        |
+| 00100000 |   K       |  Zero        |
+| 00100000 |   L       |  One         |
+| 00100000 |   M       |  Two         |
+| 00100000 |   N       |  Three       |
+| 00100000 |   O       |  Four        |
+| 00100000 |   P       |  Five        |
+| 00100000 |   Q       |  Six         |
+| 00100000 |   R       |  Seven       |
+| 00100000 |   S       |  Eight       |
+| 00100000 |   T       |  Nine        |
+| 00100000 |   U       |  Four        |
+| 00100000 |   V       |  Five        |
+| 00100000 |   W       |  Six         |
+| 00100000 |   X       |  Seven       |
+| 00100000 |   Y       |  Eight       |
+| 00100000 |   Z       |  Nine        |
+
+** Table 2.3. Layout Characters **
+|=Binary   |=Glyph  | =Representation |=Description      |
+| 00100000 |        |                 |  Space           |
+| 00001001 |        |      \t         |  Tab             |
+| 00001010 |        |      \n         |  New Line        |
+| 00001011 |        |      \v         |  Vertical Tab    |
+| 00001101 |        |      \r         |  Carriage Return |
+
+** Table 2.4. Punctuation **
+|=Binary   |=Glyph  | =Representation |=Description      |
+| 00100000 |        |                 |  Space           |
+| 00001001 |        |      \t         |  Tab             |
+| 00001010 |        |      \n         |  New Line        |
+| 00001011 |        |      \v         |  Vertical Tab    |
+| 00001101 |        |      \r         |  Carriage Return |
+
+
+We write any sequence of ASCII characters in double quotes `""`. Every ASCII character is manually converted to binary in Section Bootstrap. 

@@ -36,7 +36,11 @@ Figure 3.? presents the full regular expression. Informally, a Welkin text consi
 * Brackets that can contain paths and/or connections.
 
 Figure 3.?
-``
+{{{
+    start: ((path "-" path "->" path *) ",")*
+    path: unit ("." unit)*
+    unit: string | number
+}}}
 
 === Full Syntax ===
 

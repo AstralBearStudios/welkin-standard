@@ -3,7 +3,6 @@
 This section introduces the Welkin grammar.
 
 * First, we recursively define regular expressions. We proceed to define finite proofs.
-** Regular expressions are defined using nodes. In particular, **any combinations of symbols needed for this document are explicity defined**.
 * Next, we define terminals and present our conventions on grammars.
 * Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
@@ -39,16 +38,10 @@ Regular expressions for bits have the following four rules:
 * (B0) `b.0`
 * (B1) `b.1`
 * (B+A) `A.b+`
-* (B+B) `b+.b`
+* (B+B) `b+ -> b`
 * (B+I) `b.b+`
 
 A **byte** consists of eight bits: `bbbbbbbb`.
-
-**Lemma.** A byte is a word.
-Proof.
-
-
-Qed.
 
 === Hash Certificates ===
 
@@ -56,33 +49,29 @@ To faciliiate finding proofs, we intentionally allow
 rule (DR) to be unbounded. However, to verify a proof in a fixed, finite time,
 we introduce a hash function as follows: 
 
-Our proof relies on a genearl e
-
-== == 
-
-A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
-
-|=Name              |=Definition |
-| Byte              | `bbbbbbbb` |
-| US-ASCII Character| `0bbbbbbb` |
+Practically, we set our parameter to include **100 bits**. Choosing a specific
+number is important for standardization. However,
+this value can easily be adjusted to be larger, extending
+the proofs that can be verified with 100 bits.
 
 == Character Encodings ==
 
-A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+c)+`. In other words, encodings
+Let `c` be a new symbol. A (character) **encoding** `E` is a sequence of bytes separated by `c`: `(b+c)+`. In other words, encodings
 are defined by two rules:
-* (E+B) `(b+c)+ -> b+c`
-* (E+I) `(b+c).(b+c)+`
+* (E+B) `(b+.c)+ -> b+.c`
+* (E+I) `(b+.c).(b+.c)+`
 
-Notationally, we represent each character using a unique symbol called a **glyph**.
+A **character in ASCII** is either:
+* A byte `001bbbbb`, or
+* A byte `01bbbbbb`.
 
-For US-ASCII, the encoding is displayed in Table ?.?. Characters up to `00011111`, as well as `01111111`,
-were historically used as control characters. For the purpose of this Standard, we exclude them. However,
-any extensions of US-ASCII can be accepted; see Section ?.?.
+Note that our definition only includes the usual printable US-ASCII characters. We do not use nonprintable characters
+in this standard. However, these set of characters may be extended; see Section ?.?.
 
 |=Glyph|=Character|=Glyph|=Character|=Glyph|=Character|
 |      |          |      |          |      |          |
 
-In this Standard, we write any sequence of US-ASCII characters in double quotes. Every ASCII character is manually converted in Section `Bootstrap` as necessary.
+In this Standard, we write any sequence of US-ASCII characters in double quotes `""`. Every ASCII character is manually converted in Section `Bootstrap` as necessary.
 
 == Terminals == 
 Tables 2.?-2.? include key character classes.
@@ -92,13 +81,7 @@ Tables 2.?-2.? include key character classes.
 * Letters consist of
 ** Upper case: `(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`
 ** Lower case: `(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`
-* We use both single and double quotes. For convience, we introduce notation for non-quote characters.
-** The class of all characters excluding single quotes: 
-** The class of all characters excluding double quotes: 
-* A **string node** is an expression delimited by single and double quotes, with potential escape characters. More precisely, this is one of the following:
-** `('')` 
-** 
-  We say `w` is the **contents** of the string.
+* Strings use either single or double quotes. We separate both definitions for clarity.
 
 == Grammar ==
 

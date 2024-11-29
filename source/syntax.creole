@@ -2,12 +2,12 @@
 
 This section introduces the Welkin grammar.
 
-* First, we introduce regular expressions in a self-contained way. This ensures no ambiguities arise in the rest of this document.
+* First, we recursively define regular expressions. We proceed to define finite proofs.
 ** Regular expressions are defined using nodes. In particular, **any combinations of symbols needed for this document are explicity defined**.
 * Next, we define terminals and present our conventions on grammars.
 * Finally, we present the grammars for Welkin texts and encodings solely with regular expressions, ensuring that these grammars are completely specified.
 
-All symbols within this theory are written in typewriter font.
+All symbols within this theory are written in `typewriter` font.
 
 == Derivation ==
 
@@ -17,10 +17,14 @@ We introduce three symbols:
 ** `S` is the **start symbol**.
 * The **derivation operator** `->`.
 
+We concatenate symbols in each rule and proof of this document. 
+
 Derivation is recursively defined by two rules:
 
-* (DB) Replace `S` with `R`.
-* (DI) Replace `S` With `R -> S`.
+* (DB) `R` is a derivation.
+* (DR) If `S` is a derivation, then `R -> S` is a derivation.
+
+We return to practical restrictions of (DR) in Section ?.?.
 
 == Bits ==
 
@@ -29,31 +33,45 @@ Along with derivation, we introduce five symbols.
 * There are two symbols called **bits**: `0` and `1`.
 * There are two symbols called **variables**: `b` and `b+`.
 ** `b` is a **bit**.
-** `b+` is a **bit node**.
-
-We concatenate symbols together arbitrarily. For the
-purposes of this Standard, we fix the amount of
-concatenation into a finite space, precisely bounded
-by the size of this document.
+** `b+` is a **word**.
 
 Regular expressions for bits have the following four rules:
-* (B0) `b -> 0`
-* (B1) `b -> 1`
-* (B+A) `A -> b+`
-* (B+B) `b+ -> b`
-* (B+I) `b+ -> bb+`
+* (B0) `b.0`
+* (B1) `b.1`
+* (B+A) `A.b+`
+* (B+B) `b+.b`
+* (B+I) `b.b+`
 
-== Character Encodings ==
-A **byte** consists of eight bits: `bbbbbbbb`. A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
+A **byte** consists of eight bits: `bbbbbbbb`.
+
+**Lemma.** A byte is a word.
+Proof.
+
+
+Qed.
+
+=== Hash Certificates ===
+
+To faciliiate finding proofs, we intentionally allow
+rule (DR) to be unbounded. However, to verify a proof in a fixed, finite time,
+we introduce a hash function as follows: 
+
+Our proof relies on a genearl e
+
+== == 
+
+A **character in US-ASCII** is a byte starting with `0`: `0bbbbbbb`. Table 1.? displays these definitions for reference.
 
 |=Name              |=Definition |
 | Byte              | `bbbbbbbb` |
 | US-ASCII Character| `0bbbbbbb` |
 
+== Character Encodings ==
+
 A (character) **encoding** `E` is a sequence of bytes separated by a new character `c`: `(b+c)+`. In other words, encodings
 are defined by two rules:
 * (E+B) `(b+c)+ -> b+c`
-* (E+I) `(b+c)+ -> b+c(b+c)+`
+* (E+I) `(b+c).(b+c)+`
 
 Notationally, we represent each character using a unique symbol called a **glyph**.
 
@@ -69,8 +87,6 @@ In this Standard, we write any sequence of US-ASCII characters in double quotes.
 == Terminals == 
 Tables 2.?-2.? include key character classes.
 
-
- 
 * A **layout** character is US-ASCII whitespace: [
 * A **digit** is `(0|1|2|3|4|5|6|7|8|9)`.
 * Letters consist of

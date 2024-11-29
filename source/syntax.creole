@@ -54,24 +54,32 @@ number is important for standardization. However,
 this value can easily be adjusted to be larger, extending
 the proofs that can be verified with 100 bits.
 
-== Character Encodings ==
+== ASCII ==
 
-Let `c` be a new symbol. A (character) **encoding** `E` is a sequence of bytes separated by `c`: `(b+c)+`. In other words, encodings
-are defined by two rules:
-* (E+B) `(b+.c)+ -> b+.c`
-* (E+I) `(b+.c).(b+.c)+`
+
+ASCII (American Standard Code for Information Interchange) consists of 256 characters. Historically, the first 32 characters were used for printing. For the purposes of this standard, we define the ASCII character set to include only the usual printable US-ASCII characters, along with the newline (LF) character. However, this set of characters may be extended using character encodings; see Section ?.?.
 
 A **character in ASCII** is either:
+* The byte `00001010`, or
 * A byte `001bbbbb`, or
 * A byte `01bbbbbb`.
 
-Note that our definition only includes the usual printable US-ASCII characters. We do not use nonprintable characters
-in this standard. However, these set of characters may be extended; see Section ?.?.
 
-|=Glyph|=Character|=Glyph|=Character|=Glyph|=Character|
-|      |          |      |          |      |          |
+We write each character using a symbol called a **glyph**. We
+divide ASCII characters into five different groups, displayed in Tables ?.?-?.?.
 
-In this Standard, we write any sequence of US-ASCII characters in double quotes `""`. Every ASCII character is manually converted in Section `Bootstrap` as necessary.
+** Table ?.1: Layout Characters **
+|=Binary   |=Glyph  |=Description|
+| 00100000 |        |            |
+| 00100001 |        |            |
+| 00100010 |        |            |
+| 00100011 |        |            |
+| 00100100 |        |            |
+| 00100101 |        |            |
+| 00100110 |        |            |
+| 00100111 |        |            |
+
+In this Standard, we write any sequence of US-ASCII characters in double quotes `""`. Every ASCII character is manually converted to its binary representation in Section `Bootstrap`. 
 
 == Terminals == 
 Tables 2.?-2.? include key character classes.
@@ -82,6 +90,17 @@ Tables 2.?-2.? include key character classes.
 ** Upper case: `(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`
 ** Lower case: `(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`
 * Strings use either single or double quotes. We separate both definitions for clarity.
+
+== Character Encodings ==
+
+In order to support character encodings broadly, we define the following.
+
+**Definition.** Let `c` be a new symbol. A (character) **encoding** `E` is a sequence of bytes separated by `c`: `(b+c)+`. In other words, encodings
+are defined by two rules:
+* (E+B) `(b+.c)+ -> b+.c`
+* (E+I) `(b+.c).(b+.c)+`
+
+**Definition. (Interpretation into US-ASCII)**
 
 == Grammar ==
 

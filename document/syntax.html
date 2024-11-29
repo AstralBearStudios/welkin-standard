@@ -1,123 +1,31 @@
 <h1>Syntax</h1>
 <p>This section introduces the Welkin grammar.</p>
 <ul>
-<li>First, we introduce regular expressions in a self-contained way.
-This ensures no ambiguities arise in the rest of this document.
-<ul>
-<li>Regular expressions are defined using nodes. In particular,
-<strong>any combinations of symbols needed for this document are
-explicity defined</strong>.</li>
-</ul></li>
+<li>First, we present character encodings to extend ASCII from Section
+Basis.</li>
 <li>Next, we define terminals and present our conventions on
 grammars.</li>
 <li>Finally, we present the grammars for Welkin texts and encodings
 solely with regular expressions, ensuring that these grammars are
 completely specified.</li>
 </ul>
-<h2>Regular Expressions</h2>
-<p>We leave five symbols undefined. Each symbol is written in typewriter
-font.</p>
-<ul>
-<li>There are two symbols called <strong>bits</strong>: `0` and
-`1`.</li>
-<li>There are three symbols called <strong>variables</strong>: `b`,
-`b*`, and `S`.
-<ul>
-<li>`b` is a <strong>bit</strong></li>
-<li>`b*` is the <strong>bit node</strong></li>
-<li>`S` is the <strong>successor symbol</strong></li>
-</ul></li>
-<li>There is one symbol called the <strong>derivation operator</strong>:
-`-&gt;`</li>
-</ul>
-<p>These symbols obey the following rules.</p>
-<ul>
-<li>(R0) `b -&gt; 0`</li>
-<li>(R1) `b -&gt; 1`</li>
-<li>(RS) `Sb -&gt; b`</li>
-</ul>
-<p>There are two special sequences we frequently use.</p>
-<h2>Character Encodings</h2>
-<p>A <strong>byte</strong> is a sequence `bbbbbbb`. A <strong>character
-in US-ASCII</strong> is a byte starting with `0`: `0bbbbbbb`. Table 1.?
-displays these definitions for reference.</p>
-<table>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Definition</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Byte</td>
-<td>`bbbbbbbb`</td>
-</tr>
-<tr class="even">
-<td>US-ASCII Character</td>
-<td>`0bbbbbbb`</td>
-</tr>
-</tbody>
-</table>
-<p>A (character) <strong>encoding</strong> `E` is a sequence of bytes
-separated by a new character `c`: `(b+ c)+`. Notationally, we signify
-each character using a unique symbol called a <strong>glyph</strong>.
-Glyphs are outside the scope of this standard.</p>
-<p>For US-ASCII, the encoding is displayed in Table ?.?. Characters up
-to `00011111`, as well as `01111111`, were historically used as control
-characters. For the purpose of this Standard, we exclude them. However,
-any extensions of US-ASCII can be accepted; see Section ?.?.</p>
-<table>
-<thead>
-<tr class="header">
-<th>Glyph</th>
-<th>Character</th>
-<th>Glyph</th>
-<th>Character</th>
-<th>Glyph</th>
-<th>Character</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>In this Standard, we write any sequence of US-ASCII characters in
-double quotes. Every ASCII character is manually converted in Section
-`Bootstrap` as necessary.</p>
 <h2>Terminals</h2>
-<p>Tables 2.?-2.? include key character classes.</p>
 <ul>
-<li>A <strong>layout</strong> character is US-ASCII whitespace: [</li>
-<li>A <strong>digit</strong> is `(0|1|2|3|4|5|6|7|8|9)`.</li>
-<li>Letters consist of
-<ul>
-<li>Upper case:
-`(a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z)`</li>
-<li>Lower case:
-`(A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z)`</li>
-</ul></li>
-<li>We use both single and double quotes. For convience, we introduce
-notation for non-quote characters.
-<ul>
-<li>The class of all characters excluding single quotes:</li>
-<li>The class of all characters excluding double quotes:</li>
-</ul></li>
-<li>A <strong>string node</strong> is an expression delimited by single
-and double quotes, with potential escape characters. More precisely,
-this is one of the following:
-<ul>
-<li>`('')`</li>
-<li>We say `w` is the <strong>contents</strong> of the string.</li>
-</ul></li>
+<li>Strings use either single or double quotes. We separate both
+definitions for clarity.</li>
+<li>Tokens:</li>
 </ul>
+<h2>Character Encodings</h2>
+<p>In order to support character encodings broadly, we define the
+following.</p>
+<p><strong>Definition.</strong> Let `c` be a new symbol. A (character)
+<strong>encoding</strong> `E` is a sequence of bytes separated by `c`:
+`(b+c)+`. In other words, encodings are defined by two rules:</p>
+<ul>
+<li>(E+B) `(b+.c)+ -&gt; b+.c`</li>
+<li>(E+I) `(b+.c).(b+.c)+`</li>
+</ul>
+<p><strong>Definition. (Interpretation into US-ASCII)</strong></p>
 <h2>Grammar</h2>
 <p>This section provides an informal overview of the Welkin grammar.
 Although each term in our EBNF is carefully defined, EBNF is a separate,

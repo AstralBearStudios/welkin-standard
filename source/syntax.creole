@@ -23,14 +23,25 @@ are defined by two rules:
 
 == Grammar ==
 
-This section provides an informal overview of the Welkin grammar.
-Although each term in our EBNF is carefully defined, EBNF
-is a separate, independent language that, if not done carefully,
-may introduce ambiguities. To avoid any possible confusion,
-the full grammar and its notation is embedded into the Bootstrap.
+To introduce the grammar, we first provide
+a simplified subset. All Welkin files can be
+written equivalently as this subset. We then introduce 
+that the final version and prove it is unambiguous.
+
+=== Simplified Syntax ===
+
+Figure 3.? presents the full regular expression. Informally, a Welkin text consists of:
+* Paths, a list containing units (string or number) separated by `.`.
+* Connections between paths.
+* Brackets that can contain paths and/or connections.
+
+Figure 3.?
+``
+
+=== Full Syntax ===
 
 We use the following notation.
-* Productions include lower-case characters and can
+* Productions include lowercase characters and can
 end with "?".
 * Spacing:
 ** Two nonterminals separated by a space can have any number of whitespace characters.
